@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>DeFi erklärt · 0xm19gi</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Was ist DeFi? Dezentrale Finanzsysteme verständlich erklärt – Struktur, Risiken und Entscheidungslogik statt Hype.">
+
+<style>
+:root{
+  --bg:#06070c;
+  --panel:rgba(255,255,255,.05);
+  --border:rgba(255,255,255,.14);
+  --text:#e9eef6;
+  --muted:#aab4c8;
+  --accent:#38f2ff;
+  --accent2:#b44cff;
+  --shadow:0 18px 45px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  color:var(--text);
+  background:
+    radial-gradient(900px 600px at 10% 10%, rgba(56,242,255,.10), transparent 60%),
+    radial-gradient(800px 600px at 90% 20%, rgba(180,76,255,.12), transparent 65%),
+    linear-gradient(180deg,#03040a,#070a18);
+}
+a{color:var(--accent);text-decoration:none}
+.wrap{max-width:1100px;margin:auto;padding:32px 18px 72px}
+
+/* ===== LIVE CRYPTO TICKER ===== */
+.ticker-bar{
+  position:sticky;
+  top:0;
+  z-index:110;
+  height:42px;
+  overflow:hidden;
+  border-bottom:1px solid var(--border);
+  background:rgba(3,4,10,.96);
+  backdrop-filter:blur(10px);
+}
+.ticker-track{
+  display:flex;
+  align-items:center;
+  gap:28px;
+  white-space:nowrap;
+  min-width:max-content;
+  height:100%;
+  padding-left:100%;
+  animation:tickerScroll 34s linear infinite;
+}
+.ticker-bar:hover .ticker-track{
+  animation-play-state:paused;
+}
+.ticker-item{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:14px;
+  color:var(--text);
+}
+.ticker-symbol{
+  font-weight:700;
+  color:var(--text);
+}
+.ticker-price{
+  color:var(--text);
+}
+.ticker-change{
+  font-weight:700;
+}
+.ticker-change.up{
+  color:#22c55e;
+}
+.ticker-change.down{
+  color:#ef4444;
+}
+@keyframes tickerScroll{
+  0%{transform:translateX(0)}
+  100%{transform:translateX(-100%)}
+}
+
+/* ===== NAV ===== */
+.site-header{
+  position:sticky;
+  top:42px;
+  z-index:100;
+  background:rgba(6,7,12,.85);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border);
+}
+.nav-wrap{
+  max-width:1200px;
+  margin:auto;
+  padding:14px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:600;
+}
+.brand-dot{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#001014;
+  padding:6px 10px;
+  border-radius:10px;
+  font-size:13px;
+}
+.nav-desktop{
+  display:flex;
+  gap:18px;
+}
+.nav-desktop a{
+  color:var(--muted);
+  font-size:14px;
+}
+.nav-desktop a.active,
+.nav-desktop a:hover{
+  color:var(--text);
+}
+.burger{
+  display:none;
+  background:rgba(255,255,255,.08);
+  border:1px solid var(--border);
+  color:#fff;
+  font-size:18px;
+  padding:8px 12px;
+  border-radius:10px;
+}
+.nav-mobile{
+  display:none;
+  flex-direction:column;
+  padding:18px;
+  gap:14px;
+  background:rgba(8,10,18,.98);
+}
+.nav-mobile a{
+  padding:14px;
+  border-radius:14px;
+  background:rgba(255,255,255,.05);
+}
+
+/* ===== TYPO ===== */
+h1{font-size:40px;margin:0 0 12px}
+h1 span{
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+h2{font-size:24px;margin:0 0 12px}
+h3{font-size:16px;margin:0 0 6px}
+p{
+  color:var(--muted);
+  line-height:1.65;
+  font-size:15px;
+  margin:0 0 14px;
+}
+
+/* ===== SECTIONS ===== */
+.hero,.block{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:28px;
+  padding:30px;
+  box-shadow:var(--shadow);
+  margin-bottom:42px;
+}
+
+.pillrow{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:16px;
+}
+.pill{
+  font-size:12px;
+  padding:8px 12px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:rgba(0,0,0,.25);
+}
+
+/* ===== GRID ===== */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-top:26px;
+}
+.card{
+  background:rgba(0,0,0,.35);
+  border:1px solid var(--border);
+  border-radius:20px;
+  overflow:hidden;
+}
+.card img{
+  width:100%;
+  display:block;
+}
+.card .text{
+  padding:16px 18px;
+}
+.card p{
+  font-size:14px;
+  color:#9aa4b8;
+}
+
+/* ===== RECHNER ===== */
+.calc{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  margin-top:18px;
+}
+.calc input,.calc select{
+  width:100%;
+  padding:12px 14px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:rgba(0,0,0,.35);
+  color:var(--text);
+}
+.calc label{
+  font-size:13px;
+  color:var(--muted);
+}
+.result{
+  margin-top:20px;
+  padding:18px;
+  border-radius:18px;
+  background:rgba(0,0,0,.35);
+  border:1px solid var(--border);
+}
+.note{
+  margin-top:16px;
+  font-size:13px;
+  color:#9aa4b8;
+}
+
+/* ===== CTA ===== */
+.cta-buttons{
+  margin-top:24px;
+  display:flex;
+  justify-content:center;
+  gap:18px;
+  flex-wrap:wrap;
+}
+.cta-btn{
+  min-width:180px;
+  padding:14px 20px;
+  border-radius:16px;
+  text-align:center;
+  font-weight:600;
+  background:linear-gradient(90deg,var(--accent),rgba(56,242,255,.85));
+  color:#001014;
+}
+.cta-btn.secondary{
+  background:linear-gradient(90deg,rgba(180,76,255,.95),rgba(180,76,255,.75));
+  color:#0a0014;
+}
+
+/* ===== FOOTER ===== */
+footer{
+  margin-top:64px;
+  border-top:1px solid var(--border);
+  padding-top:16px;
+  font-size:12px;
+  color:#8892a8;
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+/* ===== MESSENGER ===== */
+.mg-messenger{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  z-index:9999;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+}
+.mg-btn{
+  background:rgba(17,24,39,.92);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.14);
+  padding:14px 18px;
+  border-radius:999px;
+  cursor:pointer;
+  font-weight:650;
+  box-shadow:0 16px 45px rgba(0,0,0,.55);
+  backdrop-filter:blur(10px);
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+.mg-btn:hover{
+  transform:scale(1.04);
+  border-color:rgba(56,242,255,.35);
+}
+.mg-menu{
+  display:none;
+  flex-direction:column;
+  gap:8px;
+  margin-bottom:10px;
+}
+.mg-menu.open{
+  display:flex;
+}
+.mg-menu a{
+  text-decoration:none;
+  background:rgba(31,41,55,.95);
+  color:#fff;
+  padding:10px 14px;
+  border-radius:14px;
+  font-size:14px;
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 10px 28px rgba(0,0,0,.45);
+  transition:transform .15s ease,border-color .15s ease;
+}
+.mg-menu a:hover{
+  transform:translateY(-1px);
+  border-color:rgba(255,255,255,.22);
+}
+.mg-hint{
+  position:absolute;
+  right:0;
+  bottom:64px;
+  width:min(320px, calc(100vw - 44px));
+  background:rgba(8,10,18,.94);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:18px;
+  padding:12px 12px 12px 14px;
+  box-shadow:0 18px 55px rgba(0,0,0,.60);
+  backdrop-filter:blur(10px);
+  opacity:0;
+  transform:translateY(8px);
+  pointer-events:none;
+  transition:opacity .25s ease, transform .25s ease;
+}
+.mg-hint.show{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+.mg-hint-title{
+  font-weight:800;
+  color:#e9eef6;
+  font-size:14px;
+  margin:0 30px 4px 0;
+}
+.mg-hint-text{
+  color:rgba(170,180,200,.95);
+  font-size:13px;
+  line-height:1.45;
+  margin:0 30px 0 0;
+}
+.mg-hint-x{
+  position:absolute;
+  top:8px;
+  right:10px;
+  width:28px;
+  height:28px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.14);
+  background:rgba(255,255,255,.06);
+  color:#fff;
+  cursor:pointer;
+  font-size:18px;
+  line-height:26px;
+}
+.mg-hint-x:hover{
+  border-color:rgba(56,242,255,.35);
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:900px){
+  .grid,.calc{grid-template-columns:1fr}
+  .nav-desktop{display:none}
+  .burger{display:block}
+  .cta-buttons{flex-direction:column;align-items:center}
+}
+@media(max-width:420px){
+  .mg-messenger{right:14px;bottom:14px}
+  .mg-hint{bottom:62px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="ticker-bar">
+  <div class="ticker-track" id="tickerTrack">
+    <div class="ticker-item">Lade Kurse…</div>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <div class="brand">
+      <span class="brand-dot">0x</span>
+      <span>0xNode</span>
+    </div>
+
+    <nav class="nav-desktop">
+      <a href="index.html">Start</a>
+      <a href="defi.html" class="active">DeFi</a>
+      <a href="starter.html">Starter-Paket</a>
+      <a href="mentoring.html">Mentoring</a>
+      <a href="kontakt.html">Kontakt</a>
+    </nav>
+
+    <button class="burger" onclick="toggleMobileMenu()">☰</button>
+  </div>
+
+  <nav class="nav-mobile" id="mobileMenu">
+    <a href="index.html">Start</a>
+    <a href="defi.html">DeFi</a>
+    <a href="starter.html">Starter-Paket</a>
+    <a href="mentoring.html">Mentoring</a>
+    <a href="kontakt.html">Kontakt</a>
+  </nav>
+</header>
+
+<div class="wrap">
+
+<section class="hero">
+  <h1>Was ist <span>DeFi</span>?</h1>
+  <p>DeFi steht für <strong>Decentralized Finance</strong> – ein offenes, blockchainbasiertes Finanzsystem ohne Banken oder zentrale Kontrolle.</p>
+  <p>Es ist kein Produkt und kein Versprechen, sondern ein System mit Regeln, Chancen und realen Risiken. In der Krypto-Schulung wird DeFi als Grundlagenmodul behandelt und kann später im DeFi-Mentoring vertieft werden.</p>
+
+  <div class="pillrow">
+    <div class="pill">⛓️ Smart Contracts</div>
+    <div class="pill">🧠 Eigenverantwortung</div>
+    <div class="pill">🔍 Transparenz</div>
+    <div class="pill">⚠️ Risiko</div>
+  </div>
+</section>
+
+<section class="block">
+  <h2>Die Grundlagen von DeFi</h2>
+  <div class="grid">
+    <div class="card">
+      <img src="assets/defi-01-was-ist-defi.png" alt="DeFi als System">
+      <div class="text">
+        <h3>DeFi als System</h3>
+        <p>Regeln sind im Code definiert – nicht durch Institutionen.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="assets/defi-02-cefi-vs-defi.png" alt="CeFi vs. DeFi">
+      <div class="text">
+        <h3>CeFi vs. DeFi</h3>
+        <p>Vertrauen in Menschen vs. Vertrauen in überprüfbaren Code.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="assets/defi-03-mentoring.png" alt="Lernen statt hoffen">
+      <div class="text">
+        <h3>Lernen statt hoffen</h3>
+        <p>Struktur schlägt Emotionen, Wissen schlägt Hype.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <h2>DeFi-Rechner (vereinfachte Modellrechnung)</h2>
+  <p>Basierend auf einem historischen Erfahrungswert von ca. <strong>4.5 % pro Monat</strong>. Diese Modellrechnung dient ausschliesslich zur Veranschaulichung möglicher Entwicklungen auf Basis historischer Erfahrungswerte und stellt keine Prognose oder Empfehlung dar.</p>
+
+  <div class="calc">
+    <div>
+      <label>Startkapital ($)</label>
+      <input id="start" type="number" value="5000">
+    </div>
+    <div>
+      <label>Laufzeit</label>
+      <select id="months">
+        <option value="1">1 Monat</option>
+        <option value="6">6 Monate</option>
+        <option value="12">12 Monate</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="result" id="result"></div>
+  <div class="note">DeFi-Erträge sind nicht konstant. Keine Garantie, keine Anlageberatung.</div>
+</section>
+
+<section class="block">
+  <h2>Krypto oder DeFi verstehen – nicht erraten</h2>
+  <p>
+    Strukturierter Einstieg ohne Hype oder Versprechen. Wenn noch keine oder nur wenig Krypto-Erfahrung vorhanden ist, empfiehlt es sich, zuerst mit dem Crypto Starter-Paket zu beginnen.
+    Dieses beinhaltet bereits einen Ledger Nano S Plus und vermittelt die notwendigen Grundlagen.
+    Darauf aufbauend kann bei Bedarf und zu einem späteren Zeitpunkt ein Wechsel ins DeFi-Mentoring erfolgen.
+  </p>
+
+  <div class="cta-buttons">
+    <a class="cta-btn" href="starter.html">Starter-Paket</a>
+    <a class="cta-btn secondary" href="mentoring.html">DeFi-Mentoring</a>
+  </div>
+</section>
+
+<footer>
+  <div>© 0xm19gi · mgaggia.ch</div>
+  <div>
+    <a href="defi-schulung-zuerich.html">DeFi Schulung Zürich</a> ·
+    <a href="legal.html">Rechtliches</a>
+  </div>
+</footer>
+
+</div>
+
+<!-- MG Messenger Widget (WhatsApp / Threema / Session) -->
+<div class="mg-messenger" id="mgMessenger">
+  <div class="mg-menu" id="mgMenu">
+    <a id="mgWa" target="_blank" rel="noopener">💬 WhatsApp</a>
+    <a href="https://threema.id/MAKD7CYA" target="_blank" rel="noopener">🔐 Threema</a>
+    <a href="https://getsession.org/add-session-id/055988bf51c70ee037d3731c0e9c7df2c98788f07bcbcc1e0622a66accfe5ebb55" target="_blank" rel="noopener">🟣 Session</a>
+  </div>
+
+  <button class="mg-btn" id="mgBtn" type="button">💬 Nachricht</button>
+
+  <div class="mg-hint" id="mgHint" aria-live="polite">
+    <button class="mg-hint-x" id="mgHintX" type="button" aria-label="Hinweis schließen">×</button>
+    <div class="mg-hint-title">Fragen zur Krypto-Schulung?</div>
+    <div class="mg-hint-text">Schreib mir kurz – ich antworte persönlich.</div>
+  </div>
+</div>
+
+<script>
+function toggleMobileMenu(){
+  const m = document.getElementById("mobileMenu");
+  m.style.display = m.style.display === "flex" ? "none" : "flex";
+}
+
+function calc(){
+  const start = Number(document.getElementById("start").value);
+  const months = Number(document.getElementById("months").value);
+  const rate = 0.045;
+  const value = start * Math.pow(1 + rate, months);
+
+  document.getElementById("result").innerHTML =
+    `Endkapital: <strong>$${value.toFixed(0)}</strong><br>
+     Gewinn: <strong>$${(value - start).toFixed(0)}</strong>`;
+}
+
+document.querySelectorAll("#start,#months").forEach(e => e.addEventListener("input", calc));
+calc();
+
+async function loadCryptoTicker(){
+  const track = document.getElementById("tickerTrack");
+  if(!track) return;
+
+  const api = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,ripple,binancecoin,usd-coin&vs_currencies=chf&include_24hr_change=true";
+
+  const coins = [
+    { id: "bitcoin", symbol: "BTC" },
+    { id: "ethereum", symbol: "ETH" },
+    { id: "solana", symbol: "SOL" },
+    { id: "ripple", symbol: "XRP" },
+    { id: "binancecoin", symbol: "BNB" },
+    { id: "usd-coin", symbol: "USDC" }
+  ];
+
+  try{
+    const res = await fetch(api, { cache: "no-store" });
+    if(!res.ok) throw new Error("API Fehler");
+    const data = await res.json();
+
+    const formatCHF = new Intl.NumberFormat("de-CH", {
+      style: "currency",
+      currency: "CHF",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+
+    const items = coins.map(c => {
+      const coin = data[c.id];
+      if(!coin || typeof coin.chf !== "number") return "";
+
+      const price = formatCHF.format(coin.chf);
+      const change = typeof coin.chf_24h_change === "number" ? coin.chf_24h_change : 0;
+      const changeText = (change >= 0 ? "+" : "") + change.toFixed(2) + "%";
+      const changeClass = change >= 0 ? "up" : "down";
+
+      return `
+        <div class="ticker-item">
+          <span class="ticker-symbol">${c.symbol}</span>
+          <span class="ticker-price">${price}</span>
+          <span class="ticker-change ${changeClass}">${changeText}</span>
+        </div>
+      `;
+    }).filter(Boolean).join("");
+
+    track.innerHTML = items + items;
+
+  }catch(err){
+    track.innerHTML = `
+      <div class="ticker-item">
+        <span class="ticker-symbol">Kurse</span>
+        <span class="ticker-price">momentan nicht verfügbar</span>
+      </div>
+    `;
+  }
+}
+
+(function(){
+  var container = document.getElementById("mgMessenger");
+  if(!container) return;
+
+  var btn = document.getElementById("mgBtn");
+  var menu = document.getElementById("mgMenu");
+  var hint = document.getElementById("mgHint");
+  var hintX = document.getElementById("mgHintX");
+  var wa = document.getElementById("mgWa");
+
+  var phone = "41" + "79" + "922" + "5678";
+  var msg = encodeURIComponent("Hallo Michele, ich interessiere mich für deine Krypto Schulung.");
+  wa.href = "https://wa.me/" + phone + "?text=" + msg;
+
+  function openMenu(){
+    menu.classList.add("open");
+    hint.classList.remove("show");
+  }
+
+  function closeMenu(){
+    menu.classList.remove("open");
+  }
+
+  function toggleMessengerMenu(){
+    if(menu.classList.contains("open")) closeMenu();
+    else openMenu();
+  }
+
+  btn.addEventListener("click", function(e){
+    e.stopPropagation();
+    toggleMessengerMenu();
+  });
+
+  hintX.addEventListener("click", function(e){
+    e.stopPropagation();
+    hint.classList.remove("show");
+  });
+
+  document.addEventListener("click", function(e){
+    if(!container.contains(e.target)){
+      closeMenu();
+    }
+  });
+
+  window.addEventListener("load", function(){
+    setTimeout(function(){
+      if(!menu.classList.contains("open")){
+        hint.classList.add("show");
+        setTimeout(function(){
+          hint.classList.remove("show");
+        }, 10000);
+      }
+    }, 6000);
+  });
+})();
+
+loadCryptoTicker();
+setInterval(loadCryptoTicker, 60000);
+</script>
+
+</body>
+</html>

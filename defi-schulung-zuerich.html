@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>DeFi Schulung Zürich · Struktur statt Hype · 0xm19gi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="DeFi Schulung in Zürich: ruhiger Einstieg in DeFi, Wallet-Sicherheit & Entscheidungslogik – ohne Signale, ohne Hype, ohne Versprechen. 1:1 oder kleine Gruppe.">
+  <link rel="canonical" href="https://mgaggia.ch/defi-schulung-zuerich.html">
+
+  <style>
+    :root{
+      --bg:#06070c;
+      --panel:rgba(255,255,255,.05);
+      --border:rgba(255,255,255,.14);
+      --text:#e9eef6;
+      --muted:#aab4c8;
+      --accent:#38f2ff;
+      --accent2:#b44cff;
+      --shadow:0 18px 45px rgba(0,0,0,.6);
+      --sans:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      color:var(--text);
+      background:
+        radial-gradient(900px 600px at 10% 10%, rgba(56,242,255,.10), transparent 60%),
+        radial-gradient(800px 600px at 90% 20%, rgba(180,76,255,.12), transparent 65%),
+        linear-gradient(180deg,#03040a,#070a18);
+    }
+    a{color:var(--accent);text-decoration:none}
+    .wrap{max-width:1100px;margin:auto;padding:32px 18px 72px}
+
+    /* NAV */
+    .site-header{
+      position:sticky;top:0;z-index:100;
+      background:rgba(6,7,12,.88);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid var(--border);
+    }
+    .nav-wrap{
+      max-width:1200px;margin:auto;
+      padding:14px 18px;
+      display:flex;align-items:center;justify-content:space-between;
+    }
+    .brand{display:flex;align-items:center;gap:10px;font-weight:600}
+    .brand-dot{
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      color:#001014;padding:6px 10px;border-radius:10px;font-size:13px;
+    }
+    .nav-desktop{display:flex;gap:18px}
+    .nav-desktop a{color:var(--muted);font-size:14px}
+    .nav-desktop a:hover{color:var(--text)}
+    .burger{
+      display:none;
+      background:rgba(255,255,255,.08);
+      border:1px solid var(--border);
+      color:#fff;font-size:18px;
+      padding:8px 12px;border-radius:10px;
+    }
+    .nav-mobile{
+      display:none;
+      flex-direction:column;
+      padding:18px;gap:14px;
+      background:rgba(8,10,18,.98);
+      border-top:1px solid var(--border);
+    }
+    .nav-mobile a{
+      padding:14px;border-radius:14px;
+      background:rgba(255,255,255,.05);
+      color:var(--text);
+    }
+
+    /* TYPO */
+    h1{font-size:40px;margin:0 0 12px}
+    h1 span{
+      background:linear-gradient(90deg,var(--accent),var(--accent2));
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+    }
+    h2{font-size:24px;margin:0 0 12px}
+    h3{font-size:16px;margin:0 0 8px}
+    p{color:var(--muted);line-height:1.65;font-size:15px;margin:0 0 14px}
+
+    /* BLOCKS */
+    .hero,.block{
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:28px;
+      padding:30px;
+      box-shadow:var(--shadow);
+      margin-bottom:28px;
+    }
+    .pillrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+    .pill{
+      font-size:12px;padding:8px 12px;border-radius:999px;
+      border:1px solid var(--border);background:rgba(0,0,0,.25);
+      color:var(--text);
+    }
+
+    /* GRID */
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+      margin-top:18px;
+    }
+    .card{
+      background:rgba(0,0,0,.35);
+      border:1px solid var(--border);
+      border-radius:20px;
+      padding:18px;
+    }
+    .card p{margin:0;color:#9aa4b8;font-size:14px}
+
+    /* CTA */
+    .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
+    .btn{
+      display:inline-block;
+      padding:12px 16px;border-radius:14px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.06);
+      color:var(--text);font-weight:600;
+    }
+    .btn:hover{border-color:var(--accent)}
+    .btn.primary{
+      background:linear-gradient(90deg,var(--accent),rgba(56,242,255,.82));
+      color:#001014;border:none;
+    }
+    .note{
+      margin-top:14px;
+      padding-top:14px;
+      border-top:1px solid var(--border);
+      font-size:13px;
+      color:#9aa4b8;
+    }
+
+    /* FAQ */
+    details{
+      background:rgba(0,0,0,.35);
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:14px 16px;
+      margin:10px 0;
+    }
+    summary{cursor:pointer;font-weight:600}
+    details p{margin:10px 0 0}
+
+    /* FOOTER */
+    footer{
+      margin-top:56px;
+      border-top:1px solid var(--border);
+      padding-top:16px;
+      font-size:12px;
+      color:#8892a8;
+      display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+    }
+
+    /* MOBILE */
+    @media(max-width:900px){
+      .grid{grid-template-columns:1fr}
+      .nav-desktop{display:none}
+      .burger{display:block}
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <div class="brand">
+      <span class="brand-dot">0x</span>
+      <span>0xm19gi</span>
+    </div>
+
+    <nav class="nav-desktop">
+      <a href="index.html">Start</a>
+      <a href="defi.html">DeFi</a>
+      <a href="starter.html">Webinar</a>
+      <a href="mentoring.html">Mentoring</a>
+      <a href="kontakt.html">Kontakt</a>
+    </nav>
+
+    <button class="burger" onclick="toggleMenu()">☰</button>
+  </div>
+
+  <nav class="nav-mobile" id="mobileMenu">
+    <a href="index.html">Start</a>
+    <a href="defi.html">DeFi</a>
+    <a href="starter.html">Webinar</a>
+    <a href="mentoring.html">Mentoring</a>
+    <a href="kontakt.html">Kontakt</a>
+  </nav>
+</header>
+
+<div class="wrap">
+
+  <section class="hero">
+    <h1>DeFi Schulung <span>Zürich</span></h1>
+    <p>
+      Ruhiger, strukturierter Einstieg in DeFi – ohne Signale, ohne Hype und ohne Versprechen.
+      Fokus auf Verständnis, Sicherheit und Entscheidungslogik, damit du Risiken realistisch einschätzen kannst.
+    </p>
+
+    <div class="pillrow">
+      <div class="pill">🔐 Sicherheit & Self-Custody</div>
+      <div class="pill">🧠 Verständnis statt Tipps</div>
+      <div class="pill">⚠️ Risiken sichtbar machen</div>
+      <div class="pill">🧱 Struktur schlägt Emotion</div>
+    </div>
+
+    <div class="cta-row">
+      <a class="btn primary" href="kontakt.html">Unverbindlich anfragen</a>
+      <a class="btn" href="mentoring.html">Mentoring ansehen</a>
+      <a class="btn" href="starter.html">Für jeden der mit Krypto beginnen will</a>
+      <a class="btn" href="https://cal.meetergo.com/migggii/30-min-strategiegesprach-defi-and-crypto-einstieg" target="_blank" rel="noopener">30-min Strategiegespräch</a>
+    </div>
+
+    <div class="note">
+      Wissensvermittlung · Keine Anlageberatung · Keine Garantie · Keine Erfolgsversprechen
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Für wen die Schulung geeignet ist</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>✅ Geeignet</h3>
+        <p>Menschen, die DeFi verstehen wollen und bereit sind, Prozesse und Risiko-Logik sauber aufzubauen.</p>
+      </div>
+      <div class="card">
+        <h3>🚫 Nicht geeignet</h3>
+        <p>Schnellreich-Denken, Signal-Gruppen, 100x-Fantasien oder „sag mir einfach, was ich kaufen soll“.</p>
+      </div>
+      <div class="card">
+        <h3>🎯 Ziel</h3>
+        <p>Handlungsfähigkeit: Du sollst selbst beurteilen können, was du tust, warum du es tust und welche Risiken du eingehst.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Was du konkret lernst</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>1) Grundlagen & Begriffe</h3>
+        <p>CeFi vs. DeFi, Smart Contracts, Liquidität, Fees – verständlich und ohne Marketing-Sprache.</p>
+      </div>
+      <div class="card">
+        <h3>2) Wallet & Sicherheit</h3>
+        <p>Self-Custody, sichere Abläufe, typische Scam-Muster, Freigaben/Approvals, saubere Routine.</p>
+      </div>
+      <div class="card">
+        <h3>3) Entscheidungslogik</h3>
+        <p>Was ist ein Setup – und was ist nur Lärm? Struktur, Regeln, Risikogrenzen, statt Emotionen.</p>
+      </div>
+    </div>
+
+    <div class="note">
+      Wenn du bereits ein Ziel hast (z. B. Cashflow, HODL, Risikoreduktion), richten wir die Inhalte danach aus – ohne Druck, aber konsequent.
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Ablauf in Zürich oder virtuell</h2>
+    <p>
+      Je nach Bedarf arbeiten wir 1:1 oder in kleiner Runde. Zürich ist ideal für persönliche Begleitung,
+      virtuell funktioniert es ebenfalls sehr gut – entscheidend ist, dass du die Prozesse sauber umsetzen kannst.
+    </p>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Vorbereitung</h3>
+        <p>Kurze Einordnung deines Wissensstands, Ziele definieren, Sicherheits-Check der Basics.</p>
+      </div>
+      <div class="card">
+        <h3>Session</h3>
+        <p>Strukturierter Aufbau: Verständnis → Risiko → Umsetzung. Ruhig, Schritt für Schritt.</p>
+      </div>
+      <div class="card">
+        <h3>Nachbereitung</h3>
+        <p>Klare nächste Schritte, Checkliste, typische Fehler vermeiden. Keine Überforderung.</p>
+      </div>
+    </div>
+
+    <div class="note">
+      Empfehlung: Notizen, Laptop/PC, vorhandene Wallets (falls vorhanden). Sicherheit steht immer vor Tempo.
+    </div>
+  </section>
+
+  <section class="block" id="faq">
+    <h2>FAQ</h2>
+
+    <details>
+      <summary>Ist das Anlageberatung?</summary>
+      <p>Nein. Es ist Bildung und Einordnung. Du triffst alle Entscheidungen selbst. Keine Empfehlungen, keine Signale.</p>
+    </details>
+
+    <details>
+      <summary>Kann ich DeFi „sicher“ machen?</summary>
+      <p>DeFi hat reale Risiken (Smart Contracts, Tokens, Liquidität, Scams). Man kann Risiken reduzieren – aber nicht eliminieren.</p>
+    </details>
+
+    <details>
+      <summary>Bietest du das auch für Teams oder als Event an?</summary>
+      <p>Ja. Für Teams/Events sind kurze, strukturierte Sessions möglich – mit Fokus auf Grundlagen, Sicherheit und Risiko-Logik.</p>
+    </details>
+
+    <details>
+      <summary>Was muss ich mitbringen?</summary>
+      <p>Laptop/PC, Notizen, optional vorhandene Wallets. Wenn du einen Ledger hast: gerne mitbringen. Sonst arbeiten wir sauber mit dem, was vorhanden ist.</p>
+    </details>
+
+    <details>
+      <summary>Wie buche ich einen Termin?</summary>
+      <p>Am einfachsten über das unverbindliche Strategiegespräch oder direkt über die Kontaktseite.</p>
+    </details>
+
+    <div class="cta-row">
+      <a class="btn primary" href="kontakt.html">Kontakt aufnehmen</a>
+      <a class="btn" href="https://cal.meetergo.com/migggii/30-min-strategiegesprach-defi-and-crypto-einstieg" target="_blank" rel="noopener">Strategiegespräch buchen</a>
+      <a class="btn" href="legal.html">Rechtliches</a>
+    </div>
+
+    <div class="note">
+      Transparenz: Keine Anlageberatung. Keine Renditeversprechen. DeFi kann zum Totalverlust führen.
+    </div>
+  </section>
+
+  <footer>
+    <div>© 0xm19gi · mgaggia.ch</div>
+    <div><a href="legal.html">Rechtliches</a> · <a href="kontakt.html">Kontakt</a></div>
+  </footer>
+
+</div>
+
+<script>
+  function toggleMenu(){
+    const m=document.getElementById("mobileMenu");
+    m.style.display = m.style.display==="flex" ? "none" : "flex";
+  }
+</script>
+
+<!-- Schema.org: LocalBusiness -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LocalBusiness",
+  "name":"0xm19gi · DeFi Schulung Zürich",
+  "url":"https://mgaggia.ch/defi-schulung-zuerich.html",
+  "areaServed":"Zürich, Schweiz",
+  "serviceType":"DeFi Schulung / Private Education",
+  "description":"DeFi Schulung in Zürich: strukturierter Einstieg in DeFi, Wallet-Sicherheit & Entscheidungslogik – ohne Signale, ohne Hype, ohne Versprechen.",
+  "sameAs":[
+    "https://mgaggia.ch/"
+  ]
+}
+</script>
+
+<!-- Schema.org: FAQPage -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {
+      "@type":"Question",
+      "name":"Ist das Anlageberatung?",
+      "acceptedAnswer":{"@type":"Answer","text":"Nein. Es ist Bildung und Einordnung. Du triffst alle Entscheidungen selbst. Keine Empfehlungen, keine Signale."}
+    },
+    {
+      "@type":"Question",
+      "name":"Kann ich DeFi sicher machen?",
+      "acceptedAnswer":{"@type":"Answer","text":"DeFi hat reale Risiken (Smart Contracts, Tokens, Liquidität, Scams). Man kann Risiken reduzieren – aber nicht eliminieren."}
+    },
+    {
+      "@type":"Question",
+      "name":"Bietest du das auch für Teams oder als Event an?",
+      "acceptedAnswer":{"@type":"Answer","text":"Ja. Für Teams/Events sind kurze, strukturierte Sessions möglich – mit Fokus auf Grundlagen, Sicherheit und Risiko-Logik."}
+    },
+    {
+      "@type":"Question",
+      "name":"Was muss ich mitbringen?",
+      "acceptedAnswer":{"@type":"Answer","text":"Laptop/PC, Notizen, optional vorhandene Wallets. Wenn du einen Ledger hast: gerne mitbringen."}
+    },
+    {
+      "@type":"Question",
+      "name":"Wie buche ich einen Termin?",
+      "acceptedAnswer":{"@type":"Answer","text":"Am einfachsten über das unverbindliche Strategiegespräch oder direkt über die Kontaktseite."}
+    }
+  ]
+}
+</script>
+
+</body>
+</html>
