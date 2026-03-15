@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Webseiten & Landingpages · 0xNode</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Landingpages, einfache Webseiten, Hosting und Pflege – alles aus einer Hand. Klar, schnell und ohne Agenturpreise.">
+
+<script 
+  src="https://www.paypal.com/sdk/js?client-id=BAANUVSWpI_Y4nvh30MJg4cgPc1RimLrmikWbODAhh4siuLIuux2VLusAB5ARNHpZftxrgahyBgKTCs2i8&components=hosted-buttons&disable-funding=venmo&currency=CHF">
+</script>
+
+<style>
+:root{
+  --bg:#06070c;
+  --panel:rgba(255,255,255,.05);
+  --border:rgba(255,255,255,.14);
+  --text:#e9eef6;
+  --muted:#aab4c8;
+  --accent:#38f2ff;
+  --accent2:#b44cff;
+  --shadow:0 18px 45px rgba(0,0,0,.6);
+  --sans:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:var(--sans);
+  color:var(--text);
+  background:
+    radial-gradient(800px 600px at 10% 10%, rgba(56,242,255,.12), transparent 60%),
+    radial-gradient(800px 600px at 90% 20%, rgba(180,76,255,.14), transparent 60%),
+    linear-gradient(180deg,#03040a,#070a18);
+}
+
+a{
+  color:var(--accent);
+  text-decoration:none;
+}
+
+.wrap{
+  max-width:1100px;
+  margin:auto;
+  padding:32px 18px 72px;
+}
+
+/* ===== NAV ===== */
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(6,7,12,.85);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border);
+}
+.nav-wrap{
+  max-width:1100px;
+  margin:auto;
+  padding:14px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:600;
+}
+.brand-dot{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#001014;
+  padding:6px 10px;
+  border-radius:10px;
+  font-size:13px;
+}
+.nav-desktop{
+  display:flex;
+  gap:18px;
+}
+.nav-desktop a{
+  font-size:14px;
+  color:var(--muted);
+  padding:8px 12px;
+  border-radius:12px;
+}
+.nav-desktop a.active,
+.nav-desktop a:hover{
+  color:var(--text);
+}
+.burger{
+  display:none;
+  background:rgba(255,255,255,.08);
+  border:1px solid var(--border);
+  color:#fff;
+  font-size:18px;
+  padding:8px 12px;
+  border-radius:10px;
+}
+.nav-mobile{
+  display:none;
+  flex-direction:column;
+  padding:18px;
+  gap:14px;
+  background:rgba(8,10,18,.98);
+  border-top:1px solid var(--border);
+}
+.nav-mobile a{
+  padding:14px 16px;
+  border-radius:14px;
+  background:rgba(255,255,255,.05);
+  font-size:16px;
+}
+
+/* ===== HERO ===== */
+.hero{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:28px;
+  padding:32px;
+  box-shadow:var(--shadow);
+  margin-bottom:40px;
+}
+.hero h1{
+  font-size:40px;
+  margin:0 0 12px;
+}
+.hero h1 span{
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.hero p{
+  max-width:72ch;
+  color:var(--muted);
+  line-height:1.65;
+  margin:0 0 14px;
+}
+.pillrow{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:16px;
+}
+.pill{
+  font-size:12px;
+  padding:8px 12px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:rgba(0,0,0,.25);
+}
+
+/* ===== CONTENT ===== */
+section{
+  margin-top:46px;
+}
+section h2{
+  margin:0 0 12px;
+  font-size:24px;
+}
+section p{
+  color:var(--muted);
+  line-height:1.65;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:18px;
+  margin-top:20px;
+}
+
+.card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:22px;
+  padding:24px;
+  box-shadow:var(--shadow);
+}
+
+.card h3{
+  margin:0 0 10px;
+  font-size:18px;
+}
+
+.price{
+  font-size:32px;
+  font-weight:700;
+  color:var(--accent);
+  margin:10px 0 14px;
+}
+
+ul{
+  padding-left:18px;
+  margin:12px 0;
+  color:var(--muted);
+  font-size:14px;
+}
+li{
+  margin-bottom:8px;
+}
+
+.note{
+  font-size:13px;
+  color:#8e98ad;
+  margin-top:12px;
+}
+
+.cta-box{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:26px;
+  padding:28px;
+  box-shadow:var(--shadow);
+  margin-top:24px;
+}
+
+.paypal-wrap{
+  display:flex;
+  justify-content:center;
+  margin-top:18px;
+}
+.paypal-box{
+  width:100%;
+  max-width:360px;
+}
+.paypal-box iframe{
+  width:100% !important;
+}
+
+footer{
+  margin-top:64px;
+  border-top:1px solid var(--border);
+  padding-top:18px;
+  font-size:12px;
+  color:#8892a8;
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:900px){
+  .nav-desktop{display:none}
+  .burger{display:block}
+}
+</style>
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <div class="brand">
+      <span class="brand-dot">0x</span>
+      <span>0xNode</span>
+    </div>
+
+    <nav class="nav-desktop">
+      <a href="index.html">Start</a>
+      <a href="defi.html">DeFi</a>
+      <a href="starter.html">Starter-Paket</a>
+      <a href="mentoring.html">Mentoring</a>
+      <a href="webseiten.html" class="active">Webseiten</a>
+      <a href="kontakt.html">Kontakt</a>
+    </nav>
+
+    <button class="burger" onclick="toggleMenu()">☰</button>
+  </div>
+
+  <nav class="nav-mobile" id="mobileMenu">
+    <a href="index.html">Start</a>
+    <a href="defi.html">DeFi</a>
+    <a href="starter.html">Starter-Paket</a>
+    <a href="mentoring.html">Mentoring</a>
+    <a href="webseiten.html">Webseiten</a>
+    <a href="kontakt.html">Kontakt</a>
+  </nav>
+</header>
+
+<div class="wrap">
+
+  <section class="hero">
+    <h1>Webseiten & <span>Landingpages</span></h1>
+    <p>
+      Nicht jedes Unternehmen braucht eine grosse Agentur-Webseite mit unnötiger Komplexität.
+      Oft reicht eine klare, schnelle und moderne Landingpage, die professionell wirkt und direkt funktioniert.
+    </p>
+    <p>
+      Genau darauf ist dieses Angebot ausgelegt: Ich baue einfache Webseiten nach Wunsch und übernehme
+      auf Wunsch auch Hosting, Pflege, Domain und Mail-Lösung.
+    </p>
+
+    <div class="pillrow">
+      <div class="pill">🌐 Landingpage nach Mass</div>
+      <div class="pill">⚡ Schnell & modern</div>
+      <div class="pill">📱 Mobile optimiert</div>
+      <div class="pill">🛠 Hosting & Pflege</div>
+      <div class="pill">📩 Domain & Mail inklusive</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Was enthalten ist</h2>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Landingpage Erstellung</h3>
+        <div class="price">CHF 999</div>
+        <ul>
+          <li>Individuelle Landingpage nach Wunsch</li>
+          <li>Modernes, sauberes Design</li>
+          <li>Mobile optimiert</li>
+          <li>Kontaktbereich / Anfrageoption</li>
+          <li>Technischer Setup</li>
+          <li>Saubere Basis für SEO</li>
+        </ul>
+        <p class="note">
+          Einmalige Erstellung deiner Webseite.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Hosting & Pflege</h3>
+        <div class="price">CHF 89 / Jahr</div>
+        <ul>
+          <li>Hosting deiner Webseite</li>
+          <li>Technische Pflege</li>
+          <li>Kleinere Anpassungen nach Bedarf</li>
+          <li>Stabile Erreichbarkeit</li>
+          <li>Domain im Jahrespreis enthalten</li>
+          <li>Mail-Lösung im Jahrespreis enthalten</li>
+        </ul>
+        <p class="note">
+          Günstig, einfach und ohne unnötige Komplexität.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Für wen das geeignet ist</h3>
+        <ul>
+          <li>Selbständige</li>
+          <li>Kleine Unternehmen</li>
+          <li>Events & Angebote</li>
+          <li>Lokale Dienstleistungen</li>
+          <li>Berater, Coaches & Projekte</li>
+        </ul>
+        <p>
+          Wenn du eine klare und professionelle Online-Präsenz brauchst,
+          ohne klassische Agenturpreise zu bezahlen, passt dieses Modell sehr gut.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Ablauf</h2>
+    <div class="cta-box">
+      <p>
+        Nach dem Kauf werde ich mich direkt mit dir in Verbindung setzen,
+        damit wir den Aufbau, Inhalt und Stil deiner Webseite gemeinsam abstimmen können.
+      </p>
+      <p>
+        Ziel ist, dass wir je nach Umfang und Wunsch innerhalb von wenigen Tagen
+        bis wenigen Wochen eine saubere und professionelle Webseite nach Mass fertigstellen.
+      </p>
+      <p class="note">
+        Hosting, Domain und Mail können danach im laufenden Jahrespreis weitergeführt werden.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Landingpage direkt buchen</h2>
+
+    <div class="cta-box">
+      <p>
+        
+        Im Ersten Jahr schenke ich dir das Hosting, Pflege, Domain und Mail. Danach kostet alles nur noch <strong>CHF 89 pro Jahr</strong>!
+      </p>
+
+      <div class="paypal-wrap">
+        <div class="paypal-box">
+          <div id="paypal-container-J2ULQXAGRRX9W"></div>
+        </div>
+      </div>
+
+      <p class="note">
+        Nach der Buchung erfolgt die persönliche Kontaktaufnahme zur Umsetzung.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <div>© 0xm19gi · 0xnode.ch</div>
+    <div>
+      <a href="kontakt.html">Kontakt</a> ·
+      <a href="legal.html">Rechtliches</a>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+function toggleMenu(){
+  const m=document.getElementById("mobileMenu");
+  m.style.display = m.style.display==="flex" ? "none" : "flex";
+}
+
+paypal.HostedButtons({
+  hostedButtonId: "J2ULQXAGRRX9W",
+}).render("#paypal-container-J2ULQXAGRRX9W");
+</script>
+
+</body>
+</html>
