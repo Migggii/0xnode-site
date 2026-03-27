@@ -2,13 +2,9 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<title>Websites & Landingpages · 0xNode</title>
+<title>Shop · DeFi Liquidity Journal · 0xNode</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Landingpages, einfache Websites, Hosting und Pflege – alles aus einer Hand. Klar, schnell und ohne Agenturpreise.">
-
-<script 
-  src="https://www.paypal.com/sdk/js?client-id=BAANUVSWpI_Y4nvh30MJg4cgPc1RimLrmikWbODAhh4siuLIuux2VLusAB5ARNHpZftxrgahyBgKTCs2i8&components=hosted-buttons&disable-funding=venmo&currency=CHF">
-</script>
+<meta name="description" content="DeFi Liquidity Journal von 0xNode. Tracken, analysieren und optimieren. CHF 49 inklusive Versand in der Schweiz.">
 
 <style>
 :root{
@@ -19,44 +15,74 @@
   --muted:#aab4c8;
   --accent:#38f2ff;
   --accent2:#b44cff;
+  --gold:#f0df3f;
   --shadow:0 18px 45px rgba(0,0,0,.6);
   --sans:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
 }
-
 *{box-sizing:border-box}
-
 body{
   margin:0;
   font-family:var(--sans);
   color:var(--text);
   background:
-    radial-gradient(800px 600px at 10% 10%, rgba(56,242,255,.12), transparent 60%),
-    radial-gradient(800px 600px at 90% 20%, rgba(180,76,255,.14), transparent 60%),
+    radial-gradient(900px 600px at 10% 10%, rgba(56,242,255,.10), transparent 60%),
+    radial-gradient(800px 600px at 90% 20%, rgba(180,76,255,.12), transparent 65%),
     linear-gradient(180deg,#03040a,#070a18);
 }
+a{color:var(--accent);text-decoration:none}
+.wrap{max-width:1150px;margin:auto;padding:32px 18px 72px}
 
-a{
-  color:var(--accent);
-  text-decoration:none;
+/* ===== LIVE CRYPTO TICKER ===== */
+.ticker-bar{
+  position:sticky;
+  top:0;
+  z-index:110;
+  height:42px;
+  overflow:hidden;
+  border-bottom:1px solid var(--border);
+  background:rgba(3,4,10,.96);
+  backdrop-filter:blur(10px);
 }
-
-.wrap{
-  max-width:1100px;
-  margin:auto;
-  padding:32px 18px 72px;
+.ticker-track{
+  display:flex;
+  align-items:center;
+  gap:28px;
+  white-space:nowrap;
+  min-width:max-content;
+  height:100%;
+  padding-left:100%;
+  animation:tickerScroll 34s linear infinite;
+}
+.ticker-bar:hover .ticker-track{
+  animation-play-state:paused;
+}
+.ticker-item{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:14px;
+  color:var(--text);
+}
+.ticker-symbol{font-weight:700}
+.ticker-change{font-weight:700}
+.ticker-change.up{color:#22c55e}
+.ticker-change.down{color:#ef4444}
+@keyframes tickerScroll{
+  0%{transform:translateX(0)}
+  100%{transform:translateX(-100%)}
 }
 
 /* ===== NAV ===== */
 .site-header{
   position:sticky;
-  top:0;
+  top:42px;
   z-index:100;
-  background:rgba(6,7,12,.85);
+  background:rgba(6,7,12,.88);
   backdrop-filter:blur(10px);
   border-bottom:1px solid var(--border);
 }
 .nav-wrap{
-  max-width:1100px;
+  max-width:1200px;
   margin:auto;
   padding:14px 18px;
   display:flex;
@@ -81,10 +107,8 @@ a{
   gap:18px;
 }
 .nav-desktop a{
-  font-size:14px;
   color:var(--muted);
-  padding:8px 12px;
-  border-radius:12px;
+  font-size:14px;
 }
 .nav-desktop a.active,
 .nav-desktop a:hover{
@@ -105,38 +129,38 @@ a{
   padding:18px;
   gap:14px;
   background:rgba(8,10,18,.98);
-  border-top:1px solid var(--border);
 }
 .nav-mobile a{
-  padding:14px 16px;
+  padding:14px;
   border-radius:14px;
   background:rgba(255,255,255,.05);
-  font-size:16px;
+  color:var(--text);
 }
 
 /* ===== HERO ===== */
 .hero{
   background:var(--panel);
   border:1px solid var(--border);
-  border-radius:28px;
-  padding:32px;
+  border-radius:30px;
+  padding:34px;
   box-shadow:var(--shadow);
-  margin-bottom:40px;
+  margin-bottom:36px;
 }
 .hero h1{
-  font-size:40px;
+  font-size:42px;
   margin:0 0 12px;
 }
 .hero h1 span{
-  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  background:linear-gradient(90deg,var(--gold),#fff17a);
   -webkit-background-clip:text;
   background-clip:text;
   color:transparent;
 }
 .hero p{
-  max-width:72ch;
   color:var(--muted);
-  line-height:1.65;
+  line-height:1.7;
+  font-size:15px;
+  max-width:72ch;
   margin:0 0 14px;
 }
 .pillrow{
@@ -153,84 +177,168 @@ a{
   background:rgba(0,0,0,.25);
 }
 
-/* ===== CONTENT ===== */
-section{
-  margin-top:46px;
-}
-section h2{
-  margin:0 0 12px;
-  font-size:24px;
-}
-section p{
-  color:var(--muted);
-  line-height:1.65;
-}
-
-.grid{
+/* ===== PRODUCT ===== */
+.product-section{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:18px;
-  margin-top:20px;
+  grid-template-columns:1fr 1fr;
+  gap:26px;
+  align-items:stretch;
 }
-
-.card{
+.product-card,
+.info-card,
+.feature-card,
+.notice-card{
   background:var(--panel);
   border:1px solid var(--border);
-  border-radius:22px;
-  padding:24px;
+  border-radius:28px;
   box-shadow:var(--shadow);
 }
-
-.card h3{
-  margin:0 0 10px;
-  font-size:18px;
+.product-card{
+  padding:26px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
-
-.price{
+.product-card img{
+  width:100%;
+  max-width:430px;
+  height:auto;
+  display:block;
+  border-radius:18px;
+  box-shadow:0 18px 45px rgba(0,0,0,.45);
+}
+.info-card{
+  padding:28px;
+}
+.kicker{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 12px;
+  border-radius:999px;
+  border:1px solid rgba(240,223,63,.22);
+  background:rgba(240,223,63,.08);
+  color:#f3e86f;
+  font-size:12px;
+  margin-bottom:14px;
+}
+.info-card h2{
   font-size:32px;
-  font-weight:700;
-  color:var(--accent);
-  margin:10px 0 14px;
+  margin:0 0 10px;
 }
-
-ul{
-  padding-left:18px;
-  margin:12px 0;
+.subtitle{
   color:var(--muted);
+  font-size:15px;
+  line-height:1.65;
+  margin:0 0 18px;
+}
+.price-box{
+  margin:22px 0 18px;
+  padding:18px 20px;
+  border-radius:20px;
+  background:rgba(0,0,0,.35);
+  border:1px solid var(--border);
+}
+.price-label{
+  font-size:13px;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+.price{
+  font-size:34px;
+  font-weight:800;
+  color:#fff;
+}
+.price span{
+  color:var(--gold);
+}
+.shipping{
+  margin-top:8px;
+  color:#c7cfde;
   font-size:14px;
 }
-li{
-  margin-bottom:8px;
+.points{
+  list-style:none;
+  padding:0;
+  margin:0 0 22px;
 }
-
-.note{
-  font-size:13px;
-  color:#8e98ad;
-  margin-top:12px;
+.points li{
+  padding:10px 0;
+  border-top:1px solid rgba(255,255,255,.10);
+  color:var(--muted);
+  line-height:1.55;
 }
-
-.cta-box{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:26px;
-  padding:28px;
-  box-shadow:var(--shadow);
-  margin-top:24px;
+.points li:first-child{
+  border-top:none;
+  padding-top:0;
 }
 
 .paypal-wrap{
   display:flex;
-  justify-content:center;
-  margin-top:18px;
+  justify-content:flex-start;
+  margin-top:10px;
 }
-.paypal-box{
+.pp-box{
   width:100%;
   max-width:360px;
 }
-.paypal-box iframe{
-  width:100% !important;
+.pp-box form{
+  width:100%;
+}
+.pp-box img{
+  max-width:100%;
+  height:auto;
 }
 
+.mini-note{
+  margin-top:16px;
+  font-size:13px;
+  color:#97a3b8;
+}
+
+/* ===== DETAILS ===== */
+.grid-3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-top:26px;
+}
+.feature-card{
+  padding:22px;
+}
+.feature-card h3{
+  margin:0 0 8px;
+  font-size:18px;
+}
+.feature-card p{
+  margin:0;
+  color:var(--muted);
+  line-height:1.65;
+  font-size:14px;
+}
+.notice-card{
+  margin-top:26px;
+  padding:24px;
+}
+.notice-card h3{
+  margin:0 0 10px;
+  font-size:20px;
+}
+.notice-card p{
+  margin:0 0 12px;
+  color:var(--muted);
+  line-height:1.65;
+  font-size:15px;
+}
+.note-line{
+  font-size:13px;
+  color:#8f9bb0;
+  border-top:1px solid var(--border);
+  padding-top:14px;
+  margin-top:16px;
+}
+
+/* ===== FOOTER ===== */
 footer{
   margin-top:64px;
   border-top:1px solid var(--border);
@@ -243,15 +351,130 @@ footer{
   gap:10px;
 }
 
+/* ===== MESSENGER ===== */
+.mg-messenger{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  z-index:9999;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+}
+.mg-btn{
+  background:rgba(17,24,39,.92);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.14);
+  padding:14px 18px;
+  border-radius:999px;
+  cursor:pointer;
+  font-weight:650;
+  box-shadow:0 16px 45px rgba(0,0,0,.55);
+  backdrop-filter:blur(10px);
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+.mg-btn:hover{
+  transform:scale(1.04);
+  border-color:rgba(56,242,255,.35);
+}
+.mg-menu{
+  display:none;
+  flex-direction:column;
+  gap:8px;
+  margin-bottom:10px;
+}
+.mg-menu.open{display:flex}
+.mg-menu a{
+  text-decoration:none;
+  background:rgba(31,41,55,.95);
+  color:#fff;
+  padding:10px 14px;
+  border-radius:14px;
+  font-size:14px;
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 10px 28px rgba(0,0,0,.45);
+  transition:transform .15s ease,border-color .15s ease;
+}
+.mg-menu a:hover{
+  transform:translateY(-1px);
+  border-color:rgba(255,255,255,.22);
+}
+.mg-hint{
+  position:absolute;
+  right:0;
+  bottom:64px;
+  width:min(320px, calc(100vw - 44px));
+  background:rgba(8,10,18,.94);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:18px;
+  padding:12px 12px 12px 14px;
+  box-shadow:0 18px 55px rgba(0,0,0,.60);
+  backdrop-filter:blur(10px);
+  opacity:0;
+  transform:translateY(8px);
+  pointer-events:none;
+  transition:opacity .25s ease, transform .25s ease;
+}
+.mg-hint.show{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+.mg-hint-title{
+  font-weight:800;
+  color:#e9eef6;
+  font-size:14px;
+  margin:0 30px 4px 0;
+}
+.mg-hint-text{
+  color:rgba(170,180,200,.95);
+  font-size:13px;
+  line-height:1.45;
+  margin:0 30px 0 0;
+}
+.mg-hint-x{
+  position:absolute;
+  top:8px;
+  right:10px;
+  width:28px;
+  height:28px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.14);
+  background:rgba(255,255,255,.06);
+  color:#fff;
+  cursor:pointer;
+  font-size:18px;
+  line-height:26px;
+}
+.mg-hint-x:hover{
+  border-color:rgba(56,242,255,.35);
+}
+
 /* ===== MOBILE ===== */
-@media(max-width:900px){
+@media(max-width:980px){
+  .product-section,
+  .grid-3{
+    grid-template-columns:1fr;
+  }
+}
+@media(max-width:820px){
   .nav-desktop{display:none}
   .burger{display:block}
+  .hero h1{font-size:34px}
+  .info-card h2{font-size:28px}
+}
+@media(max-width:420px){
+  .mg-messenger{right:14px;bottom:14px}
+  .mg-hint{bottom:62px}
 }
 </style>
 </head>
 
 <body>
+
+<div class="ticker-bar">
+  <div class="ticker-track" id="tickerTrack">
+    <div class="ticker-item">Lade Kurse…</div>
+  </div>
+</div>
 
 <header class="site-header">
   <div class="nav-wrap">
@@ -265,11 +488,11 @@ footer{
       <a href="defi.html">DeFi</a>
       <a href="starter.html">Starter-Paket</a>
       <a href="mentoring.html">Mentoring</a>
-      <a href="webseiten.html" class="active">Webseiten</a>
+      <a href="shop.html" class="active">Shop</a>
       <a href="kontakt.html">Kontakt</a>
     </nav>
 
-    <button class="burger" onclick="toggleMenu()">☰</button>
+    <button class="burger" onclick="toggleMobileMenu()">☰</button>
   </div>
 
   <nav class="nav-mobile" id="mobileMenu">
@@ -277,7 +500,7 @@ footer{
     <a href="defi.html">DeFi</a>
     <a href="starter.html">Starter-Paket</a>
     <a href="mentoring.html">Mentoring</a>
-    <a href="webseiten.html">Webseiten</a>
+    <a href="shop.html">Shop</a>
     <a href="kontakt.html">Kontakt</a>
   </nav>
 </header>
@@ -285,119 +508,133 @@ footer{
 <div class="wrap">
 
   <section class="hero">
-    <h1>Websites & <span>Landingpages</span></h1>
+    <h1>DeFi <span>Liquidity Journal</span></h1>
     <p>
-      Nicht jedes Unternehmen braucht eine grosse Website - Agentur mit unnötiger Komplexität.
-      Oft reicht eine klare, schnelle und moderne Website oder Landingpages, die professionell wirkt und direkt funktioniert.
-    </p>
-    <p>
-      Genau darauf ist dieses Angebot ausgelegt: Ich baue einfache Websiten nach Wunsch und übernehme
-      auf Wunsch auch Hosting, Pflege, Domain und Mail-Lösung.
+      Dieses Journal wurde für Menschen entwickelt, die DeFi nicht nur nutzen,
+      sondern ihre Schritte bewusst tracken, analysieren und langfristig verbessern möchten.
+      Kein gewöhnliches Notizbuch, sondern ein strukturiertes Arbeitsinstrument für mehr Disziplin,
+      Klarheit und Übersicht.
     </p>
 
     <div class="pillrow">
-      <div class="pill">🌐 Websites & Landingpage nach Mass</div>
-      <div class="pill">⚡ Schnell & modern</div>
-      <div class="pill">📱 Mobile optimiert</div>
-      <div class="pill">🛠 Hosting & Pflege</div>
-      <div class="pill">📩 Domain & Mail inklusive</div>
+      <div class="pill">📒 Tracking statt Chaos</div>
+      <div class="pill">📊 Analyse statt Bauchgefühl</div>
+      <div class="pill">🧠 Struktur statt Hype</div>
+      <div class="pill">🚚 Versand Schweiz inklusive</div>
     </div>
   </section>
 
-  <section>
-    <h2>Was enthalten ist</h2>
-
-    <div class="grid">
-      <div class="card">
-        <h3>Websites & Landingpage Erstellung</h3>
-        <div class="price">CHF 999</div>
-        <ul>
-          <li>Individuelle Websites & Landingpage nach Wunsch</li>
-          <li>Modernes, sauberes Design</li>
-          <li>Mobile optimiert</li>
-          <li>Kontaktbereich / Anfrageoption</li>
-          <li>Technischer Setup</li>
-          <li>Saubere Basis für SEO</li>
-        </ul>
-        <p class="note">
-          Einmalige Erstellung deiner Website.
-        </p>
-      </div>
-
-      <div class="card">
-        <h3>Hosting & Pflege</h3>
-        <div class="price">CHF 89 / Jahr</div>
-        <ul>
-          <li>Hosting deiner Websites</li>
-          <li>Technische Pflege</li>
-          <li>Kleinere Anpassungen nach Bedarf</li>
-          <li>Stabile Erreichbarkeit</li>
-          <li>Domain im Jahrespreis enthalten</li>
-          <li>Mail-Lösung im Jahrespreis enthalten</li>
-        </ul>
-        <p class="note">
-          Günstig, einfach und ohne unnötige Komplexität.
-        </p>
-      </div>
-
-      <div class="card">
-        <h3>Für wen das geeignet ist</h3>
-        <ul>
-          <li>Selbständige</li>
-          <li>Kleine Unternehmen</li>
-          <li>Events & Angebote</li>
-          <li>Lokale Dienstleistungen</li>
-          <li>Berater, Coaches & Projekte</li>
-        </ul>
-        <p>
-          Wenn du eine klare und professionelle Online-Präsenz brauchst,
-          ohne klassische Agenturpreise zu bezahlen, passt dieses Modell sehr gut.
-        </p>
-      </div>
+  <section class="product-section">
+    <div class="product-card">
+      <img src="book.png" alt="DeFi Liquidity Journal Buchcover">
     </div>
-  </section>
 
-  <section>
-    <h2>Ablauf</h2>
-    <div class="cta-box">
-      <p>
-        Nach dem Kauf werde ich mich direkt mit dir in Verbindung setzen,
-        damit wir den Aufbau, Inhalt und Stil deiner Website gemeinsam abstimmen können.
+    <div class="info-card">
+      <div class="kicker">Physisches Journal · 0xNode Shop</div>
+      <h2>Tracken. Analysieren. Optimieren.</h2>
+      <p class="subtitle">
+        Das DeFi Liquidity Journal unterstützt dich dabei, Positionen, Gedanken,
+        Fehler und Fortschritte sauber festzuhalten. Genau dort entsteht langfristig
+        echte Verbesserung: nicht durch Emotion, sondern durch nachvollziehbare Struktur.
       </p>
-      <p>
-        Ziel ist, dass wir je nach Umfang und Wunsch innerhalb von wenigen Tagen
-        bis wenigen Wochen eine saubere und professionelle Website nach Mass fertigstellen.
-      </p>
-      <p class="note">
-        Hosting, Domain und Mail können danach im laufenden Jahrespreis weitergeführt werden.
-      </p>
-    </div>
-  </section>
 
-  <section>
-    <h2>Landingpage & Website direkt buchen</h2>
+      <div class="price-box">
+        <div class="price-label">Fixpreis</div>
+        <div class="price"><span>CHF 49</span></div>
+        <div class="shipping">inklusive Versand innerhalb der Schweiz</div>
+      </div>
 
-    <div class="cta-box">
-      <p>
-        
-        Im 1.Jahr sind Hosting, Pflege, Domain und Mail bereits im Preis enthalten.
-        Ab dem 2.Jahr beträgt der Gesamtpreis nur noch <strong>CHF 89.-</strong>!
-      </p>
+      <ul class="points">
+        <li>✅ Physisches Journal für deinen DeFi-Alltag</li>
+        <li>✅ Ideal für Liquidity Pools, Rewards und Entscheidungslogik</li>
+        <li>✅ Sauberer Überblick über Entwicklung und Fehlerquellen</li>
+        <li>✅ Persönlicher Versand direkt durch 0xNode</li>
+      </ul>
 
       <div class="paypal-wrap">
-        <div class="paypal-box">
-          <div id="paypal-container-J2ULQXAGRRX9W"></div>
+        <div class="pp-box">
+          <div>
+            <style>
+              .pp-2ELRKXVPWBZZ6{
+                text-align:center;
+                border:none;
+                border-radius:0.25rem;
+                min-width:11.625rem;
+                padding:0 2rem;
+                height:2.625rem;
+                font-weight:bold;
+                background-color:#FFD140;
+                color:#000000;
+                font-family:"Helvetica Neue",Arial,sans-serif;
+                font-size:1rem;
+                line-height:1.25rem;
+                cursor:pointer;
+              }
+            </style>
+            <form action="https://www.paypal.com/ncp/payment/2ELRKXVPWBZZ6" method="post" target="_blank" style="display:inline-grid;justify-items:center;align-content:start;gap:0.5rem;">
+              <input class="pp-2ELRKXVPWBZZ6" type="submit" value="Jetzt kaufen" />
+              <img src="https://www.paypalobjects.com/images/Debit_Credit_APM.svg" alt="Karten und Zahlungsmethoden" />
+              <section style="font-size:0.75rem; color:#aab4c8;">
+                Abgewickelt durch
+                <img src="https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-wordmark-color.svg" alt="PayPal" style="height:0.875rem;vertical-align:middle;">
+              </section>
+            </form>
+          </div>
         </div>
       </div>
 
-      <p class="note">
-        Nach der Buchung erfolgt die persönliche Kontaktaufnahme zur Umsetzung.
+      <div class="mini-note">
+        Manuelle Bearbeitung und Versand durch mich. Lieferzeit in der Regel ca. 2–4 Werktage.
+      </div>
+    </div>
+  </section>
+
+  <section class="grid-3">
+    <div class="feature-card">
+      <h3>1) Mehr Übersicht</h3>
+      <p>
+        Wer DeFi ernsthaft betreibt, braucht nicht mehr Geschwindigkeit,
+        sondern mehr Klarheit. Dieses Journal hilft dir, Positionen,
+        Veränderungen und Muster sichtbar zu machen.
       </p>
+    </div>
+
+    <div class="feature-card">
+      <h3>2) Weniger Fehler</h3>
+      <p>
+        Viele Fehler entstehen nicht wegen fehlender Tools,
+        sondern wegen fehlender Reflexion. Durch sauberes Festhalten
+        erkennst du früh, wo Emotion, Unsicherheit oder Unsauberkeit einwirken.
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <h3>3) Mehr Disziplin</h3>
+      <p>
+        Struktur ist im DeFi-Bereich ein echter Vorteil.
+        Das Journal unterstützt dich dabei, deine eigene Logik,
+        deine Regeln und deine Entwicklung konsequent zu dokumentieren.
+      </p>
+    </div>
+  </section>
+
+  <section class="notice-card">
+    <h3>Hinweis zum Kauf</h3>
+    <p>
+      Das Journal ist ein physisches Produkt und wird nach Bestellung von mir persönlich versendet.
+      Der Preis von CHF 49 versteht sich inklusive Versand innerhalb der Schweiz.
+    </p>
+    <p>
+      Dieses Produkt dient der Organisation, Dokumentation und Reflexion eigener DeFi-Aktivitäten.
+      Es ist keine Anlageberatung und kein Renditeversprechen.
+    </p>
+    <div class="note-line">
+      Persönlicher Versand · Keine Massenware · Solider, direkter Bestellprozess über PayPal
     </div>
   </section>
 
   <footer>
-    <div>© 0xm19gi · 0xnode.ch</div>
+    <div>© 0xm19gi · 0xNode.ch</div>
     <div>
       <a href="kontakt.html">Kontakt</a> ·
       <a href="legal.html">Rechtliches</a>
@@ -406,15 +643,144 @@ footer{
 
 </div>
 
+<!-- MG Messenger Widget -->
+<div class="mg-messenger" id="mgMessenger">
+  <div class="mg-menu" id="mgMenu">
+    <a id="mgWa" target="_blank" rel="noopener">💬 WhatsApp</a>
+    <a href="https://threema.id/MAKD7CYA" target="_blank" rel="noopener">🔐 Threema</a>
+    <a href="https://getsession.org/add-session-id/055988bf51c70ee037d3731c0e9c7df2c98788f07bcbcc1e0622a66accfe5ebb55" target="_blank" rel="noopener">🟣 Session</a>
+  </div>
+
+  <button class="mg-btn" id="mgBtn" type="button">💬 Nachricht</button>
+
+  <div class="mg-hint" id="mgHint" aria-live="polite">
+    <button class="mg-hint-x" id="mgHintX" type="button" aria-label="Hinweis schliessen">×</button>
+    <div class="mg-hint-title">Fragen zum Journal?</div>
+    <div class="mg-hint-text">Schreib mir kurz – ich antworte persönlich.</div>
+  </div>
+</div>
+
 <script>
-function toggleMenu(){
-  const m=document.getElementById("mobileMenu");
-  m.style.display = m.style.display==="flex" ? "none" : "flex";
+function toggleMobileMenu(){
+  const m = document.getElementById("mobileMenu");
+  m.style.display = m.style.display === "flex" ? "none" : "flex";
 }
 
-paypal.HostedButtons({
-  hostedButtonId: "J2ULQXAGRRX9W",
-}).render("#paypal-container-J2ULQXAGRRX9W");
+async function loadCryptoTicker(){
+  const track = document.getElementById("tickerTrack");
+  if(!track) return;
+
+  const api = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,ripple,binancecoin,usd-coin&vs_currencies=chf&include_24hr_change=true";
+
+  const coins = [
+    { id: "bitcoin", symbol: "BTC" },
+    { id: "ethereum", symbol: "ETH" },
+    { id: "solana", symbol: "SOL" },
+    { id: "ripple", symbol: "XRP" },
+    { id: "binancecoin", symbol: "BNB" },
+    { id: "usd-coin", symbol: "USDC" }
+  ];
+
+  try{
+    const res = await fetch(api, { cache: "no-store" });
+    if(!res.ok) throw new Error("API Fehler");
+    const data = await res.json();
+
+    const formatCHF = new Intl.NumberFormat("de-CH", {
+      style: "currency",
+      currency: "CHF",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+
+    const items = coins.map(c => {
+      const coin = data[c.id];
+      if(!coin || typeof coin.chf !== "number") return "";
+
+      const price = formatCHF.format(coin.chf);
+      const change = typeof coin.chf_24h_change === "number" ? coin.chf_24h_change : 0;
+      const changeText = (change >= 0 ? "+" : "") + change.toFixed(2) + "%";
+      const changeClass = change >= 0 ? "up" : "down";
+
+      return `
+        <div class="ticker-item">
+          <span class="ticker-symbol">${c.symbol}</span>
+          <span class="ticker-price">${price}</span>
+          <span class="ticker-change ${changeClass}">${changeText}</span>
+        </div>
+      `;
+    }).filter(Boolean).join("");
+
+    track.innerHTML = items + items;
+
+  }catch(err){
+    track.innerHTML = `
+      <div class="ticker-item">
+        <span class="ticker-symbol">Kurse</span>
+        <span class="ticker-price">momentan nicht verfügbar</span>
+      </div>
+    `;
+  }
+}
+
+(function(){
+  var container = document.getElementById("mgMessenger");
+  if(!container) return;
+
+  var btn = document.getElementById("mgBtn");
+  var menu = document.getElementById("mgMenu");
+  var hint = document.getElementById("mgHint");
+  var hintX = document.getElementById("mgHintX");
+  var wa = document.getElementById("mgWa");
+
+  var phone = "41" + "79" + "922" + "5678";
+  var msg = encodeURIComponent("Hallo Michele, ich interessiere mich für dein DeFi Liquidity Journal.");
+  wa.href = "https://wa.me/" + phone + "?text=" + msg;
+
+  function openMenu(){
+    menu.classList.add("open");
+    hint.classList.remove("show");
+  }
+
+  function closeMenu(){
+    menu.classList.remove("open");
+  }
+
+  function toggleMessengerMenu(){
+    if(menu.classList.contains("open")) closeMenu();
+    else openMenu();
+  }
+
+  btn.addEventListener("click", function(e){
+    e.stopPropagation();
+    toggleMessengerMenu();
+  });
+
+  hintX.addEventListener("click", function(e){
+    e.stopPropagation();
+    hint.classList.remove("show");
+  });
+
+  document.addEventListener("click", function(e){
+    if(!container.contains(e.target)){
+      closeMenu();
+    }
+  });
+
+  window.addEventListener("load", function(){
+    setTimeout(function(){
+      if(!menu.classList.contains("open")){
+        hint.classList.add("show");
+        setTimeout(function(){
+          hint.classList.remove("show");
+        }, 10000);
+      }
+    }, 6000);
+  });
+})();
+
+loadCryptoTicker();
+setInterval(loadCryptoTicker, 60000);
 </script>
 
 </body>
