@@ -43,7 +43,6 @@ a{text-decoration:none;color:var(--accent)}
   background:rgba(3,4,10,.96);
   backdrop-filter:blur(10px);
 }
-
 .ticker-track{
   display:flex;
   align-items:center;
@@ -54,11 +53,9 @@ a{text-decoration:none;color:var(--accent)}
   padding-left:100%;
   animation:tickerScroll 34s linear infinite;
 }
-
 .ticker-bar:hover .ticker-track{
   animation-play-state:paused;
 }
-
 .ticker-item{
   display:inline-flex;
   align-items:center;
@@ -66,28 +63,22 @@ a{text-decoration:none;color:var(--accent)}
   font-size:14px;
   color:var(--text);
 }
-
 .ticker-symbol{
   font-weight:700;
   color:var(--text);
 }
-
 .ticker-price{
   color:var(--text);
 }
-
 .ticker-change{
   font-weight:700;
 }
-
 .ticker-change.up{
   color:#22c55e;
 }
-
 .ticker-change.down{
   color:#ef4444;
 }
-
 @keyframes tickerScroll{
   0%{ transform:translateX(0); }
   100%{ transform:translateX(-100%); }
@@ -350,7 +341,6 @@ footer{
   margin-bottom:10px;
 }
 .mg-menu.open{display:flex}
-
 .mg-menu a{
   text-decoration:none;
   background:rgba(31,41,55,.95);
@@ -372,11 +362,11 @@ footer{
   position:absolute;
   right:0;
   bottom:64px;
-  width:min(320px, calc(100vw - 44px));
+  width:min(360px, calc(100vw - 44px));
   background:rgba(8,10,18,.94);
   border:1px solid rgba(255,255,255,.14);
   border-radius:18px;
-  padding:12px 12px 12px 14px;
+  padding:12px;
   box-shadow:0 18px 55px rgba(0,0,0,.60);
   backdrop-filter:blur(10px);
   opacity:0;
@@ -389,17 +379,35 @@ footer{
   transform:translateY(0);
   pointer-events:auto;
 }
+.mg-hint-inner{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding-right:30px;
+}
+.mg-hint-avatar{
+  width:56px;
+  height:56px;
+  border-radius:14px;
+  object-fit:cover;
+  flex:0 0 56px;
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 8px 18px rgba(0,0,0,.35);
+}
+.mg-hint-copy{
+  min-width:0;
+}
 .mg-hint-title{
   font-weight:800;
   color:#e9eef6;
   font-size:14px;
-  margin:0 30px 4px 0;
+  margin:0 0 4px 0;
 }
 .mg-hint-text{
   color:rgba(170,180,200,.95);
   font-size:13px;
   line-height:1.45;
-  margin:0 30px 0 0;
+  margin:0;
 }
 .mg-hint-x{
   position:absolute;
@@ -442,6 +450,14 @@ footer{
   .partner-item{
     width:150px;
     min-height:76px;
+  }
+  .mg-hint{
+    width:min(340px, calc(100vw - 28px));
+  }
+  .mg-hint-avatar{
+    width:50px;
+    height:50px;
+    flex:0 0 50px;
   }
 }
 </style>
@@ -646,8 +662,13 @@ footer{
 
   <div class="mg-hint" id="mgHint" aria-live="polite">
     <button class="mg-hint-x" id="mgHintX" type="button" aria-label="Hinweis schließen">×</button>
-    <div class="mg-hint-title">Fragen zur Krypto-Schulung?</div>
-    <div class="mg-hint-text">Schreib mir kurz – ich antworte persönlich.</div>
+    <div class="mg-hint-inner">
+      <img class="mg-hint-avatar" src="miggi.png" alt="Miggi">
+      <div class="mg-hint-copy">
+        <div class="mg-hint-title">Fragen zur Krypto-Schulung?</div>
+        <div class="mg-hint-text">Schreib mir kurz – ich antworte persönlich.</div>
+      </div>
+    </div>
   </div>
 </div>
 
