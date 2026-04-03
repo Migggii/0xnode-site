@@ -290,11 +290,11 @@ footer{
   position:absolute;
   right:0;
   bottom:64px;
-  width:min(320px, calc(100vw - 44px));
+  width:min(360px, calc(100vw - 44px));
   background:rgba(8,10,18,.94);
   border:1px solid rgba(255,255,255,.14);
   border-radius:18px;
-  padding:12px 12px 12px 14px;
+  padding:12px;
   box-shadow:0 18px 55px rgba(0,0,0,.60);
   backdrop-filter:blur(10px);
   opacity:0;
@@ -307,17 +307,35 @@ footer{
   transform:translateY(0);
   pointer-events:auto;
 }
+.mg-hint-inner{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding-right:30px;
+}
+.mg-hint-avatar{
+  width:56px;
+  height:56px;
+  border-radius:14px;
+  object-fit:cover;
+  flex:0 0 56px;
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 8px 18px rgba(0,0,0,.35);
+}
+.mg-hint-copy{
+  min-width:0;
+}
 .mg-hint-title{
   font-weight:800;
   color:#e9eef6;
   font-size:14px;
-  margin:0 30px 4px 0;
+  margin:0 0 4px 0;
 }
 .mg-hint-text{
   color:rgba(170,180,200,.95);
   font-size:13px;
   line-height:1.45;
-  margin:0 30px 0 0;
+  margin:0;
 }
 .mg-hint-x{
   position:absolute;
@@ -345,7 +363,12 @@ footer{
 }
 @media(max-width:420px){
   .mg-messenger{right:14px;bottom:14px}
-  .mg-hint{bottom:62px}
+  .mg-hint{bottom:62px;width:min(340px, calc(100vw - 28px))}
+  .mg-hint-avatar{
+    width:50px;
+    height:50px;
+    flex:0 0 50px;
+  }
 }
 </style>
 </head>
@@ -393,11 +416,11 @@ footer{
   <h1>Privater <span>Kontakt</span></h1>
   <p>
     Ich bin Miggi und arbeite mit Fokus auf Struktur, Sicherheit und nachvollziehbare Krypto-Bildung – bewusst ohne Hype oder Versprechen.
-  Ich verzichte auf Newsletter, öffentliche E-Mail-Adressen und automatisierte Funnels.
+    Ich verzichte auf Newsletter, öffentliche E-Mail-Adressen und automatisierte Funnels.
   </p>
   <p>
-    Kontakt entsteht direkt, persönlich und auf Augenhöhe – 
-  mit Menschen, die echtes Interesse an DeFi, Sicherheit und klarer Entscheidungsstruktur haben.
+    Kontakt entsteht direkt, persönlich und auf Augenhöhe –
+    mit Menschen, die echtes Interesse an DeFi, Sicherheit und klarer Entscheidungsstruktur haben.
   </p>
 </section>
 
@@ -498,8 +521,13 @@ footer{
 
   <div class="mg-hint" id="mgHint" aria-live="polite">
     <button class="mg-hint-x" id="mgHintX" type="button" aria-label="Hinweis schließen">×</button>
-    <div class="mg-hint-title">Fragen zur Krypto-Schulung?</div>
-    <div class="mg-hint-text">Schreib mir kurz – ich antworte persönlich.</div>
+    <div class="mg-hint-inner">
+      <img class="mg-hint-avatar" src="miggi.png" alt="Miggi">
+      <div class="mg-hint-copy">
+        <div class="mg-hint-title">Fragen zur Krypto-Schulung?</div>
+        <div class="mg-hint-text">Schreib mir kurz – ich antworte persönlich.</div>
+      </div>
+    </div>
   </div>
 </div>
 
