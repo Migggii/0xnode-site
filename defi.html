@@ -16,6 +16,18 @@
   --accent:#38f2ff;
   --accent2:#b44cff;
   --shadow:0 18px 45px rgba(0,0,0,.6);
+
+  --sim-bg:#040816;
+  --sim-panel:#0a1228;
+  --sim-panel2:#0d1833;
+  --sim-border:rgba(110,140,210,.16);
+  --sim-text:#edf3ff;
+  --sim-muted:#8ea2cc;
+  --sim-accent:#2f80ff;
+  --sim-accent2:#68a6ff;
+  --sim-accent3:#a7c8ff;
+  --sim-green:#41d88b;
+  --sim-orange:#ffb24d;
 }
 *{box-sizing:border-box}
 body{
@@ -266,6 +278,414 @@ p{
   color:#0a0014;
 }
 
+/* ===== SIMULATION ===== */
+.sim-wrap{
+  margin-top:10px;
+  position:relative;
+  overflow:hidden;
+  border-radius:26px;
+  background:
+    radial-gradient(900px 600px at 10% 10%, rgba(56,242,255,.05), transparent 60%),
+    radial-gradient(900px 600px at 90% 15%, rgba(180,76,255,.04), transparent 60%),
+    linear-gradient(180deg,#02050f 0%,#030815 35%,#061028 100%);
+  border:1px solid rgba(255,255,255,.06);
+}
+.sim-wrap::before{
+  content:"";
+  position:absolute;
+  inset:-20% -20%;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(47,128,255,.08), transparent 22%),
+    radial-gradient(circle at 70% 20%, rgba(104,166,255,.05), transparent 18%),
+    radial-gradient(circle at 80% 80%, rgba(56,242,255,.04), transparent 18%);
+  animation:simBgFloat 18s linear infinite alternate;
+  pointer-events:none;
+}
+@keyframes simBgFloat{
+  from{transform:translate3d(0,0,0) scale(1)}
+  to{transform:translate3d(0,-18px,0) scale(1.03)}
+}
+
+.sim-header{
+  position:relative;
+  padding:24px 24px 10px;
+}
+.sim-kicker{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 12px;
+  border-radius:999px;
+  font-size:12px;
+  color:var(--sim-accent3);
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  margin-bottom:12px;
+}
+.sim-header h2{
+  margin:0 0 8px;
+  color:var(--sim-text);
+}
+.sim-header p{
+  max-width:820px;
+  color:var(--sim-muted);
+  margin:0;
+}
+
+.sim-dashboard{
+  position:relative;
+  display:grid;
+  grid-template-columns:1.45fr .95fr;
+  gap:18px;
+  padding:0 24px 24px;
+}
+
+.sim-panel{
+  background:linear-gradient(180deg, rgba(10,18,40,.96), rgba(8,14,30,.98));
+  border:1px solid var(--sim-border);
+  border-radius:24px;
+  box-shadow:0 20px 60px rgba(0,0,0,.35);
+}
+
+.sim-main{
+  padding:18px;
+}
+.sim-panel-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:16px;
+  margin-bottom:14px;
+}
+.sim-pool-head{
+  display:flex;
+  align-items:flex-start;
+  gap:14px;
+}
+.sim-token-stack{
+  display:flex;
+  align-items:center;
+  min-width:70px;
+}
+.sim-token{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  border:2px solid #091125;
+  display:grid;
+  place-items:center;
+  font-size:12px;
+  font-weight:800;
+  color:#fff;
+  box-shadow:0 8px 20px rgba(0,0,0,.28);
+}
+.sim-token.one{
+  background:linear-gradient(135deg,#8799ff,#2f80ff);
+  z-index:2;
+}
+.sim-token.two{
+  background:linear-gradient(135deg,#5bb6ff,#1b5fff);
+  margin-left:-10px;
+}
+.sim-pool-title h3{
+  margin:0 0 4px;
+  font-size:26px;
+  color:var(--sim-text);
+}
+.sim-pool-sub{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  color:var(--sim-muted);
+  font-size:13px;
+}
+.sim-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(47,128,255,.12);
+  color:var(--sim-accent3);
+  border:1px solid rgba(104,166,255,.18);
+  font-size:12px;
+}
+.sim-live-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:12px;
+  color:var(--sim-accent3);
+  padding:8px 12px;
+  border-radius:999px;
+  background:rgba(255,255,255,.035);
+  border:1px solid rgba(255,255,255,.07);
+}
+.sim-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--sim-green);
+  box-shadow:0 0 0 0 rgba(65,216,139,.7);
+  animation:simPulse 1.6s infinite;
+}
+@keyframes simPulse{
+  0%{box-shadow:0 0 0 0 rgba(65,216,139,.7)}
+  70%{box-shadow:0 0 0 10px rgba(65,216,139,0)}
+  100%{box-shadow:0 0 0 0 rgba(65,216,139,0)}
+}
+
+.sim-main-value-box{
+  background:linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.015));
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:22px;
+  padding:20px;
+}
+.sim-label{
+  color:var(--sim-muted);
+  font-size:13px;
+  margin-bottom:6px;
+}
+.sim-big-value{
+  font-size:54px;
+  line-height:1;
+  font-weight:800;
+  letter-spacing:-1px;
+  color:var(--sim-text);
+}
+.sim-value-row{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+.sim-gain{
+  color:var(--sim-green);
+  font-weight:700;
+  font-size:14px;
+}
+.sim-month{
+  color:var(--sim-accent3);
+  font-size:13px;
+  padding:7px 10px;
+  border-radius:999px;
+  background:rgba(47,128,255,.10);
+  border:1px solid rgba(104,166,255,.15);
+}
+.sim-loop-counter{
+  color:var(--sim-orange);
+  font-size:13px;
+  padding:7px 10px;
+  border-radius:999px;
+  background:rgba(255,178,77,.08);
+  border:1px solid rgba(255,178,77,.16);
+}
+
+.sim-chart-card{
+  margin-top:14px;
+  padding:14px 14px 10px;
+  border-radius:22px;
+  background:linear-gradient(180deg, rgba(7,13,28,.85), rgba(6,12,24,.98));
+  border:1px solid rgba(255,255,255,.06);
+}
+.sim-chart-meta{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:6px;
+  flex-wrap:wrap;
+}
+.sim-chart-meta h4{
+  margin:0;
+  font-size:14px;
+  color:var(--sim-accent3);
+  font-weight:700;
+}
+.sim-chart-meta span{
+  font-size:12px;
+  color:var(--sim-muted);
+}
+
+.sim-phase-switcher{
+  margin-top:10px;
+  margin-bottom:12px;
+  padding:10px 12px;
+  border-radius:14px;
+  background:rgba(255,255,255,.025);
+  border:1px solid rgba(255,255,255,.06);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.sim-phase-title{
+  font-size:12px;
+  color:var(--sim-muted);
+}
+.sim-phase-text{
+  font-size:13px;
+  color:var(--sim-accent3);
+  font-weight:700;
+  letter-spacing:.15px;
+  transition:.25s ease;
+}
+
+#simChart{
+  width:100%;
+  height:250px;
+  display:block;
+}
+
+.sim-timeline-strip{
+  margin-top:14px;
+  border-radius:20px;
+  padding:14px;
+  background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+  border:1px solid rgba(255,255,255,.06);
+}
+.sim-timeline-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:12px;
+  flex-wrap:wrap;
+}
+.sim-timeline-head h4{
+  margin:0;
+  font-size:14px;
+  color:var(--sim-accent3);
+}
+.sim-timeline-head span{
+  font-size:12px;
+  color:var(--sim-muted);
+}
+.sim-timeline-bar{
+  position:relative;
+  height:6px;
+  border-radius:999px;
+  background:rgba(255,255,255,.06);
+  overflow:hidden;
+  margin-bottom:16px;
+}
+.sim-timeline-progress{
+  position:absolute;
+  left:0;
+  top:0;
+  height:100%;
+  width:0%;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--sim-accent2),var(--sim-accent));
+  box-shadow:0 0 16px rgba(47,128,255,.35);
+  transition:width .25s ease;
+}
+.sim-timeline-points{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:10px;
+}
+.sim-point{
+  text-align:center;
+  position:relative;
+  padding-top:4px;
+  transition:.25s ease;
+}
+.sim-point-dot{
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  margin:0 auto 8px;
+  background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.12);
+  transition:.22s ease;
+}
+.sim-point.active{
+  transform:translateY(-2px);
+}
+.sim-point.active .sim-point-dot{
+  background:var(--sim-accent2);
+  box-shadow:0 0 16px rgba(104,166,255,.45);
+  transform:scale(1.15);
+  animation:simActiveGlow 1.8s infinite ease-in-out;
+}
+@keyframes simActiveGlow{
+  0%,100%{box-shadow:0 0 10px rgba(104,166,255,.35)}
+  50%{box-shadow:0 0 20px rgba(104,166,255,.75)}
+}
+.sim-point strong{
+  display:block;
+  font-size:12px;
+  margin-bottom:4px;
+  color:var(--sim-text);
+}
+.sim-point span{
+  display:block;
+  font-size:11px;
+  color:var(--sim-muted);
+  line-height:1.35;
+}
+
+.sim-side{
+  padding:16px;
+  display:grid;
+  gap:12px;
+}
+.sim-grid-stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.sim-stat-card{
+  border-radius:20px;
+  padding:16px;
+  background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+  border:1px solid rgba(255,255,255,.06);
+  position:relative;
+  overflow:hidden;
+}
+.sim-stat-card::after{
+  content:"";
+  position:absolute;
+  inset:auto -20% -60% auto;
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(104,166,255,.08), transparent 70%);
+  pointer-events:none;
+}
+.sim-stat-card.wide{
+  grid-column:1 / -1;
+}
+.sim-stat-label{
+  color:var(--sim-muted);
+  font-size:12px;
+  margin-bottom:8px;
+}
+.sim-stat-value{
+  font-size:22px;
+  font-weight:800;
+  letter-spacing:-.4px;
+  color:var(--sim-text);
+}
+.sim-stat-sub{
+  margin-top:8px;
+  font-size:12px;
+  color:var(--sim-muted);
+  line-height:1.5;
+}
+
+.sim-footnote{
+  position:relative;
+  padding:0 24px 24px;
+  color:#7d90ba;
+  font-size:12px;
+  line-height:1.65;
+}
+
 /* ===== FOOTER ===== */
 footer{
   margin-top:64px;
@@ -397,11 +817,56 @@ footer{
 }
 
 /* ===== MOBILE ===== */
+@media(max-width:980px){
+  .sim-dashboard{
+    grid-template-columns:1fr;
+  }
+}
 @media(max-width:900px){
   .grid,.calc{grid-template-columns:1fr}
   .nav-desktop{display:none}
   .burger{display:block}
   .cta-buttons{flex-direction:column;align-items:center}
+}
+@media(max-width:760px){
+  .sim-panel-top{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+  .sim-big-value{
+    font-size:40px;
+  }
+  #simChart{
+    height:220px;
+  }
+  .sim-timeline-points{
+    grid-template-columns:1fr;
+  }
+  .sim-point{
+    text-align:left;
+    display:grid;
+    grid-template-columns:18px 1fr;
+    gap:10px;
+    align-items:start;
+  }
+  .sim-point-dot{
+    margin:2px 0 0;
+  }
+}
+@media(max-width:520px){
+  .sim-header,
+  .sim-dashboard,
+  .sim-footnote{
+    padding-left:14px;
+    padding-right:14px;
+  }
+  .sim-grid-stats{
+    grid-template-columns:1fr;
+  }
+  .sim-phase-switcher{
+    flex-direction:column;
+    align-items:flex-start;
+  }
 }
 @media(max-width:420px){
   .mg-messenger{right:14px;bottom:14px}
@@ -517,6 +982,195 @@ footer{
 
   <div class="result" id="result"></div>
   <div class="note">DeFi-Erträge sind nicht konstant. Keine Garantie, keine Anlageberatung.</div>
+</section>
+
+<section class="block">
+  <h2>DeFi-Simulation im Zeitraffer</h2>
+  <p>
+    Wer nicht nur rechnen, sondern die mögliche Entwicklung eines Portfolios visuell sehen möchte,
+    findet hier eine integrierte DeFi-Pool-Simulation im Dashboard-Stil.
+  </p>
+  <p>
+    Die Darstellung dient ausschließlich der Veranschaulichung und zeigt modellhaft,
+    wie Wachstum, Reinvestition und Langzeiteffekt zusammenwirken könnten.
+  </p>
+
+  <div class="sim-wrap">
+    <div class="sim-header">
+      <div class="sim-kicker">Visualisierte Modellrechnung · Auto-Loop · Premium Dashboard</div>
+      <h2>Ein Portfolio im Wachstum — klarer, lebendiger, stärker</h2>
+      <p>
+        Diese Simulation verbindet Chart, Status, Zeitleiste und Kennzahlen zu einem einzigen Ablauf.
+        Dadurch wirkt die gesamte Entwicklung wie ein kompakter Mini-Film.
+      </p>
+      <div class="note" style="color:#7d90ba">
+        Demonstrationszweck. Keine Garantie. Keine Anlageberatung. Keine Aussage über tatsächliche zukünftige Resultate.
+      </div>
+    </div>
+
+    <div class="sim-dashboard">
+      <div class="sim-panel sim-main">
+        <div class="sim-panel-top">
+          <div class="sim-pool-head">
+            <div class="sim-token-stack">
+              <div class="sim-token one">ETH</div>
+              <div class="sim-token two">USD</div>
+            </div>
+
+            <div class="sim-pool-title">
+              <h3>WETH / USDC</h3>
+              <div class="sim-pool-sub">
+                <span class="sim-badge">Aerodrome-inspirierter Look</span>
+                <span>Konzentrierte Simulation</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="sim-live-pill">
+            <span class="sim-dot"></span>
+            <span id="simLiveText">Zeitraffer läuft</span>
+          </div>
+        </div>
+
+        <div class="sim-main-value-box">
+          <div class="sim-label">Portfolio-Wert</div>
+          <div class="sim-big-value" id="simPortfolioValue">$500</div>
+
+          <div class="sim-value-row">
+            <div class="sim-gain" id="simPortfolioGain">+$0 Gewinn</div>
+            <div class="sim-month" id="simMonthLabel">Monat 1 / 24</div>
+            <div class="sim-loop-counter" id="simLoopCounter">Loop 1</div>
+          </div>
+        </div>
+
+        <div class="sim-chart-card">
+          <div class="sim-chart-meta">
+            <h4>Portfolio-Verlauf</h4>
+            <span id="simChartHint">Startphase</span>
+          </div>
+
+          <div class="sim-phase-switcher">
+            <div class="sim-phase-title">Aktuelle Phase</div>
+            <div class="sim-phase-text" id="simPhaseText">Start → Orientierung → ruhiger Aufbau</div>
+          </div>
+
+          <canvas id="simChart"></canvas>
+        </div>
+
+        <div class="sim-timeline-strip">
+          <div class="sim-timeline-head">
+            <h4>Zeitleiste</h4>
+            <span id="simTimelineText">Startpunkt aktiv</span>
+          </div>
+
+          <div class="sim-timeline-bar">
+            <div class="sim-timeline-progress" id="simTimelineProgress"></div>
+          </div>
+
+          <div class="sim-timeline-points">
+            <div class="sim-point active" id="simPoint1">
+              <div class="sim-point-dot"></div>
+              <div>
+                <strong>Monat 1</strong>
+                <span>Ausgangspunkt</span>
+              </div>
+            </div>
+
+            <div class="sim-point" id="simPoint6">
+              <div class="sim-point-dot"></div>
+              <div>
+                <strong>Monat 6</strong>
+                <span>erste Dynamik</span>
+              </div>
+            </div>
+
+            <div class="sim-point" id="simPoint12">
+              <div class="sim-point-dot"></div>
+              <div>
+                <strong>Monat 12</strong>
+                <span>Reinvestition wirkt</span>
+              </div>
+            </div>
+
+            <div class="sim-point" id="simPoint18">
+              <div class="sim-point-dot"></div>
+              <div>
+                <strong>Monat 18</strong>
+                <span>Beschleunigung</span>
+              </div>
+            </div>
+
+            <div class="sim-point" id="simPoint24">
+              <div class="sim-point-dot"></div>
+              <div>
+                <strong>Monat 24</strong>
+                <span>Langfristiger Effekt</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="sim-panel sim-side">
+        <div class="sim-grid-stats">
+          <div class="sim-stat-card wide">
+            <div class="sim-stat-label">Startkapital</div>
+            <div class="sim-stat-value">$500</div>
+            <div class="sim-stat-sub">Fester Ausgangswert für diese visuelle Darstellung.</div>
+          </div>
+
+          <div class="sim-stat-card">
+            <div class="sim-stat-label">Rewards</div>
+            <div class="sim-stat-value" id="simRewardsValue">$0</div>
+            <div class="sim-stat-sub">laufend addiert</div>
+          </div>
+
+          <div class="sim-stat-card">
+            <div class="sim-stat-label">Reinvestiert</div>
+            <div class="sim-stat-value" id="simReinvestValue">$0</div>
+            <div class="sim-stat-sub">zurück ins System</div>
+          </div>
+
+          <div class="sim-stat-card">
+            <div class="sim-stat-label">Cashflow</div>
+            <div class="sim-stat-value" id="simCashflowValue">$0</div>
+            <div class="sim-stat-sub">kleiner Teil separiert</div>
+          </div>
+
+          <div class="sim-stat-card">
+            <div class="sim-stat-label">APR (simuliert)</div>
+            <div class="sim-stat-value" id="simAprValue">5.2%</div>
+            <div class="sim-stat-sub">visuelle Begleitgrösse</div>
+          </div>
+
+          <div class="sim-stat-card">
+            <div class="sim-stat-label">Fees</div>
+            <div class="sim-stat-value" id="simFeesValue">$0</div>
+            <div class="sim-stat-sub">laufend steigend</div>
+          </div>
+
+          <div class="sim-stat-card">
+            <div class="sim-stat-label">Emissions</div>
+            <div class="sim-stat-value" id="simEmissionsValue">0 AERO</div>
+            <div class="sim-stat-sub">simuliert</div>
+          </div>
+
+          <div class="sim-stat-card wide">
+            <div class="sim-stat-label">Status</div>
+            <div class="sim-stat-value" id="simStatusValue" style="font-size:20px;">Startphase aktiv</div>
+            <div class="sim-stat-sub" id="simStatusSub">
+              Das Dashboard läuft automatisch und setzt sich nach Abschluss selbst zurück.
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <div class="sim-footnote">
+      Diese Darstellung ist absichtlich als visuelle Simulation gebaut und nicht als Wallet-Abbild.
+      Das passt besser zu einem nüchternen DeFi-Verständnis: Struktur, Verständnis und klare Risiko-Einordnung statt Hype.
+    </div>
+  </div>
 </section>
 
 <section class="block">
@@ -697,6 +1351,305 @@ async function loadCryptoTicker(){
     }, 6000);
   });
 })();
+
+/* ===== SIMULATION ===== */
+const simStartValue = 500;
+const simTargetValue = 15000;
+const simMonthsTotal = 24;
+const simAnimationDuration = 12000;
+const simRestartDelay = 2200;
+
+const simPortfolioValueEl = document.getElementById("simPortfolioValue");
+const simPortfolioGainEl = document.getElementById("simPortfolioGain");
+const simMonthLabelEl = document.getElementById("simMonthLabel");
+const simRewardsValueEl = document.getElementById("simRewardsValue");
+const simReinvestValueEl = document.getElementById("simReinvestValue");
+const simCashflowValueEl = document.getElementById("simCashflowValue");
+const simAprValueEl = document.getElementById("simAprValue");
+const simFeesValueEl = document.getElementById("simFeesValue");
+const simEmissionsValueEl = document.getElementById("simEmissionsValue");
+const simChartHintEl = document.getElementById("simChartHint");
+const simStatusValueEl = document.getElementById("simStatusValue");
+const simStatusSubEl = document.getElementById("simStatusSub");
+const simLiveTextEl = document.getElementById("simLiveText");
+const simTimelineTextEl = document.getElementById("simTimelineText");
+const simTimelineProgressEl = document.getElementById("simTimelineProgress");
+const simPhaseTextEl = document.getElementById("simPhaseText");
+const simLoopCounterEl = document.getElementById("simLoopCounter");
+
+const simCanvas = document.getElementById("simChart");
+const simCtx = simCanvas.getContext("2d");
+
+const simPoints = {
+  1: document.getElementById("simPoint1"),
+  6: document.getElementById("simPoint6"),
+  12: document.getElementById("simPoint12"),
+  18: document.getElementById("simPoint18"),
+  24: document.getElementById("simPoint24")
+};
+
+let simChartValues = [];
+let simAnimationFrameId = null;
+let simLoopTimeout = null;
+let simLoopCount = 1;
+
+function simFormatUSD(value){
+  return "$" + Math.round(value).toLocaleString("en-US");
+}
+
+function simEaseInOutCubic(x){
+  return x < 0.5
+    ? 4 * x * x * x
+    : 1 - Math.pow(-2 * x + 2, 3) / 2;
+}
+
+function simGrowthCurve(progress){
+  const curved = Math.pow(progress, 1.65);
+  return simStartValue + (simTargetValue - simStartValue) * curved;
+}
+
+function simUpdatePoints(month){
+  Object.values(simPoints).forEach(el => el.classList.remove("active"));
+
+  if(month >= 24){
+    simPoints[24].classList.add("active");
+    simTimelineTextEl.textContent = "Langfristiger Effekt sichtbar";
+  }else if(month >= 18){
+    simPoints[18].classList.add("active");
+    simTimelineTextEl.textContent = "Beschleunigungsphase aktiv";
+  }else if(month >= 12){
+    simPoints[12].classList.add("active");
+    simTimelineTextEl.textContent = "Reinvestition wirkt";
+  }else if(month >= 6){
+    simPoints[6].classList.add("active");
+    simTimelineTextEl.textContent = "Erste Dynamik sichtbar";
+  }else{
+    simPoints[1].classList.add("active");
+    simTimelineTextEl.textContent = "Startpunkt aktiv";
+  }
+
+  const percent = ((month - 1) / (simMonthsTotal - 1)) * 100;
+  simTimelineProgressEl.style.width = percent + "%";
+}
+
+function simUpdateHint(month){
+  if(month < 6){
+    simChartHintEl.textContent = "Startphase";
+    simStatusValueEl.textContent = "Startphase aktiv";
+    simStatusSubEl.textContent = "Das Portfolio wächst noch ruhig. Die Bewegung ist bewusst am Anfang langsamer.";
+    simLiveTextEl.textContent = "Zeitraffer läuft";
+    simPhaseTextEl.textContent = "Start → Orientierung → ruhiger Aufbau";
+  }else if(month < 12){
+    simChartHintEl.textContent = "erste Dynamik";
+    simStatusValueEl.textContent = "Momentum nimmt zu";
+    simStatusSubEl.textContent = "Erste Dynamik wird sichtbar. Rewards und Fees beginnen deutlicher zu steigen.";
+    simLiveTextEl.textContent = "Dynamik steigt";
+    simPhaseTextEl.textContent = "Wachstum → erste Dynamik → System reagiert";
+  }else if(month < 18){
+    simChartHintEl.textContent = "Reinvestition zeigt Wirkung";
+    simStatusValueEl.textContent = "Reinvestition aktiv";
+    simStatusSubEl.textContent = "Der simulierte Zinseszinseffekt wird sichtbarer. Wachstum beschleunigt sich.";
+    simLiveTextEl.textContent = "Reinvest läuft";
+    simPhaseTextEl.textContent = "Reinvest → Verstärkung → Struktur zahlt sich aus";
+  }else if(month < 24){
+    simChartHintEl.textContent = "beschleunigtes Wachstum";
+    simStatusValueEl.textContent = "System arbeitet";
+    simStatusSubEl.textContent = "Die visuelle Simulation zeigt jetzt die stärkere Phase des langfristigen Effekts.";
+    simLiveTextEl.textContent = "Wachstum beschleunigt";
+    simPhaseTextEl.textContent = "Effekt → Beschleunigung → klarer Langzeitvorteil";
+  }else{
+    simChartHintEl.textContent = "Langfristiger Effekt";
+    simStatusValueEl.textContent = "Simulation abgeschlossen";
+    simStatusSubEl.textContent = "Kurze Pause — danach startet der Ablauf automatisch wieder von vorne.";
+    simLiveTextEl.textContent = "Reset folgt";
+    simPhaseTextEl.textContent = "Loop beendet → Neustart folgt";
+  }
+}
+
+function simResizeCanvasForDisplay(){
+  const ratio = window.devicePixelRatio || 1;
+  const rect = simCanvas.getBoundingClientRect();
+  simCanvas.width = rect.width * ratio;
+  simCanvas.height = rect.height * ratio;
+  simCtx.setTransform(ratio, 0, 0, ratio, 0, 0);
+}
+
+function simDrawChart(){
+  const rect = simCanvas.getBoundingClientRect();
+  const w = rect.width;
+  const h = rect.height;
+
+  simCtx.clearRect(0, 0, w, h);
+
+  simCtx.strokeStyle = "rgba(255,255,255,.06)";
+  simCtx.lineWidth = 1;
+
+  for(let i=1;i<=4;i++){
+    const y = (h / 5) * i;
+    simCtx.beginPath();
+    simCtx.moveTo(0, y);
+    simCtx.lineTo(w, y);
+    simCtx.stroke();
+  }
+
+  if(simChartValues.length > 1){
+    simCtx.beginPath();
+    simChartValues.forEach((value, i) => {
+      const x = (i / (simChartValues.length - 1)) * w;
+      const norm = (value - simStartValue) / (simTargetValue - simStartValue);
+      const y = h - (norm * (h - 20) + 10);
+      if(i === 0) simCtx.moveTo(x, y);
+      else simCtx.lineTo(x, y);
+    });
+    simCtx.strokeStyle = "rgba(104,166,255,.22)";
+    simCtx.lineWidth = 10;
+    simCtx.lineCap = "round";
+    simCtx.lineJoin = "round";
+    simCtx.stroke();
+
+    simCtx.beginPath();
+    simChartValues.forEach((value, i) => {
+      const x = (i / (simChartValues.length - 1)) * w;
+      const norm = (value - simStartValue) / (simTargetValue - simStartValue);
+      const y = h - (norm * (h - 20) + 10);
+      if(i === 0) simCtx.moveTo(x, y);
+      else simCtx.lineTo(x, y);
+    });
+    simCtx.strokeStyle = "#68a6ff";
+    simCtx.lineWidth = 3;
+    simCtx.lineCap = "round";
+    simCtx.lineJoin = "round";
+    simCtx.stroke();
+
+    simCtx.beginPath();
+    simChartValues.forEach((value, i) => {
+      const x = (i / (simChartValues.length - 1)) * w;
+      const norm = (value - simStartValue) / (simTargetValue - simStartValue);
+      const y = h - (norm * (h - 20) + 10);
+      if(i === 0) simCtx.moveTo(x, y);
+      else simCtx.lineTo(x, y);
+    });
+    simCtx.lineTo(w, h);
+    simCtx.lineTo(0, h);
+    simCtx.closePath();
+
+    const grad = simCtx.createLinearGradient(0, 0, 0, h);
+    grad.addColorStop(0, "rgba(47,128,255,.22)");
+    grad.addColorStop(1, "rgba(47,128,255,0)");
+    simCtx.fillStyle = grad;
+    simCtx.fill();
+  }
+}
+
+function simResetState(){
+  simChartValues = [simStartValue];
+  simPortfolioValueEl.textContent = simFormatUSD(simStartValue);
+  simPortfolioGainEl.textContent = "+$0 Gewinn";
+  simMonthLabelEl.textContent = "Monat 1 / 24";
+  simRewardsValueEl.textContent = "$0";
+  simReinvestValueEl.textContent = "$0";
+  simCashflowValueEl.textContent = "$0";
+  simAprValueEl.textContent = "5.2%";
+  simFeesValueEl.textContent = "$0";
+  simEmissionsValueEl.textContent = "0 AERO";
+  simLoopCounterEl.textContent = "Loop " + simLoopCount;
+  simUpdatePoints(1);
+  simUpdateHint(1);
+  simDrawChart();
+}
+
+function simAnimate(){
+  const startTime = performance.now();
+
+  function frame(now){
+    const elapsed = now - startTime;
+    const rawProgress = Math.min(elapsed / simAnimationDuration, 1);
+    const eased = simEaseInOutCubic(rawProgress);
+
+    const currentValue = simGrowthCurve(eased);
+    const currentMonth = Math.min(simMonthsTotal, Math.max(1, Math.ceil(eased * simMonthsTotal)));
+
+    const totalGain = currentValue - simStartValue;
+    const rewards = totalGain * 0.58;
+    const reinvest = totalGain * 0.30;
+    const cashflow = totalGain * 0.12;
+    const fees = totalGain * 0.09;
+    const emissions = totalGain / 38;
+    const apr = 5.2 + (Math.sin(eased * Math.PI * 1.2) * 1.2) + (eased * 1.8);
+
+    simPortfolioValueEl.textContent = simFormatUSD(currentValue);
+    simPortfolioGainEl.textContent = "+" + simFormatUSD(totalGain).replace("$","$") + " Gewinn";
+    simMonthLabelEl.textContent = "Monat " + currentMonth + " / " + simMonthsTotal;
+    simRewardsValueEl.textContent = simFormatUSD(rewards);
+    simReinvestValueEl.textContent = simFormatUSD(reinvest);
+    simCashflowValueEl.textContent = simFormatUSD(cashflow);
+    simFeesValueEl.textContent = simFormatUSD(fees);
+    simEmissionsValueEl.textContent = Math.round(emissions).toLocaleString("en-US") + " AERO";
+    simAprValueEl.textContent = apr.toFixed(1) + "%";
+    simLoopCounterEl.textContent = "Loop " + simLoopCount;
+
+    simUpdatePoints(currentMonth);
+    simUpdateHint(currentMonth);
+
+    const expectedLength = currentMonth;
+    while(simChartValues.length < expectedLength){
+      const p = simChartValues.length / (simMonthsTotal - 1 || 1);
+      const val = simGrowthCurve(p);
+      simChartValues.push(val);
+    }
+
+    if(simChartValues.length > 0){
+      simChartValues[simChartValues.length - 1] = currentValue;
+    }else{
+      simChartValues.push(currentValue);
+    }
+
+    simDrawChart();
+
+    if(rawProgress < 1){
+      simAnimationFrameId = requestAnimationFrame(frame);
+    }else{
+      simLoopTimeout = setTimeout(() => simSmoothRestart(), simRestartDelay);
+    }
+  }
+
+  simAnimationFrameId = requestAnimationFrame(frame);
+}
+
+function simSmoothRestart(){
+  let fade = 1;
+  const dashboard = document.querySelector(".sim-dashboard");
+  const header = document.querySelector(".sim-header");
+
+  function step(){
+    fade -= 0.06;
+    dashboard.style.opacity = Math.max(fade, 0.35);
+    header.style.opacity = Math.max(fade + 0.15, 0.5);
+
+    if(fade > 0.4){
+      requestAnimationFrame(step);
+    }else{
+      simLoopCount++;
+      simResetState();
+      dashboard.style.opacity = 1;
+      header.style.opacity = 1;
+      setTimeout(() => simAnimate(), 350);
+    }
+  }
+
+  requestAnimationFrame(step);
+}
+
+window.addEventListener("resize", () => {
+  simResizeCanvasForDisplay();
+  simDrawChart();
+});
+
+window.addEventListener("load", function(){
+  simResizeCanvasForDisplay();
+  simResetState();
+  setTimeout(() => simAnimate(), 500);
+});
 
 loadCryptoTicker();
 setInterval(loadCryptoTicker, 60000);
