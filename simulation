@@ -1,0 +1,1097 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DeFi Pool Simulation · 0xNode</title>
+<meta name="description" content="Visualisierte DeFi Pool Simulation im Zeitraffer. Modellrechnung zu Demonstrationszwecken.">
+
+<style>
+:root{
+  --bg:#040816;
+  --panel:#0a1228;
+  --panel2:#0d1833;
+  --border:rgba(110,140,210,.16);
+  --text:#edf3ff;
+  --muted:#8ea2cc;
+  --accent:#2f80ff;
+  --accent2:#68a6ff;
+  --accent3:#a7c8ff;
+  --green:#41d88b;
+  --orange:#ffb24d;
+  --shadow:0 20px 60px rgba(0,0,0,.45);
+  --nodeGlow:rgba(56,242,255,.08);
+  --nodeGlow2:rgba(180,76,255,.06);
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+
+body{
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(900px 600px at 10% 10%, var(--nodeGlow), transparent 60%),
+    radial-gradient(900px 600px at 90% 15%, var(--nodeGlow2), transparent 60%),
+    linear-gradient(180deg,#02050f 0%,#030815 35%,#061028 100%);
+  min-height:100vh;
+  overflow-x:hidden;
+  position:relative;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:-20% -20%;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(47,128,255,.08), transparent 22%),
+    radial-gradient(circle at 70% 20%, rgba(104,166,255,.05), transparent 18%),
+    radial-gradient(circle at 80% 80%, rgba(56,242,255,.04), transparent 18%);
+  animation:bgFloat 18s linear infinite alternate;
+  pointer-events:none;
+}
+@keyframes bgFloat{
+  from{transform:translate3d(0,0,0) scale(1)}
+  to{transform:translate3d(0,-18px,0) scale(1.03)}
+}
+
+/* ===== TOP ===== */
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:100;
+  backdrop-filter:blur(12px);
+  background:rgba(3,8,20,.72);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.topbar-inner{
+  max-width:1280px;
+  margin:auto;
+  padding:14px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-weight:700;
+  letter-spacing:.2px;
+  white-space:nowrap;
+}
+.brand-mark{
+  width:34px;
+  height:34px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,var(--accent2),var(--accent));
+  color:#fff;
+  box-shadow:0 0 24px rgba(47,128,255,.28);
+  font-size:14px;
+}
+.top-links{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.top-links a{
+  color:var(--muted);
+  text-decoration:none;
+  font-size:15px;
+  padding:10px 14px;
+  border-radius:12px;
+  transition:.2s ease;
+}
+.top-links a:hover{
+  color:var(--text);
+  background:rgba(255,255,255,.04);
+}
+.top-links a.active{
+  color:var(--text);
+  background:rgba(47,128,255,.08);
+  border:1px solid rgba(104,166,255,.16);
+}
+
+/* ===== PAGE ===== */
+.wrap{
+  max-width:1280px;
+  margin:auto;
+  padding:24px 18px 44px;
+}
+.hero{
+  margin-bottom:18px;
+  background:linear-gradient(180deg, rgba(13,24,51,.78), rgba(9,17,37,.78));
+  border:1px solid var(--border);
+  border-radius:26px;
+  padding:24px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  position:relative;
+}
+.hero:before{
+  content:"";
+  position:absolute;
+  inset:-20% auto auto -10%;
+  width:340px;
+  height:340px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(47,128,255,.14), transparent 70%);
+  pointer-events:none;
+}
+.hero:after{
+  content:"";
+  position:absolute;
+  inset:auto -8% -30% auto;
+  width:360px;
+  height:360px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(104,166,255,.10), transparent 70%);
+  pointer-events:none;
+}
+.hero > *{position:relative}
+.kicker{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 12px;
+  border-radius:999px;
+  font-size:12px;
+  color:var(--accent3);
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  margin-bottom:12px;
+}
+.hero h1{
+  margin:0 0 8px;
+  font-size:36px;
+  line-height:1.06;
+}
+.hero h1 span{
+  background:linear-gradient(90deg,var(--accent3),var(--accent2),var(--accent));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.hero p{
+  margin:0;
+  max-width:820px;
+  color:var(--muted);
+  line-height:1.6;
+  font-size:15px;
+}
+.note{
+  margin-top:12px;
+  font-size:12px;
+  color:#7f92bb;
+}
+
+/* ===== LAYOUT ===== */
+.dashboard{
+  display:grid;
+  grid-template-columns:1.45fr .95fr;
+  gap:18px;
+  align-items:start;
+}
+.panel{
+  background:linear-gradient(180deg, rgba(10,18,40,.96), rgba(8,14,30,.98));
+  border:1px solid var(--border);
+  border-radius:24px;
+  box-shadow:var(--shadow);
+}
+
+/* ===== MAIN ===== */
+.main-panel{
+  padding:18px;
+}
+.panel-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:16px;
+  margin-bottom:14px;
+}
+.pool-head{
+  display:flex;
+  align-items:flex-start;
+  gap:14px;
+}
+.token-stack{
+  display:flex;
+  align-items:center;
+  min-width:70px;
+}
+.token{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  border:2px solid #091125;
+  display:grid;
+  place-items:center;
+  font-size:12px;
+  font-weight:800;
+  color:#fff;
+  box-shadow:0 8px 20px rgba(0,0,0,.28);
+}
+.token.one{
+  background:linear-gradient(135deg,#8799ff,#2f80ff);
+  z-index:2;
+}
+.token.two{
+  background:linear-gradient(135deg,#5bb6ff,#1b5fff);
+  margin-left:-10px;
+}
+.pool-title h2{
+  margin:0 0 4px;
+  font-size:26px;
+}
+.pool-sub{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  color:var(--muted);
+  font-size:13px;
+}
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(47,128,255,.12);
+  color:var(--accent3);
+  border:1px solid rgba(104,166,255,.18);
+  font-size:12px;
+}
+.live-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:12px;
+  color:var(--accent3);
+  padding:8px 12px;
+  border-radius:999px;
+  background:rgba(255,255,255,.035);
+  border:1px solid rgba(255,255,255,.07);
+}
+.dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 0 0 rgba(65,216,139,.7);
+  animation:pulse 1.6s infinite;
+}
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(65,216,139,.7)}
+  70%{box-shadow:0 0 0 10px rgba(65,216,139,0)}
+  100%{box-shadow:0 0 0 0 rgba(65,216,139,0)}
+}
+
+.main-value-box{
+  background:linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.015));
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:22px;
+  padding:20px;
+}
+.label{
+  color:var(--muted);
+  font-size:13px;
+  margin-bottom:6px;
+}
+.big-value{
+  font-size:54px;
+  line-height:1;
+  font-weight:800;
+  letter-spacing:-1px;
+  color:var(--text);
+}
+.value-row{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+.gain{
+  color:var(--green);
+  font-weight:700;
+  font-size:14px;
+}
+.month{
+  color:var(--accent3);
+  font-size:13px;
+  padding:7px 10px;
+  border-radius:999px;
+  background:rgba(47,128,255,.10);
+  border:1px solid rgba(104,166,255,.15);
+}
+.loop-counter{
+  color:var(--orange);
+  font-size:13px;
+  padding:7px 10px;
+  border-radius:999px;
+  background:rgba(255,178,77,.08);
+  border:1px solid rgba(255,178,77,.16);
+}
+
+.chart-card{
+  margin-top:14px;
+  padding:14px 14px 10px;
+  border-radius:22px;
+  background:linear-gradient(180deg, rgba(7,13,28,.85), rgba(6,12,24,.98));
+  border:1px solid rgba(255,255,255,.06);
+}
+.chart-meta{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:6px;
+  flex-wrap:wrap;
+}
+.chart-meta h3{
+  margin:0;
+  font-size:14px;
+  color:var(--accent3);
+  font-weight:700;
+}
+.chart-meta span{
+  font-size:12px;
+  color:var(--muted);
+}
+
+.phase-switcher{
+  margin-top:10px;
+  margin-bottom:12px;
+  padding:10px 12px;
+  border-radius:14px;
+  background:rgba(255,255,255,.025);
+  border:1px solid rgba(255,255,255,.06);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.phase-title{
+  font-size:12px;
+  color:var(--muted);
+}
+.phase-text{
+  font-size:13px;
+  color:var(--accent3);
+  font-weight:700;
+  letter-spacing:.15px;
+  transition:.25s ease;
+}
+
+canvas{
+  width:100%;
+  height:250px;
+  display:block;
+}
+
+/* ===== TIMELINE ===== */
+.timeline-strip{
+  margin-top:14px;
+  border-radius:20px;
+  padding:14px;
+  background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+  border:1px solid rgba(255,255,255,.06);
+}
+.timeline-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:12px;
+  flex-wrap:wrap;
+}
+.timeline-head h3{
+  margin:0;
+  font-size:14px;
+  color:var(--accent3);
+}
+.timeline-head span{
+  font-size:12px;
+  color:var(--muted);
+}
+.timeline-bar{
+  position:relative;
+  height:6px;
+  border-radius:999px;
+  background:rgba(255,255,255,.06);
+  overflow:hidden;
+  margin-bottom:16px;
+}
+.timeline-progress{
+  position:absolute;
+  left:0;
+  top:0;
+  height:100%;
+  width:0%;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--accent2),var(--accent));
+  box-shadow:0 0 16px rgba(47,128,255,.35);
+  transition:width .25s ease;
+}
+.timeline-points{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:10px;
+}
+.point{
+  text-align:center;
+  position:relative;
+  padding-top:4px;
+  transition:.25s ease;
+}
+.point-dot{
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  margin:0 auto 8px;
+  background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.12);
+  transition:.22s ease;
+}
+.point.active{
+  transform:translateY(-2px);
+}
+.point.active .point-dot{
+  background:var(--accent2);
+  box-shadow:0 0 16px rgba(104,166,255,.45);
+  transform:scale(1.15);
+  animation:activeGlow 1.8s infinite ease-in-out;
+}
+@keyframes activeGlow{
+  0%,100%{box-shadow:0 0 10px rgba(104,166,255,.35)}
+  50%{box-shadow:0 0 20px rgba(104,166,255,.75)}
+}
+.point strong{
+  display:block;
+  font-size:12px;
+  margin-bottom:4px;
+}
+.point span{
+  display:block;
+  font-size:11px;
+  color:var(--muted);
+  line-height:1.35;
+}
+
+/* ===== SIDE ===== */
+.side-panel{
+  padding:16px;
+  display:grid;
+  gap:12px;
+}
+.grid-stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.stat-card{
+  border-radius:20px;
+  padding:16px;
+  background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+  border:1px solid rgba(255,255,255,.06);
+  position:relative;
+  overflow:hidden;
+}
+.stat-card::after{
+  content:"";
+  position:absolute;
+  inset:auto -20% -60% auto;
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(104,166,255,.08), transparent 70%);
+  pointer-events:none;
+}
+.stat-card.wide{
+  grid-column:1 / -1;
+}
+.stat-label{
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:8px;
+}
+.stat-value{
+  font-size:22px;
+  font-weight:800;
+  letter-spacing:-.4px;
+}
+.stat-sub{
+  margin-top:8px;
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.5;
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:980px){
+  .dashboard{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:860px){
+  .topbar-inner{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+  .top-links{
+    gap:8px;
+  }
+  .top-links a{
+    font-size:14px;
+    padding:8px 12px;
+  }
+}
+
+@media(max-width:760px){
+  .hero h1{font-size:30px}
+  .panel-top{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+  .big-value{font-size:40px}
+  .grid-stats{
+    grid-template-columns:1fr 1fr;
+  }
+  canvas{height:220px}
+  .timeline-points{
+    grid-template-columns:1fr;
+  }
+  .point{
+    text-align:left;
+    display:grid;
+    grid-template-columns:18px 1fr;
+    gap:10px;
+    align-items:start;
+  }
+  .point-dot{
+    margin:2px 0 0;
+  }
+}
+
+@media(max-width:520px){
+  .wrap{padding:18px 12px 40px}
+  .hero{padding:18px}
+  .main-panel,.side-panel{padding:14px}
+  .hero h1{font-size:26px}
+  .big-value{font-size:34px}
+  .pool-title h2{font-size:22px}
+  .grid-stats{
+    grid-template-columns:1fr;
+  }
+  .phase-switcher{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-mark">0x</div>
+      <div>0xNode · DeFi Simulation</div>
+    </div>
+
+    <nav class="top-links">
+      <a href="index.html">Start</a>
+      <a href="defi.html" class="active">DeFi</a>
+      <a href="starter.html">Starter-Paket</a>
+      <a href="mentoring.html">Mentoring</a>
+      <a href="shop.html">Shop</a>
+      <a href="kontakt.html">Kontakt</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="kicker">Visualisierte Modellrechnung · Auto-Loop · Premium Dashboard</div>
+    <h1>Ein <span>Portfolio im Wachstum</span> — klarer, lebendiger, stärker</h1>
+    <p>
+      Diese Version verbindet Chart, Status, Zeitleiste und Kennzahlen noch stärker zu einem einzigen Ablauf.
+      So wirkt die ganze Seite mehr wie ein kompakter Mini-Film und weniger wie einzelne Blöcke.
+    </p>
+    <div class="note">
+      Demonstrationszweck. Keine Garantie. Keine Anlageberatung. Keine Aussage über tatsächliche zukünftige Resultate.
+    </div>
+  </section>
+
+  <section class="dashboard">
+    <div class="panel main-panel">
+      <div class="panel-top">
+        <div class="pool-head">
+          <div class="token-stack">
+            <div class="token one">ETH</div>
+            <div class="token two">USD</div>
+          </div>
+
+          <div class="pool-title">
+            <h2>WETH / USDC</h2>
+            <div class="pool-sub">
+              <span class="badge">Aerodrome-inspirierter Look</span>
+              <span>Konzentrierte Simulation</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="live-pill">
+          <span class="dot"></span>
+          <span id="liveText">Zeitraffer läuft</span>
+        </div>
+      </div>
+
+      <div class="main-value-box">
+        <div class="label">Portfolio-Wert</div>
+        <div class="big-value" id="portfolioValue">$500</div>
+
+        <div class="value-row">
+          <div class="gain" id="portfolioGain">+$0 Gewinn</div>
+          <div class="month" id="monthLabel">Monat 1 / 24</div>
+          <div class="loop-counter" id="loopCounter">Loop 1</div>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-meta">
+          <h3>Portfolio-Verlauf</h3>
+          <span id="chartHint">Startphase</span>
+        </div>
+
+        <div class="phase-switcher">
+          <div class="phase-title">Aktuelle Phase</div>
+          <div class="phase-text" id="phaseText">Start → Orientierung → ruhiger Aufbau</div>
+        </div>
+
+        <canvas id="chart"></canvas>
+      </div>
+
+      <div class="timeline-strip">
+        <div class="timeline-head">
+          <h3>Zeitleiste</h3>
+          <span id="timelineText">Startpunkt aktiv</span>
+        </div>
+
+        <div class="timeline-bar">
+          <div class="timeline-progress" id="timelineProgress"></div>
+        </div>
+
+        <div class="timeline-points">
+          <div class="point active" id="point1">
+            <div class="point-dot"></div>
+            <div>
+              <strong>Monat 1</strong>
+              <span>Ausgangspunkt</span>
+            </div>
+          </div>
+
+          <div class="point" id="point6">
+            <div class="point-dot"></div>
+            <div>
+              <strong>Monat 6</strong>
+              <span>erste Dynamik</span>
+            </div>
+          </div>
+
+          <div class="point" id="point12">
+            <div class="point-dot"></div>
+            <div>
+              <strong>Monat 12</strong>
+              <span>Reinvestition wirkt</span>
+            </div>
+          </div>
+
+          <div class="point" id="point18">
+            <div class="point-dot"></div>
+            <div>
+              <strong>Monat 18</strong>
+              <span>Beschleunigung</span>
+            </div>
+          </div>
+
+          <div class="point" id="point24">
+            <div class="point-dot"></div>
+            <div>
+              <strong>Monat 24</strong>
+              <span>Langfristiger Effekt</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="panel side-panel">
+      <div class="grid-stats">
+        <div class="stat-card wide">
+          <div class="stat-label">Startkapital</div>
+          <div class="stat-value">$500</div>
+          <div class="stat-sub">Fester Ausgangswert für diese visuelle Darstellung.</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Rewards</div>
+          <div class="stat-value" id="rewardsValue">$0</div>
+          <div class="stat-sub">laufend addiert</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Reinvestiert</div>
+          <div class="stat-value" id="reinvestValue">$0</div>
+          <div class="stat-sub">zurück ins System</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Cashflow</div>
+          <div class="stat-value" id="cashflowValue">$0</div>
+          <div class="stat-sub">kleiner Teil separiert</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">APR (simuliert)</div>
+          <div class="stat-value" id="aprValue">5.2%</div>
+          <div class="stat-sub">visuelle Begleitgrösse</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Fees</div>
+          <div class="stat-value" id="feesValue">$0</div>
+          <div class="stat-sub">laufend steigend</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Emissions</div>
+          <div class="stat-value" id="emissionsValue">0 AERO</div>
+          <div class="stat-sub">simuliert</div>
+        </div>
+
+        <div class="stat-card wide">
+          <div class="stat-label">Status</div>
+          <div class="stat-value" id="statusValue" style="font-size:20px;">Startphase aktiv</div>
+          <div class="stat-sub" id="statusSub">
+            Das Dashboard läuft automatisch und setzt sich nach Abschluss selbst zurück.
+          </div>
+        </div>
+      </div>
+    </aside>
+  </section>
+</main>
+
+<script>
+const startValue = 500;
+const targetValue = 15000;
+const monthsTotal = 24;
+const animationDuration = 12000;
+const restartDelay = 2200;
+
+const portfolioValueEl = document.getElementById("portfolioValue");
+const portfolioGainEl = document.getElementById("portfolioGain");
+const monthLabelEl = document.getElementById("monthLabel");
+const rewardsValueEl = document.getElementById("rewardsValue");
+const reinvestValueEl = document.getElementById("reinvestValue");
+const cashflowValueEl = document.getElementById("cashflowValue");
+const aprValueEl = document.getElementById("aprValue");
+const feesValueEl = document.getElementById("feesValue");
+const emissionsValueEl = document.getElementById("emissionsValue");
+const chartHintEl = document.getElementById("chartHint");
+const statusValueEl = document.getElementById("statusValue");
+const statusSubEl = document.getElementById("statusSub");
+const liveTextEl = document.getElementById("liveText");
+const timelineTextEl = document.getElementById("timelineText");
+const timelineProgressEl = document.getElementById("timelineProgress");
+const phaseTextEl = document.getElementById("phaseText");
+const loopCounterEl = document.getElementById("loopCounter");
+
+const canvas = document.getElementById("chart");
+const ctx = canvas.getContext("2d");
+
+const points = {
+  1: document.getElementById("point1"),
+  6: document.getElementById("point6"),
+  12: document.getElementById("point12"),
+  18: document.getElementById("point18"),
+  24: document.getElementById("point24")
+};
+
+let chartValues = [];
+let animationFrameId = null;
+let loopTimeout = null;
+let loopCount = 1;
+
+function formatUSD(value){
+  return "$" + Math.round(value).toLocaleString("en-US");
+}
+
+function easeInOutCubic(x){
+  return x < 0.5
+    ? 4 * x * x * x
+    : 1 - Math.pow(-2 * x + 2, 3) / 2;
+}
+
+function growthCurve(progress){
+  const curved = Math.pow(progress, 1.65);
+  return startValue + (targetValue - startValue) * curved;
+}
+
+function animateNumber(el, value, suffix = "", prefix = ""){
+  el.textContent = prefix + value + suffix;
+}
+
+function updatePoints(month){
+  Object.values(points).forEach(el => el.classList.remove("active"));
+
+  if(month >= 24){
+    points[24].classList.add("active");
+    timelineTextEl.textContent = "Langfristiger Effekt sichtbar";
+  }else if(month >= 18){
+    points[18].classList.add("active");
+    timelineTextEl.textContent = "Beschleunigungsphase aktiv";
+  }else if(month >= 12){
+    points[12].classList.add("active");
+    timelineTextEl.textContent = "Reinvestition wirkt";
+  }else if(month >= 6){
+    points[6].classList.add("active");
+    timelineTextEl.textContent = "Erste Dynamik sichtbar";
+  }else{
+    points[1].classList.add("active");
+    timelineTextEl.textContent = "Startpunkt aktiv";
+  }
+
+  const percent = ((month - 1) / (monthsTotal - 1)) * 100;
+  timelineProgressEl.style.width = percent + "%";
+}
+
+function updateHint(month){
+  if(month < 6){
+    chartHintEl.textContent = "Startphase";
+    statusValueEl.textContent = "Startphase aktiv";
+    statusSubEl.textContent = "Das Portfolio wächst noch ruhig. Die Bewegung ist bewusst am Anfang langsamer.";
+    liveTextEl.textContent = "Zeitraffer läuft";
+    phaseTextEl.textContent = "Start → Orientierung → ruhiger Aufbau";
+  }else if(month < 12){
+    chartHintEl.textContent = "erste Dynamik";
+    statusValueEl.textContent = "Momentum nimmt zu";
+    statusSubEl.textContent = "Erste Dynamik wird sichtbar. Rewards und Fees beginnen deutlicher zu steigen.";
+    liveTextEl.textContent = "Dynamik steigt";
+    phaseTextEl.textContent = "Wachstum → erste Dynamik → System reagiert";
+  }else if(month < 18){
+    chartHintEl.textContent = "Reinvestition zeigt Wirkung";
+    statusValueEl.textContent = "Reinvestition aktiv";
+    statusSubEl.textContent = "Der simulierte Zinseszinseffekt wird sichtbarer. Wachstum beschleunigt sich.";
+    liveTextEl.textContent = "Reinvest läuft";
+    phaseTextEl.textContent = "Reinvest → Verstärkung → Struktur zahlt sich aus";
+  }else if(month < 24){
+    chartHintEl.textContent = "beschleunigtes Wachstum";
+    statusValueEl.textContent = "System arbeitet";
+    statusSubEl.textContent = "Die visuelle Simulation zeigt jetzt die stärkere Phase des langfristigen Effekts.";
+    liveTextEl.textContent = "Wachstum beschleunigt";
+    phaseTextEl.textContent = "Effekt → Beschleunigung → klarer Langzeitvorteil";
+  }else{
+    chartHintEl.textContent = "Langfristiger Effekt";
+    statusValueEl.textContent = "Simulation abgeschlossen";
+    statusSubEl.textContent = "Kurze Pause — danach startet der Ablauf automatisch wieder von vorne.";
+    liveTextEl.textContent = "Reset folgt";
+    phaseTextEl.textContent = "Loop beendet → Neustart folgt";
+  }
+}
+
+function resizeCanvasForDisplay(){
+  const ratio = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * ratio;
+  canvas.height = rect.height * ratio;
+  ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+}
+
+function drawChart(){
+  const rect = canvas.getBoundingClientRect();
+  const w = rect.width;
+  const h = rect.height;
+
+  ctx.clearRect(0, 0, w, h);
+
+  ctx.strokeStyle = "rgba(255,255,255,.06)";
+  ctx.lineWidth = 1;
+
+  for(let i=1;i<=4;i++){
+    const y = (h / 5) * i;
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(w, y);
+    ctx.stroke();
+  }
+
+  if(chartValues.length > 1){
+    ctx.beginPath();
+    chartValues.forEach((value, i) => {
+      const x = (i / (chartValues.length - 1)) * w;
+      const norm = (value - startValue) / (targetValue - startValue);
+      const y = h - (norm * (h - 20) + 10);
+      if(i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.strokeStyle = "rgba(104,166,255,.22)";
+    ctx.lineWidth = 10;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.stroke();
+
+    ctx.beginPath();
+    chartValues.forEach((value, i) => {
+      const x = (i / (chartValues.length - 1)) * w;
+      const norm = (value - startValue) / (targetValue - startValue);
+      const y = h - (norm * (h - 20) + 10);
+      if(i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.strokeStyle = "#68a6ff";
+    ctx.lineWidth = 3;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.stroke();
+
+    ctx.beginPath();
+    chartValues.forEach((value, i) => {
+      const x = (i / (chartValues.length - 1)) * w;
+      const norm = (value - startValue) / (targetValue - startValue);
+      const y = h - (norm * (h - 20) + 10);
+      if(i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.lineTo(w, h);
+    ctx.lineTo(0, h);
+    ctx.closePath();
+
+    const grad = ctx.createLinearGradient(0, 0, 0, h);
+    grad.addColorStop(0, "rgba(47,128,255,.22)");
+    grad.addColorStop(1, "rgba(47,128,255,0)");
+    ctx.fillStyle = grad;
+    ctx.fill();
+  }
+}
+
+function resetSimulationState(){
+  chartValues = [startValue];
+  portfolioValueEl.textContent = formatUSD(startValue);
+  portfolioGainEl.textContent = "+$0 Gewinn";
+  monthLabelEl.textContent = "Monat 1 / 24";
+  rewardsValueEl.textContent = "$0";
+  reinvestValueEl.textContent = "$0";
+  cashflowValueEl.textContent = "$0";
+  aprValueEl.textContent = "5.2%";
+  feesValueEl.textContent = "$0";
+  emissionsValueEl.textContent = "0 AERO";
+  loopCounterEl.textContent = "Loop " + loopCount;
+  updatePoints(1);
+  updateHint(1);
+  drawChart();
+}
+
+function animateSimulation(){
+  const startTime = performance.now();
+
+  function frame(now){
+    const elapsed = now - startTime;
+    const rawProgress = Math.min(elapsed / animationDuration, 1);
+    const eased = easeInOutCubic(rawProgress);
+
+    const currentValue = growthCurve(eased);
+    const currentMonth = Math.min(monthsTotal, Math.max(1, Math.ceil(eased * monthsTotal)));
+
+    const totalGain = currentValue - startValue;
+    const rewards = totalGain * 0.58;
+    const reinvest = totalGain * 0.30;
+    const cashflow = totalGain * 0.12;
+    const fees = totalGain * 0.09;
+    const emissions = totalGain / 38;
+    const apr = 5.2 + (Math.sin(eased * Math.PI * 1.2) * 1.2) + (eased * 1.8);
+
+    portfolioValueEl.textContent = formatUSD(currentValue);
+    portfolioGainEl.textContent = "+" + formatUSD(totalGain).replace("$","$") + " Gewinn";
+    monthLabelEl.textContent = "Monat " + currentMonth + " / " + monthsTotal;
+
+    rewardsValueEl.textContent = formatUSD(rewards);
+    reinvestValueEl.textContent = formatUSD(reinvest);
+    cashflowValueEl.textContent = formatUSD(cashflow);
+    feesValueEl.textContent = formatUSD(fees);
+    emissionsValueEl.textContent = Math.round(emissions).toLocaleString("en-US") + " AERO";
+    aprValueEl.textContent = apr.toFixed(1) + "%";
+    loopCounterEl.textContent = "Loop " + loopCount;
+
+    updatePoints(currentMonth);
+    updateHint(currentMonth);
+
+    const expectedLength = currentMonth;
+    while(chartValues.length < expectedLength){
+      const p = chartValues.length / (monthsTotal - 1 || 1);
+      const val = growthCurve(p);
+      chartValues.push(val);
+    }
+
+    if(chartValues.length > 0){
+      chartValues[chartValues.length - 1] = currentValue;
+    }else{
+      chartValues.push(currentValue);
+    }
+
+    drawChart();
+
+    if(rawProgress < 1){
+      animationFrameId = requestAnimationFrame(frame);
+    }else{
+      loopTimeout = setTimeout(() => smoothRestart(), restartDelay);
+    }
+  }
+
+  animationFrameId = requestAnimationFrame(frame);
+}
+
+function smoothRestart(){
+  let fade = 1;
+  const dashboard = document.querySelector(".dashboard");
+  const hero = document.querySelector(".hero");
+
+  function step(){
+    fade -= 0.06;
+    dashboard.style.opacity = Math.max(fade, 0.35);
+    hero.style.opacity = Math.max(fade + 0.15, 0.5);
+
+    if(fade > 0.4){
+      requestAnimationFrame(step);
+    }else{
+      loopCount++;
+      resetSimulationState();
+      dashboard.style.opacity = 1;
+      hero.style.opacity = 1;
+      setTimeout(() => animateSimulation(), 350);
+    }
+  }
+
+  requestAnimationFrame(step);
+}
+
+window.addEventListener("resize", () => {
+  resizeCanvasForDisplay();
+  drawChart();
+});
+
+window.addEventListener("load", () => {
+  resizeCanvasForDisplay();
+  resetSimulationState();
+  setTimeout(() => animateSimulation(), 500);
+});
+</script>
+</body>
+</html>
