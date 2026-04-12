@@ -627,6 +627,7 @@ section{margin-top:84px}
   margin-top:32px;
 }
 .path-card{
+  display:block;
   background:var(--surface);
   border:1px solid var(--border);
   border-radius:16px;
@@ -634,6 +635,10 @@ section{margin-top:84px}
   position:relative;
   overflow:hidden;
   transition:border-color .3s,transform .3s,box-shadow .3s;
+}
+.path-card > *{
+  position:relative;
+  z-index:1;
 }
 .path-card::after{
   content:"";
@@ -643,6 +648,7 @@ section{margin-top:84px}
   background:radial-gradient(circle at 0% 100%,rgba(139,92,246,.08),transparent 55%);
   opacity:0;
   transition:opacity .4s;
+  z-index:0;
 }
 .path-card:hover::after{opacity:1}
 .path-card:hover{
@@ -650,6 +656,7 @@ section{margin-top:84px}
   transform:translateY(-4px);
   box-shadow:0 24px 48px rgba(0,0,0,.4);
 }
+.path-card:hover .path-link{gap:14px}
 .path-num{
   font-family:var(--font-mono);
   font-size:11px;
@@ -682,7 +689,6 @@ section{margin-top:84px}
   letter-spacing:.04em;
   transition:gap .2s;
 }
-.path-link:hover{gap:14px}
 
 /* ===== DASHBOARD ===== */
 .dashboard{
@@ -1406,25 +1412,28 @@ section{margin-top:84px}
     <div class="section-label">Einstieg</div>
     <div class="section-title">Drei Wege, ein Ziel.</div>
     <p class="section-sub">Kein Funnel, kein Newsletter. Direkt zum richtigen Ort.</p>
+
     <div class="paths">
-      <div class="path-card reveal reveal-delay-1">
+      <a class="path-card reveal reveal-delay-1" href="starter.html">
         <span class="path-num">// 01</span>
         <div class="path-title">Neu in Krypto?</div>
         <p class="path-text">Starte mit einer ruhigen Grundlage. Wallet, Sicherheit, Kauf &amp; Verkauf und Self-Custody &ndash; ohne Überforderung, ohne Hype.</p>
-        <a class="path-link" href="starter.html">Starter-Paket ansehen &#8594;</a>
-      </div>
-      <div class="path-card reveal reveal-delay-2">
+        <span class="path-link">Starter-Paket ansehen &#8594;</span>
+      </a>
+
+      <a class="path-card reveal reveal-delay-2" href="mentoring.html">
         <span class="path-num">// 02</span>
         <div class="path-title">Erste Erfahrung?</div>
         <p class="path-text">Dann geht es um DeFi, Risiko-Logik, Struktur und darum, ein eigenes System zu entwickeln &ndash; statt fremden Meinungen zu folgen.</p>
-        <a class="path-link" href="mentoring.html">Zum Mentoring &#8594;</a>
-      </div>
-      <div class="path-card reveal reveal-delay-3">
+        <span class="path-link">Zum Mentoring &#8594;</span>
+      </a>
+
+      <a class="path-card reveal reveal-delay-3" href="kontakt.html">
         <span class="path-num">// 03</span>
         <div class="path-title">Direkt melden?</div>
         <p class="path-text">Konkretes Anliegen? Direkt persönlich schreiben &ndash; ohne Formular-Funnel, ohne automatisierte Antworten.</p>
-        <a class="path-link" href="kontakt.html">Kontaktseite öffnen &#8594;</a>
-      </div>
+        <span class="path-link">Kontaktseite öffnen &#8594;</span>
+      </a>
     </div>
   </section>
 
