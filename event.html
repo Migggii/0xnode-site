@@ -309,6 +309,47 @@ p{
   margin-bottom:10px;
 }
 
+/* ===== PARTNER BLOCK ===== */
+.partner-link{
+  display:block;
+  height:100%;
+  color:inherit;
+}
+.partner-logo-wrap{
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  min-height:58px;
+  margin-bottom:16px;
+}
+.partner-logo{
+  max-width:180px;
+  max-height:44px;
+  width:auto;
+  height:auto;
+  object-fit:contain;
+  filter:grayscale(100%) brightness(1.15) contrast(1.05);
+  opacity:.95;
+  transition:filter .2s ease, opacity .2s ease, transform .2s ease;
+}
+.partner-link:hover .partner-logo{
+  filter:grayscale(0%) brightness(1.05);
+  opacity:1;
+  transform:scale(1.02);
+}
+.partner-tag{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.04);
+  color:#b7c2d5;
+  font-size:12px;
+  margin-top:14px;
+}
+
 /* ===== LIST ===== */
 .list{
   margin:12px 0 0;
@@ -680,6 +721,49 @@ footer{
         <div class="step-no">4</div>
         <h3>Herbst 2027</h3>
         <p>Ziel ist ein seriöser, starker und zugänglicher Event in Zürich.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Partner & Mitgestalter</h2>
+    <p>
+      Der Aufbau des Crypto Event Zürich 2027 erfolgt nicht isoliert, sondern gemeinsam mit ausgewählten Partnern,
+      die inhaltlich, strategisch oder technisch einen echten Beitrag leisten können.
+    </p>
+
+    <div class="grid-2">
+      <div class="card">
+        <a class="partner-link" href="https://arrowtrade.ch/" target="_blank" rel="noopener">
+          <div class="partner-logo-wrap">
+            <img class="partner-logo" src="arrowtrade.png" alt="ArrowTrade Logo">
+          </div>
+          <h3>ArrowTrade</h3>
+          <p>
+            <p>
+              ArrowTrade ist ein starker Partner, der den Crypto Event Zürich aktiv mitgestaltet
+              und das Projekt durch Trading-Expertise, Software-Kompetenz und praxisnahe Umsetzung ergänzt.
+              Besonders im Bereich Automatisierung und DeFi-Anwendungen bringt ArrowTrade
+              wertvolle Perspektiven.
+        </p>
+          <div class="partner-tag">Mitgestaltender Partner</div>
+        </a>
+      </div>
+
+      <div class="card">
+        <a class="partner-link" href="https://uncoded.ch/?id=110806674091595831689" target="_blank" rel="noopener">
+          <div class="partner-logo-wrap">
+            <img class="partner-logo" src="uncoded.png" alt="unCoded Logo">
+          </div>
+          <h3>unCoded</h3>
+          <p>
+            unCoded ist ein empfehlenswerter TradingBot aus dem Umfeld von ArrowTrade
+            und steht exemplarisch für praxisnahe digitale Lösungen im Krypto-Bereich.
+            Solche Verbindungen helfen dabei, relevante Anwendungen, Innovation
+            und technische Nähe im Event-Umfeld früh sichtbar zu machen.
+          </p>
+          <div class="partner-tag">Digitaler Partner</div>
+        </a>
       </div>
     </div>
   </section>
