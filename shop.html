@@ -4,197 +4,552 @@
 <meta charset="utf-8">
 <title>Shop · DeFi Liquidity Journal · 0xNode</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="DeFi Liquidity Journal von 0xNode. Tracken, analysieren und optimieren. CHF 49 inklusive Versand in der Schweiz.">
+<meta name="description" content="DeFi Liquidity Journal von 0xNode. Tracken, analysieren und optimieren. CHF 45 inklusive Versand in der Schweiz.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --bg:#06070c;
-  --panel:rgba(255,255,255,.05);
-  --border:rgba(255,255,255,.14);
-  --text:#e9eef6;
-  --muted:#aab4c8;
-  --accent:#38f2ff;
-  --accent2:#b44cff;
+  --bg:#050608;
+  --surface:#0b0d14;
+  --surface2:#111420;
+  --surface3:#0d1220;
+  --border:rgba(255,255,255,.08);
+  --border-hi:rgba(255,255,255,.15);
+  --text:#dde4f0;
+  --muted:#7a879e;
+  --dim:#3d4659;
+  --cyan:#00e5ff;
+  --violet:#8b5cf6;
+  --emerald:#10d98a;
+  --amber:#f59e0b;
+  --red:#ff4466;
   --gold:#f0df3f;
-  --shadow:0 18px 45px rgba(0,0,0,.6);
-  --sans:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  --gold2:#fff17a;
+  --font-display:'Syne',sans-serif;
+  --font-body:'DM Sans',sans-serif;
+  --font-mono:'DM Mono',monospace;
+  --shadow:0 18px 45px rgba(0,0,0,.45);
+  --shadow-lg:0 28px 80px rgba(0,0,0,.55);
 }
-*{box-sizing:border-box}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
 body{
-  margin:0;
-  font-family:var(--sans);
+  font-family:var(--font-body);
+  background:var(--bg);
   color:var(--text);
-  background:
-    radial-gradient(900px 600px at 10% 10%, rgba(56,242,255,.10), transparent 60%),
-    radial-gradient(800px 600px at 90% 20%, rgba(180,76,255,.12), transparent 65%),
-    linear-gradient(180deg,#03040a,#070a18);
+  overflow-x:hidden;
+  cursor:none;
 }
-a{color:var(--accent);text-decoration:none}
-.wrap{max-width:1150px;margin:auto;padding:32px 18px 72px}
+a{text-decoration:none;color:inherit}
 
-/* ===== LIVE CRYPTO TICKER ===== */
+/* ===== CURSOR ===== */
+#cursor{
+  position:fixed;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:var(--cyan);
+  pointer-events:none;
+  z-index:99999;
+  transform:translate(-50%,-50%);
+  transition:width .25s,height .25s;
+  mix-blend-mode:difference;
+}
+#cursor-ring{
+  position:fixed;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  border:1px solid rgba(0,229,255,.4);
+  pointer-events:none;
+  z-index:99998;
+  transform:translate(-50%,-50%);
+  transition:width .3s,height .3s,border-color .3s;
+}
+
+/* ===== BG ===== */
+#bg-canvas{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+}
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ===== TICKER ===== */
 .ticker-bar{
   position:sticky;
   top:0;
-  z-index:110;
-  height:42px;
+  z-index:200;
+  height:40px;
   overflow:hidden;
   border-bottom:1px solid var(--border);
-  background:rgba(3,4,10,.96);
-  backdrop-filter:blur(10px);
+  background:rgba(5,6,8,.97);
+  backdrop-filter:blur(20px);
 }
 .ticker-track{
   display:flex;
   align-items:center;
-  gap:28px;
+  gap:32px;
   white-space:nowrap;
   min-width:max-content;
   height:100%;
-  padding-left:100%;
-  animation:tickerScroll 34s linear infinite;
+  padding-left:0;
+  animation:ticker 38s linear infinite;
+  font-family:var(--font-mono);
+  font-size:12px;
+  letter-spacing:.04em;
 }
-.ticker-bar:hover .ticker-track{
-  animation-play-state:paused;
-}
+.ticker-bar:hover .ticker-track{animation-play-state:paused}
 .ticker-item{
   display:inline-flex;
   align-items:center;
-  gap:8px;
-  font-size:14px;
-  color:var(--text);
+  gap:10px;
+  color:var(--muted);
+  flex:0 0 auto;
 }
-.ticker-symbol{font-weight:700}
-.ticker-change{font-weight:700}
-.ticker-change.up{color:#22c55e}
-.ticker-change.down{color:#ef4444}
-@keyframes tickerScroll{
+.ticker-symbol{color:var(--text)}
+.ticker-sep{color:var(--dim)}
+.up{color:var(--emerald)}
+.down{color:var(--red)}
+@keyframes ticker{
   0%{transform:translateX(0)}
-  100%{transform:translateX(-100%)}
+  100%{transform:translateX(-50%)}
 }
 
 /* ===== NAV ===== */
 .site-header{
   position:sticky;
-  top:42px;
-  z-index:100;
-  background:rgba(6,7,12,.88);
-  backdrop-filter:blur(10px);
+  top:40px;
+  z-index:150;
+  background:rgba(5,6,8,.85);
+  backdrop-filter:blur(24px);
   border-bottom:1px solid var(--border);
 }
 .nav-wrap{
   max-width:1200px;
   margin:auto;
-  padding:14px 18px;
+  padding:0 28px;
   display:flex;
   align-items:center;
   justify-content:space-between;
+  height:60px;
 }
 .brand{
   display:flex;
   align-items:center;
-  gap:10px;
-  font-weight:600;
+  gap:14px;
+  font-family:var(--font-display);
+  font-weight:800;
+  font-size:18px;
+  letter-spacing:-.02em;
 }
-.brand-dot{
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  color:#001014;
-  padding:6px 10px;
-  border-radius:10px;
-  font-size:13px;
-}
-.nav-desktop{
+.brand-hex{
+  width:34px;
+  height:34px;
   display:flex;
-  gap:18px;
+  align-items:center;
+  justify-content:center;
+  font-size:11px;
+  font-weight:700;
+  color:#000;
+  background:linear-gradient(135deg,var(--cyan),var(--violet));
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  font-family:var(--font-mono);
 }
-.nav-desktop a{
+.brand-tld{
   color:var(--muted);
+  font-weight:400;
   font-size:14px;
 }
-.nav-desktop a.active,
-.nav-desktop a:hover{
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:2px;
+}
+.nav-links a{
+  font-size:13px;
+  color:var(--muted);
+  padding:8px 14px;
+  border-radius:8px;
+  font-weight:400;
+  letter-spacing:.01em;
+  transition:color .2s,background .2s;
+}
+.nav-links a:hover,
+.nav-links a.active{
   color:var(--text);
+  background:rgba(255,255,255,.05);
+}
+.nav-cta{
+  border:1px solid var(--border-hi)!important;
+  color:var(--text)!important;
+  font-weight:500!important;
+  background:rgba(255,255,255,.04)!important;
+  transition:border-color .2s,background .2s!important;
+}
+.nav-cta:hover{
+  border-color:var(--cyan)!important;
+  background:rgba(0,229,255,.06)!important;
 }
 .burger{
   display:none;
-  background:rgba(255,255,255,.08);
+  background:none;
   border:1px solid var(--border);
-  color:#fff;
+  color:var(--text);
   font-size:18px;
   padding:8px 12px;
-  border-radius:10px;
+  border-radius:8px;
+  cursor:pointer;
 }
 .nav-mobile{
   display:none;
   flex-direction:column;
-  padding:18px;
-  gap:14px;
-  background:rgba(8,10,18,.98);
+  padding:16px 20px;
+  gap:8px;
+  background:rgba(5,6,8,.98);
+  border-top:1px solid var(--border);
 }
 .nav-mobile a{
-  padding:14px;
-  border-radius:14px;
-  background:rgba(255,255,255,.05);
+  padding:12px 16px;
+  border-radius:10px;
+  color:var(--muted);
+  font-size:15px;
+  background:rgba(255,255,255,.03);
+  transition:color .2s,background .2s;
+}
+.nav-mobile a:hover{
   color:var(--text);
+  background:rgba(255,255,255,.06);
+}
+
+/* ===== LAYOUT ===== */
+.wrap{
+  max-width:1200px;
+  margin:auto;
+  padding:0 28px 100px;
+  position:relative;
+  z-index:10;
+}
+
+/* ===== TYPO ===== */
+section{margin-top:84px}
+.section-label{
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--dim);
+  margin-bottom:16px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.section-label::before{
+  content:"";
+  display:block;
+  width:24px;
+  height:1px;
+  background:var(--dim);
+}
+.section-title{
+  font-family:var(--font-display);
+  font-size:clamp(26px,3.5vw,38px);
+  font-weight:700;
+  letter-spacing:-.03em;
+  line-height:1.1;
+}
+.section-sub{
+  font-size:14px;
+  color:var(--muted);
+  line-height:1.7;
+  margin-top:10px;
+  max-width:64ch;
+  font-weight:300;
+}
+p{
+  color:var(--muted);
+  line-height:1.72;
+  font-size:15px;
 }
 
 /* ===== HERO ===== */
 .hero{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:30px;
-  padding:34px;
-  box-shadow:var(--shadow);
-  margin-bottom:36px;
+  padding:90px 0 18px;
+  display:grid;
+  grid-template-columns:1.08fr .92fr;
+  gap:56px;
+  align-items:center;
+}
+.hero-eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--gold2);
+  margin-bottom:28px;
+  opacity:0;
+  animation:fadeUp .8s .1s forwards;
+}
+.live-dot{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--gold);
+  box-shadow:0 0 8px var(--gold);
+  animation:livePulse 1.8s ease-in-out infinite;
+  flex-shrink:0;
+}
+@keyframes livePulse{
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:.5;transform:scale(.6)}
 }
 .hero h1{
-  font-size:42px;
-  margin:0 0 12px;
+  font-family:var(--font-display);
+  font-size:clamp(40px,4.8vw,64px);
+  line-height:1.04;
+  font-weight:800;
+  letter-spacing:-.04em;
+  margin-bottom:22px;
+  opacity:0;
+  animation:fadeUp .8s .2s forwards;
 }
 .hero h1 span{
-  background:linear-gradient(90deg,var(--gold),#fff17a);
+  background:linear-gradient(100deg,var(--gold) 0%,var(--gold2) 55%,var(--cyan) 100%);
   -webkit-background-clip:text;
   background-clip:text;
   color:transparent;
+  background-size:200% 200%;
+  animation:gradFlow 6s ease infinite;
 }
-.hero p{
+@keyframes gradFlow{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+.hero-copy{
+  font-size:16px;
   color:var(--muted);
-  line-height:1.7;
-  font-size:15px;
-  max-width:72ch;
-  margin:0 0 14px;
+  line-height:1.8;
+  max-width:52ch;
+  font-weight:300;
+  opacity:0;
+  animation:fadeUp .8s .35s forwards;
 }
-.pillrow{
+.hero-copy p{margin:0 0 14px}
+.hero-tags{
   display:flex;
   flex-wrap:wrap;
   gap:8px;
-  margin-top:16px;
+  margin-top:26px;
+  opacity:0;
+  animation:fadeUp .8s .45s forwards;
 }
-.pill{
-  font-size:12px;
-  padding:8px 12px;
-  border-radius:999px;
-  border:1px solid var(--border);
-  background:rgba(0,0,0,.25);
+.tag{
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:.06em;
+  padding:6px 12px;
+  border-radius:4px;
+  border:1px solid rgba(255,255,255,.1);
+  color:var(--muted);
+  transition:border-color .2s,color .2s,background .2s;
+}
+.tag:hover{
+  border-color:var(--gold);
+  color:var(--gold2);
+  background:rgba(240,223,63,.08);
+}
+.hero-disclaimer{
+  margin-top:24px;
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:var(--dim);
+  letter-spacing:.04em;
+  border-left:2px solid var(--dim);
+  padding-left:12px;
+  opacity:0;
+  animation:fadeUp .8s .6s forwards;
+}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:none}
 }
 
-/* ===== PRODUCT ===== */
+/* ===== HERO VISUAL ===== */
+.hero-visual{
+  position:relative;
+  height:470px;
+  opacity:0;
+  animation:fadeUp .8s .3s forwards;
+}
+.blob-wrap{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.blob-wrap svg{
+  width:100%;
+  height:100%;
+  overflow:visible;
+}
+.panel-stack{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.glass-panel{
+  position:absolute;
+  background:rgba(11,13,20,.75);
+  border:1px solid var(--border-hi);
+  border-radius:16px;
+  backdrop-filter:blur(20px);
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
+  padding:18px 20px;
+}
+.gp-main{
+  width:272px;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-52%);
+}
+.gp-top-right{
+  width:180px;
+  top:4%;
+  right:2%;
+  animation:floatA 6s ease-in-out infinite;
+}
+.gp-bottom-left{
+  width:172px;
+  bottom:8%;
+  left:1%;
+  animation:floatB 7s ease-in-out infinite;
+}
+.gp-bottom-right{
+  width:155px;
+  bottom:10%;
+  right:4%;
+  animation:floatC 5.5s ease-in-out infinite;
+}
+@keyframes floatA{
+  0%,100%{transform:translateY(0) rotate(-1deg)}
+  50%{transform:translateY(-10px) rotate(.5deg)}
+}
+@keyframes floatB{
+  0%,100%{transform:translateY(0) rotate(.5deg)}
+  50%{transform:translateY(8px) rotate(-1deg)}
+}
+@keyframes floatC{
+  0%,100%{transform:translateY(0) rotate(-.5deg)}
+  50%{transform:translateY(-7px) rotate(1deg)}
+}
+.gp-label{
+  font-family:var(--font-mono);
+  font-size:10px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--dim);
+  margin-bottom:10px;
+}
+.gp-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:12px;
+  padding-top:10px;
+  border-top:1px solid var(--border);
+}
+.gp-badge{
+  font-family:var(--font-mono);
+  font-size:10px;
+  padding:3px 8px;
+  border-radius:4px;
+  background:rgba(240,223,63,.12);
+  color:var(--gold2);
+  letter-spacing:.04em;
+}
+.node-map{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.node-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.node-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  flex-shrink:0;
+  box-shadow:0 0 5px currentColor;
+}
+.node-line{
+  flex:1;
+  height:1px;
+  background:linear-gradient(90deg,currentColor,transparent);
+  opacity:.2;
+}
+.node-label{
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:var(--muted);
+}
+.book-card{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding-top:10px;
+}
+.book-card img{
+  width:100%;
+  max-width:320px;
+  height:auto;
+  display:block;
+  border-radius:18px;
+  box-shadow:0 18px 45px rgba(0,0,0,.45);
+}
+
+/* ===== PRODUCT SECTION ===== */
 .product-section{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:26px;
+  gap:22px;
   align-items:stretch;
 }
-.product-card,
-.info-card,
-.feature-card,
-.notice-card{
-  background:var(--panel);
+.card{
+  background:linear-gradient(180deg,var(--surface),var(--surface2));
   border:1px solid var(--border);
-  border-radius:28px;
+  border-radius:20px;
+  padding:26px;
   box-shadow:var(--shadow);
+  transition:border-color .25s,transform .25s,box-shadow .25s;
+}
+.card:hover{
+  border-color:var(--border-hi);
+  transform:translateY(-4px);
+  box-shadow:0 24px 48px rgba(0,0,0,.38);
 }
 .product-card{
-  padding:26px;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -207,9 +562,6 @@ a{color:var(--accent);text-decoration:none}
   border-radius:18px;
   box-shadow:0 18px 45px rgba(0,0,0,.45);
 }
-.info-card{
-  padding:28px;
-}
 .kicker{
   display:inline-flex;
   align-items:center;
@@ -221,37 +573,42 @@ a{color:var(--accent);text-decoration:none}
   color:#f3e86f;
   font-size:12px;
   margin-bottom:14px;
+  font-family:var(--font-mono);
+  letter-spacing:.04em;
 }
 .info-card h2{
+  font-family:var(--font-display);
   font-size:32px;
+  letter-spacing:-.03em;
   margin:0 0 10px;
 }
 .subtitle{
   color:var(--muted);
   font-size:15px;
-  line-height:1.65;
+  line-height:1.7;
   margin:0 0 18px;
 }
 .price-box{
   margin:22px 0 18px;
   padding:18px 20px;
-  border-radius:20px;
-  background:rgba(0,0,0,.35);
+  border-radius:18px;
+  background:rgba(0,0,0,.28);
   border:1px solid var(--border);
 }
 .price-label{
-  font-size:13px;
+  font-size:12px;
   color:var(--muted);
   margin-bottom:6px;
+  font-family:var(--font-mono);
+  letter-spacing:.04em;
 }
 .price{
   font-size:34px;
   font-weight:800;
   color:#fff;
+  font-family:var(--font-display);
 }
-.price span{
-  color:var(--gold);
-}
+.price span{color:var(--gold)}
 .shipping{
   margin-top:8px;
   color:#c7cfde;
@@ -264,9 +621,10 @@ a{color:var(--accent);text-decoration:none}
 }
 .points li{
   padding:10px 0;
-  border-top:1px solid rgba(255,255,255,.10);
+  border-top:1px solid rgba(255,255,255,.08);
   color:var(--muted);
-  line-height:1.55;
+  line-height:1.6;
+  font-size:14px;
 }
 .points li:first-child{
   border-top:none;
@@ -282,52 +640,66 @@ a{color:var(--accent);text-decoration:none}
   width:100%;
   max-width:360px;
 }
-.pp-box form{
-  width:100%;
-}
+.pp-box form{width:100%}
 .pp-box img{
   max-width:100%;
   height:auto;
 }
-
+.pp-2ELRKXVPWBZZ6{
+  text-align:center;
+  border:none;
+  border-radius:0.25rem;
+  min-width:11.625rem;
+  padding:0 2rem;
+  height:2.625rem;
+  font-weight:bold;
+  background-color:#FFD140;
+  color:#000000;
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:1rem;
+  line-height:1.25rem;
+  cursor:pointer;
+}
 .mini-note{
   margin-top:16px;
   font-size:13px;
   color:#97a3b8;
 }
 
-/* ===== DETAILS ===== */
+/* ===== FEATURES ===== */
 .grid-3{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:18px;
-  margin-top:26px;
-}
-.feature-card{
-  padding:22px;
+  margin-top:30px;
 }
 .feature-card h3{
+  font-family:var(--font-display);
   margin:0 0 8px;
-  font-size:18px;
+  font-size:22px;
+  letter-spacing:-.03em;
 }
 .feature-card p{
   margin:0;
   color:var(--muted);
-  line-height:1.65;
+  line-height:1.68;
   font-size:14px;
 }
+
+/* ===== NOTICE ===== */
 .notice-card{
-  margin-top:26px;
-  padding:24px;
+  margin-top:30px;
 }
 .notice-card h3{
+  font-family:var(--font-display);
   margin:0 0 10px;
-  font-size:20px;
+  font-size:26px;
+  letter-spacing:-.03em;
 }
 .notice-card p{
   margin:0 0 12px;
   color:var(--muted);
-  line-height:1.65;
+  line-height:1.68;
   font-size:15px;
 }
 .note-line{
@@ -336,44 +708,74 @@ a{color:var(--accent);text-decoration:none}
   border-top:1px solid var(--border);
   padding-top:14px;
   margin-top:16px;
+  font-family:var(--font-mono);
+  letter-spacing:.04em;
 }
 
 /* ===== FOOTER ===== */
-footer{
-  margin-top:64px;
+.site-footer{
+  margin-top:80px;
+  padding-top:28px;
   border-top:1px solid var(--border);
-  padding-top:18px;
-  font-size:12px;
-  color:#8892a8;
   display:flex;
   justify-content:space-between;
+  align-items:center;
   flex-wrap:wrap;
-  gap:10px;
+  gap:14px;
 }
+.footer-brand{
+  font-family:var(--font-mono);
+  font-size:12px;
+  color:var(--dim);
+}
+.footer-links{
+  display:flex;
+  gap:20px;
+  flex-wrap:wrap;
+}
+.footer-links a{
+  font-family:var(--font-mono);
+  font-size:12px;
+  color:var(--dim);
+  letter-spacing:.04em;
+  transition:color .2s;
+}
+.footer-links a:hover{color:var(--cyan)}
 
 /* ===== MESSENGER ===== */
 .mg-messenger{
   position:fixed;
-  right:22px;
-  bottom:22px;
-  z-index:9999;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  right:24px;
+  bottom:24px;
+  z-index:500;
+  font-family:var(--font-body);
 }
 .mg-btn{
-  background:rgba(17,24,39,.92);
-  color:#fff;
-  border:1px solid rgba(255,255,255,.14);
-  padding:14px 18px;
+  width:auto;
+  min-width:52px;
+  height:52px;
+  padding:0 18px;
   border-radius:999px;
-  cursor:pointer;
-  font-weight:650;
-  box-shadow:0 16px 45px rgba(0,0,0,.55);
-  backdrop-filter:blur(10px);
-  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+  background:var(--cyan);
+  color:#000;
+  border:none;
+  cursor:none;
+  font-size:15px;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 8px 32px rgba(0,229,255,.3);
+  transition:transform .2s,box-shadow .2s;
+  animation:floatBtn 4s ease-in-out infinite;
+}
+@keyframes floatBtn{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-5px)}
 }
 .mg-btn:hover{
-  transform:scale(1.04);
-  border-color:rgba(56,242,255,.35);
+  transform:scale(1.05)!important;
+  box-shadow:0 12px 40px rgba(0,229,255,.45);
 }
 .mg-menu{
   display:none;
@@ -383,109 +785,188 @@ footer{
 }
 .mg-menu.open{display:flex}
 .mg-menu a{
-  text-decoration:none;
-  background:rgba(31,41,55,.95);
-  color:#fff;
-  padding:10px 14px;
-  border-radius:14px;
+  background:var(--surface2);
+  color:var(--text);
+  border:1px solid var(--border-hi);
+  padding:11px 16px;
+  border-radius:12px;
   font-size:14px;
-  border:1px solid rgba(255,255,255,.12);
-  box-shadow:0 10px 28px rgba(0,0,0,.45);
-  transition:transform .15s ease,border-color .15s ease;
+  box-shadow:0 8px 24px rgba(0,0,0,.4);
+  transition:transform .15s,border-color .15s;
 }
 .mg-menu a:hover{
   transform:translateY(-1px);
-  border-color:rgba(255,255,255,.22);
+  border-color:var(--cyan);
 }
 .mg-hint{
   position:absolute;
   right:0;
-  bottom:64px;
-  width:min(360px, calc(100vw - 44px));
-  background:rgba(8,10,18,.94);
-  border:1px solid rgba(255,255,255,.14);
-  border-radius:18px;
-  padding:12px;
-  box-shadow:0 18px 55px rgba(0,0,0,.60);
-  backdrop-filter:blur(10px);
+  bottom:68px;
+  width:min(320px,calc(100vw - 48px));
+  background:var(--surface2);
+  border:1px solid var(--border-hi);
+  border-radius:14px;
+  padding:14px;
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
   opacity:0;
-  transform:translateY(8px);
+  transform:translateY(10px);
   pointer-events:none;
-  transition:opacity .25s ease, transform .25s ease;
+  transition:opacity .3s,transform .3s;
 }
 .mg-hint.show{
   opacity:1;
-  transform:translateY(0);
+  transform:none;
   pointer-events:auto;
 }
 .mg-hint-inner{
   display:flex;
   align-items:center;
   gap:12px;
-  padding-right:30px;
+  padding-right:28px;
 }
 .mg-hint-avatar{
-  width:56px;
-  height:56px;
-  border-radius:14px;
+  width:48px;
+  height:48px;
+  border-radius:10px;
   object-fit:cover;
-  flex:0 0 56px;
-  border:1px solid rgba(255,255,255,.12);
-  box-shadow:0 8px 18px rgba(0,0,0,.35);
-}
-.mg-hint-copy{
-  min-width:0;
+  flex:0 0 48px;
+  border:1px solid var(--border-hi);
 }
 .mg-hint-title{
-  font-weight:800;
-  color:#e9eef6;
+  font-weight:600;
   font-size:14px;
-  margin:0 0 4px 0;
+  color:var(--text);
+  margin-bottom:4px;
 }
 .mg-hint-text{
-  color:rgba(170,180,200,.95);
   font-size:13px;
-  line-height:1.45;
-  margin:0;
+  color:var(--muted);
+  line-height:1.4;
 }
 .mg-hint-x{
   position:absolute;
-  top:8px;
+  top:10px;
   right:10px;
-  width:28px;
-  height:28px;
-  border-radius:10px;
-  border:1px solid rgba(255,255,255,.14);
-  background:rgba(255,255,255,.06);
-  color:#fff;
-  cursor:pointer;
-  font-size:18px;
-  line-height:26px;
+  width:26px;
+  height:26px;
+  border-radius:6px;
+  border:1px solid var(--border);
+  background:none;
+  color:var(--muted);
+  cursor:none;
+  font-size:16px;
+  line-height:24px;
+  transition:color .2s;
 }
-.mg-hint-x:hover{
-  border-color:rgba(56,242,255,.35);
-}
+.mg-hint-x:hover{color:var(--text)}
+
+/* ===== REVEAL ===== */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
 
 /* ===== MOBILE ===== */
 @media(max-width:980px){
+  .hero{
+    grid-template-columns:1fr;
+    padding:60px 0 20px;
+    gap:30px;
+  }
+  .hero-visual{height:360px}
   .product-section,
   .grid-3{
     grid-template-columns:1fr;
   }
 }
-@media(max-width:820px){
-  .nav-desktop{display:none}
+@media(max-width:768px){
+  body{cursor:auto}
+  #cursor,#cursor-ring{display:none !important}
+
+  .ticker-bar{height:36px}
+  .ticker-track{
+    gap:18px;
+    font-size:11px;
+    padding-left:0;
+    animation-duration:28s;
+  }
+  .ticker-item{
+    gap:6px;
+    flex:0 0 auto;
+  }
+
+  .site-header{top:36px}
+  .nav-links{display:none}
   .burger{display:block}
-  .hero h1{font-size:34px}
-  .info-card h2{font-size:28px}
+  .nav-wrap{
+    padding:0 18px;
+    height:58px;
+  }
+
+  .wrap{padding:0 18px 80px}
+  .hero{
+    padding:42px 0 14px;
+    gap:24px;
+  }
+  .hero h1{
+    font-size:clamp(34px,10vw,46px);
+    margin-bottom:18px;
+  }
+  .hero-copy{
+    font-size:15px;
+    line-height:1.65;
+  }
+  .hero-visual{
+    height:auto;
+    min-height:330px;
+  }
+  .gp-main{width:220px}
+  .gp-top-right{width:150px;top:4%;right:2%}
+  .gp-bottom-left{width:145px;left:0;bottom:6%}
+  .gp-bottom-right{width:132px;right:2%;bottom:8%}
+
+  .mg-btn{cursor:pointer}
+  .mg-hint-x{cursor:pointer}
 }
-@media(max-width:420px){
-  .mg-messenger{right:14px;bottom:14px}
-  .mg-hint{bottom:62px;width:min(340px, calc(100vw - 28px))}
-  .mg-hint-avatar{
-    width:50px;
-    height:50px;
-    flex:0 0 50px;
+@media(max-width:520px){
+  .wrap{padding:0 14px 68px}
+  .hero{padding:34px 0 10px}
+  .hero-eyebrow{
+    margin-bottom:18px;
+    font-size:10px;
+    letter-spacing:.1em;
+  }
+  .hero h1{
+    font-size:32px;
+    line-height:1.06;
+  }
+  .hero-copy{font-size:14px}
+
+  .hero-visual{min-height:300px}
+  .glass-panel{
+    padding:14px 14px;
+    border-radius:14px;
+  }
+  .gp-main{width:200px}
+  .gp-top-right{width:138px;top:2%;right:0}
+  .gp-bottom-left{width:136px;left:0;bottom:4%}
+  .gp-bottom-right{width:126px;right:0;bottom:6%}
+
+  .card{
+    padding:20px;
+  }
+
+  .site-footer{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+  .footer-links{gap:14px}
+
+  .mg-messenger{
+    right:14px;
+    bottom:14px;
+  }
+  .mg-hint{
+    width:min(320px,calc(100vw - 28px));
+    bottom:64px;
   }
 }
 </style>
@@ -493,30 +974,34 @@ footer{
 
 <body>
 
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<canvas id="bg-canvas"></canvas>
+
 <div class="ticker-bar">
   <div class="ticker-track" id="tickerTrack">
-    <div class="ticker-item">Lade Kurse…</div>
+    <div class="ticker-item">Lade Marktdaten<span class="ticker-sep"> · </span></div>
   </div>
 </div>
 
 <header class="site-header">
   <div class="nav-wrap">
     <div class="brand">
-      <span class="brand-dot">0x</span>
-      <span>0xNode</span>
+      <div class="brand-hex">0x</div>
+      <span>0xNode</span><span class="brand-tld">.ch</span>
     </div>
 
-    <nav class="nav-desktop">
+    <nav class="nav-links">
       <a href="index.html">Start</a>
       <a href="defi.html">DeFi</a>
       <a href="starter.html">Starter-Paket</a>
       <a href="mentoring.html">Mentoring</a>
       <a href="event.html">Event</a>
       <a href="shop.html" class="active">Shop</a>
-      <a href="kontakt.html">Kontakt</a>
+      <a href="kontakt.html" class="nav-cta">Kontakt</a>
     </nav>
 
-    <button class="burger" onclick="toggleMobileMenu()">☰</button>
+    <button class="burger" onclick="toggleMobileMenu()">&#9776;</button>
   </div>
 
   <nav class="nav-mobile" id="mobileMenu">
@@ -533,69 +1018,134 @@ footer{
 <div class="wrap">
 
   <section class="hero">
-    <h1>DeFi <span>Liquidity Journal</span></h1>
-    <p>
-      Dieses Journal wurde für Menschen entwickelt, die DeFi nicht nur nutzen,
-      sondern ihre Schritte bewusst tracken, analysieren und langfristig verbessern möchten.
-      Kein gewöhnliches Notizbuch, sondern ein strukturiertes Arbeitsinstrument für mehr Disziplin,
-      Klarheit und Übersicht.
-    </p>
+    <div class="hero-left">
+      <div class="hero-eyebrow"><span class="live-dot"></span>Physisches Journal · 0xNode Shop</div>
+      <h1>DeFi <span>Liquidity Journal</span></h1>
 
-    <div class="pillrow">
-      <div class="pill">📒 Tracking statt Chaos</div>
-      <div class="pill">📊 Analyse statt Bauchgefühl</div>
-      <div class="pill">🧠 Struktur statt Hype</div>
-      <div class="pill">🚚 Versand Schweiz inklusive</div>
+      <div class="hero-copy">
+        <p>
+          Dieses Journal wurde für Menschen entwickelt, die DeFi nicht nur nutzen,
+          sondern ihre Schritte bewusst tracken, analysieren und langfristig verbessern möchten.
+        </p>
+        <p>
+          Kein gewöhnliches Notizbuch, sondern ein strukturiertes Arbeitsinstrument für mehr Disziplin,
+          Klarheit und Übersicht.
+        </p>
+      </div>
+
+      <div class="hero-tags">
+        <span class="tag">// tracking statt chaos</span>
+        <span class="tag">// analyse statt bauchgefühl</span>
+        <span class="tag">// struktur statt hype</span>
+        <span class="tag">// versand schweiz inklusive</span>
+      </div>
+
+      <div class="hero-disclaimer">// physisches produkt · persönlicher versand · keine massenware</div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="blob-wrap">
+        <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="blobGrad" cx="40%" cy="40%">
+              <stop offset="0%" stop-color="#f0df3f" stop-opacity=".18"/>
+              <stop offset="50%" stop-color="#8b5cf6" stop-opacity=".10"/>
+              <stop offset="100%" stop-color="#00e5ff" stop-opacity=".06"/>
+            </radialGradient>
+            <filter id="blur"><feGaussianBlur stdDeviation="18"/></filter>
+          </defs>
+          <path id="morphBlob" fill="url(#blobGrad)" filter="url(#blur)"/>
+        </svg>
+      </div>
+
+      <div class="panel-stack">
+        <div class="glass-panel gp-main">
+          <div class="gp-label">// journal nutzen</div>
+          <div class="node-map">
+            <div class="node-row"><div class="node-dot" style="color:var(--gold);background:var(--gold)"></div><div class="node-line" style="color:var(--gold)"></div><div class="node-label">Positionen tracken</div></div>
+            <div class="node-row"><div class="node-dot" style="color:var(--cyan);background:var(--cyan)"></div><div class="node-line" style="color:var(--cyan)"></div><div class="node-label">Fehler erkennen</div></div>
+            <div class="node-row"><div class="node-dot" style="color:var(--violet);background:var(--violet)"></div><div class="node-line" style="color:var(--violet)"></div><div class="node-label">Logik festhalten</div></div>
+            <div class="node-row"><div class="node-dot" style="color:var(--emerald);background:var(--emerald)"></div><div class="node-line" style="color:var(--emerald)"></div><div class="node-label">Disziplin stärken</div></div>
+            <div class="node-row"><div class="node-dot" style="color:var(--amber);background:var(--amber)"></div><div class="node-line" style="color:var(--amber)"></div><div class="node-label">Fortschritt sehen</div></div>
+          </div>
+          <div class="gp-row">
+            <span style="font-family:var(--font-mono);font-size:11px;color:var(--dim)">Liquidity Journal</span>
+            <span class="gp-badge">live im shop</span>
+          </div>
+        </div>
+
+        <div class="glass-panel gp-top-right">
+          <div class="gp-label">// einsatz</div>
+          <div style="font-size:13px;color:var(--text);line-height:1.55">
+            Tracken,<br>
+            analysieren,<br>
+            optimieren.
+          </div>
+        </div>
+
+        <div class="glass-panel gp-bottom-left">
+          <div class="gp-label">// geeignet für</div>
+          <div style="display:flex;flex-direction:column;gap:7px;font-family:var(--font-mono);font-size:11px;color:var(--muted)">
+            <span>Liquidity Pools</span>
+            <span>Rewards</span>
+            <span>Entscheidungslogik</span>
+          </div>
+        </div>
+
+        <div class="glass-panel gp-bottom-right">
+          <div class="gp-label">// prinzip</div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px">
+            <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:10px"><span style="color:var(--muted)">Struktur</span><span style="color:var(--emerald)">Hoch</span></div>
+            <div style="height:3px;background:var(--border);border-radius:2px;overflow:hidden"><div style="height:100%;width:91%;background:var(--emerald);border-radius:2px;"></div></div>
+            <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:10px;margin-top:2px"><span style="color:var(--muted)">Chaos</span><span style="color:var(--red)">Tief</span></div>
+            <div style="height:3px;background:var(--border);border-radius:2px;overflow:hidden"><div style="height:100%;width:9%;background:var(--red);border-radius:2px;"></div></div>
+          </div>
+        </div>
+
+        <div class="book-card">
+          <img src="book.png" alt="DeFi Liquidity Journal Buchcover">
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="product-section">
-    <div class="product-card">
-      <img src="book.png" alt="DeFi Liquidity Journal Buchcover">
-    </div>
+  <section class="reveal">
+    <div class="section-label">Produkt</div>
+    <div class="section-title">Tracken. Analysieren. Optimieren.</div>
+    <p class="section-sub">
+      Das DeFi Liquidity Journal unterstützt dich dabei, Positionen, Gedanken,
+      Fehler und Fortschritte sauber festzuhalten. Genau dort entsteht langfristig
+      echte Verbesserung: nicht durch Emotion, sondern durch nachvollziehbare Struktur.
+    </p>
 
-    <div class="info-card">
-      <div class="kicker">Physisches Journal · 0xNode Shop</div>
-      <h2>Tracken. Analysieren. Optimieren.</h2>
-      <p class="subtitle">
-        Das DeFi Liquidity Journal unterstützt dich dabei, Positionen, Gedanken,
-        Fehler und Fortschritte sauber festzuhalten. Genau dort entsteht langfristig
-        echte Verbesserung: nicht durch Emotion, sondern durch nachvollziehbare Struktur.
-      </p>
-
-      <div class="price-box">
-        <div class="price-label">Fixpreis</div>
-        <div class="price"><span>CHF 45</span></div>
-        <div class="shipping">inklusive Versand innerhalb der Schweiz</div>
+    <div class="product-section">
+      <div class="card product-card">
+        <img src="book.png" alt="DeFi Liquidity Journal Buchcover">
       </div>
 
-      <ul class="points">
-        <li>✅ Physisches Journal für deinen DeFi-Alltag</li>
-        <li>✅ Ideal für Liquidity Pools, Rewards und Entscheidungslogik</li>
-        <li>✅ Sauberer Überblick über Entwicklung und Fehlerquellen</li>
-        <li>✅ Persönlicher Versand direkt durch 0xNode</li>
-      </ul>
+      <div class="card info-card">
+        <div class="kicker">Physisches Journal · 0xNode Shop</div>
+        <h2>Solides Arbeitsinstrument</h2>
+        <p class="subtitle">
+          Für Menschen, die ihre DeFi-Aktivitäten nicht dem Zufall überlassen wollen.
+          Das Journal bringt mehr Ordnung, Reflexion und Nachvollziehbarkeit in den Alltag.
+        </p>
 
-      <div class="paypal-wrap">
-        <div class="pp-box">
-          <div>
-            <style>
-              .pp-2ELRKXVPWBZZ6{
-                text-align:center;
-                border:none;
-                border-radius:0.25rem;
-                min-width:11.625rem;
-                padding:0 2rem;
-                height:2.625rem;
-                font-weight:bold;
-                background-color:#FFD140;
-                color:#000000;
-                font-family:"Helvetica Neue",Arial,sans-serif;
-                font-size:1rem;
-                line-height:1.25rem;
-                cursor:pointer;
-              }
-            </style>
+        <div class="price-box">
+          <div class="price-label">Fixpreis</div>
+          <div class="price"><span>CHF 45</span></div>
+          <div class="shipping">inklusive Versand innerhalb der Schweiz</div>
+        </div>
+
+        <ul class="points">
+          <li>✅ Physisches Journal für deinen DeFi-Alltag</li>
+          <li>✅ Ideal für Liquidity Pools, Rewards und Entscheidungslogik</li>
+          <li>✅ Sauberer Überblick über Entwicklung und Fehlerquellen</li>
+          <li>✅ Persönlicher Versand direkt durch 0xNode</li>
+        </ul>
+
+        <div class="paypal-wrap">
+          <div class="pp-box">
             <form action="https://www.paypal.com/ncp/payment/2ELRKXVPWBZZ6" method="post" target="_blank" style="display:inline-grid;justify-items:center;align-content:start;gap:0.5rem;">
               <input class="pp-2ELRKXVPWBZZ6" type="submit" value="Jetzt kaufen" />
               <img src="https://www.paypalobjects.com/images/Debit_Credit_APM.svg" alt="Karten und Zahlungsmethoden" />
@@ -606,69 +1156,80 @@ footer{
             </form>
           </div>
         </div>
+
+        <div class="mini-note">
+          Manuelle Bearbeitung und Versand durch mich. Lieferzeit in der Regel ca. 2–4 Werktage.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Nutzen</div>
+    <div class="section-title">Warum dieses Journal sinnvoll ist.</div>
+    <p class="section-sub">DeFi wird klarer, wenn Entscheidungen nicht nur getroffen, sondern auch dokumentiert und reflektiert werden.</p>
+
+    <div class="grid-3">
+      <div class="card feature-card">
+        <h3>1) Mehr Übersicht</h3>
+        <p>
+          Wer DeFi ernsthaft betreibt, braucht nicht mehr Geschwindigkeit,
+          sondern mehr Klarheit. Dieses Journal hilft dir, Positionen,
+          Veränderungen und Muster sichtbar zu machen.
+        </p>
       </div>
 
-      <div class="mini-note">
-        Manuelle Bearbeitung und Versand durch mich. Lieferzeit in der Regel ca. 2–4 Werktage.
+      <div class="card feature-card">
+        <h3>2) Weniger Fehler</h3>
+        <p>
+          Viele Fehler entstehen nicht wegen fehlender Tools,
+          sondern wegen fehlender Reflexion. Durch sauberes Festhalten
+          erkennst du früh, wo Emotion, Unsicherheit oder Unsauberkeit einwirken.
+        </p>
+      </div>
+
+      <div class="card feature-card">
+        <h3>3) Mehr Disziplin</h3>
+        <p>
+          Struktur ist im DeFi-Bereich ein echter Vorteil.
+          Das Journal unterstützt dich dabei, deine eigene Logik,
+          deine Regeln und deine Entwicklung konsequent zu dokumentieren.
+        </p>
       </div>
     </div>
   </section>
 
-  <section class="grid-3">
-    <div class="feature-card">
-      <h3>1) Mehr Übersicht</h3>
-      <p>
-        Wer DeFi ernsthaft betreibt, braucht nicht mehr Geschwindigkeit,
-        sondern mehr Klarheit. Dieses Journal hilft dir, Positionen,
-        Veränderungen und Muster sichtbar zu machen.
-      </p>
-    </div>
+  <section class="reveal">
+    <div class="section-label">Hinweis</div>
+    <div class="section-title">Hinweis zum Kauf.</div>
+    <p class="section-sub">Der Bestellprozess bleibt bewusst direkt und unkompliziert.</p>
 
-    <div class="feature-card">
-      <h3>2) Weniger Fehler</h3>
+    <div class="card notice-card">
+      <h3>Physisches Produkt mit persönlichem Versand</h3>
       <p>
-        Viele Fehler entstehen nicht wegen fehlender Tools,
-        sondern wegen fehlender Reflexion. Durch sauberes Festhalten
-        erkennst du früh, wo Emotion, Unsicherheit oder Unsauberkeit einwirken.
+        Das Journal ist ein physisches Produkt und wird nach Bestellung von mir persönlich versendet.
+        Der Preis von CHF 45 versteht sich inklusive Versand innerhalb der Schweiz.
       </p>
-    </div>
-
-    <div class="feature-card">
-      <h3>3) Mehr Disziplin</h3>
       <p>
-        Struktur ist im DeFi-Bereich ein echter Vorteil.
-        Das Journal unterstützt dich dabei, deine eigene Logik,
-        deine Regeln und deine Entwicklung konsequent zu dokumentieren.
+        Dieses Produkt dient der Organisation, Dokumentation und Reflexion eigener DeFi-Aktivitäten.
+        Es ist keine Anlageberatung und kein Renditeversprechen.
       </p>
+      <div class="note-line">
+        Persönlicher Versand · Keine Massenware · Solider, direkter Bestellprozess über PayPal
+      </div>
     </div>
   </section>
 
-  <section class="notice-card">
-    <h3>Hinweis zum Kauf</h3>
-    <p>
-      Das Journal ist ein physisches Produkt und wird nach Bestellung von mir persönlich versendet.
-      Der Preis von CHF 45 versteht sich inklusive Versand innerhalb der Schweiz.
-    </p>
-    <p>
-      Dieses Produkt dient der Organisation, Dokumentation und Reflexion eigener DeFi-Aktivitäten.
-      Es ist keine Anlageberatung und kein Renditeversprechen.
-    </p>
-    <div class="note-line">
-      Persönlicher Versand · Keine Massenware · Solider, direkter Bestellprozess über PayPal
-    </div>
-  </section>
-
-  <footer>
-    <div>© 0xm19gi · 0xNode.ch</div>
-    <div>
-      <a href="kontakt.html">Kontakt</a> ·
+  <footer class="site-footer reveal">
+    <div class="footer-brand">&copy; 0xm19gi &middot; 0xNode.ch</div>
+    <div class="footer-links">
+      <a href="kontakt.html">Kontakt</a>
       <a href="legal.html">Rechtliches</a>
     </div>
   </footer>
 
 </div>
 
-<!-- MG Messenger Widget -->
 <div class="mg-messenger" id="mgMessenger">
   <div class="mg-menu" id="mgMenu">
     <a id="mgWa" target="_blank" rel="noopener">💬 WhatsApp</a>
@@ -691,6 +1252,151 @@ footer{
 </div>
 
 <script>
+const isTouchDevice = window.matchMedia("(hover: none), (pointer: coarse)").matches;
+
+if(!isTouchDevice){
+  const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+  let mx=0,my=0,rx=0,ry=0;
+
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX;
+    my=e.clientY;
+    cur.style.left=mx+'px';
+    cur.style.top=my+'px';
+  });
+
+  (function ra(){
+    rx+=(mx-rx)*.12;
+    ry+=(my-ry)*.12;
+    ring.style.left=Math.round(rx)+'px';
+    ring.style.top=Math.round(ry)+'px';
+    requestAnimationFrame(ra);
+  })();
+
+  document.querySelectorAll('a,button,input').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{
+      cur.style.width='16px';
+      cur.style.height='16px';
+      ring.style.width='52px';
+      ring.style.height='52px';
+      ring.style.borderColor='rgba(0,229,255,.7)';
+    });
+    el.addEventListener('mouseleave',()=>{
+      cur.style.width='10px';
+      cur.style.height='10px';
+      ring.style.width='36px';
+      ring.style.height='36px';
+      ring.style.borderColor='rgba(0,229,255,.4)';
+    });
+  });
+}
+
+(function(){
+  const c=document.getElementById('bg-canvas'),ctx=c.getContext('2d');
+  let W,H,hexes=[],mouse={x:-9999,y:-9999};
+
+  if(!isTouchDevice){
+    document.addEventListener('mousemove',e=>{
+      mouse.x=e.clientX;
+      mouse.y=e.clientY;
+    });
+  }
+
+  function resize(){
+    W=c.width=innerWidth;
+    H=c.height=innerHeight;
+    buildHexes();
+  }
+
+  function buildHexes(){
+    hexes=[];
+    const s=42,ww=s*2,hh=Math.sqrt(3)*s;
+    const cols=Math.ceil(W/ww)+2,rows=Math.ceil(H/hh)+2;
+    for(let r=0;r<rows;r++){
+      for(let col=0;col<cols;col++){
+        hexes.push({
+          x:col*ww*.75-s+(r%2)*ww*.375,
+          y:r*hh-hh,
+          s,a:0,ta:0
+        });
+      }
+    }
+  }
+
+  function hex(x,y,s){
+    ctx.beginPath();
+    for(let i=0;i<6;i++){
+      const a=Math.PI/3*i-Math.PI/6;
+      i===0
+        ? ctx.moveTo(x+s*Math.cos(a),y+s*Math.sin(a))
+        : ctx.lineTo(x+s*Math.cos(a),y+s*Math.sin(a));
+    }
+    ctx.closePath();
+  }
+
+  let t=0;
+  function loop(){
+    t+=.004;
+    ctx.clearRect(0,0,W,H);
+
+    hexes.forEach(h=>{
+      const dx=h.x-mouse.x,dy=h.y-mouse.y,d=Math.sqrt(dx*dx+dy*dy);
+      const mf=isTouchDevice ? 0 : Math.max(0,1-d/200);
+      const wf=(Math.sin(t+h.x*.012+h.y*.008)+1)*.5;
+
+      h.ta=wf*.04+mf*.2;
+      h.a+=(h.ta-h.a)*.06;
+
+      if(h.a>.003){
+        hex(h.x,h.y,h.s-1);
+        ctx.strokeStyle='rgba(0,229,255,'+h.a*.55+')';
+        ctx.lineWidth=.5;
+        ctx.stroke();
+
+        if(mf>.25){
+          hex(h.x,h.y,h.s-1);
+          ctx.fillStyle='rgba(0,229,255,'+(mf*.035)+')';
+          ctx.fill();
+        }
+      }
+    });
+
+    requestAnimationFrame(loop);
+  }
+
+  resize();
+  window.addEventListener('resize',resize);
+  loop();
+})();
+
+(function(){
+  const path=document.getElementById('morphBlob');
+  if(!path)return;
+  let t=0;
+
+  function pt(a,t){
+    const r=160+Math.sin(a*2+t)*28+Math.sin(a*3-t*.7)*18+Math.sin(a*5+t*1.3)*10;
+    return [200+r*Math.cos(a),200+r*Math.sin(a)];
+  }
+
+  function build(t){
+    const pts=[],n=64;
+    for(let i=0;i<n;i++) pts.push(pt(i/n*Math.PI*2,t));
+    let d='M'+pts[0][0]+','+pts[0][1];
+    for(let i=1;i<pts.length;i++){
+      const p=pts[i],v=pts[i-1];
+      d+='Q'+v[0]+','+v[1]+' '+((v[0]+p[0])/2)+','+((v[1]+p[1])/2);
+    }
+    return d+'Z';
+  }
+
+  (function loop(){
+    t+=.008;
+    path.setAttribute('d',build(t));
+    requestAnimationFrame(loop);
+  })();
+})();
+
 function toggleMobileMenu(){
   const m = document.getElementById("mobileMenu");
   m.style.display = m.style.display === "flex" ? "none" : "flex";
@@ -701,7 +1407,6 @@ async function loadCryptoTicker(){
   if(!track) return;
 
   const api = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,ripple,binancecoin,usd-coin&vs_currencies=chf&include_24hr_change=true";
-
   const coins = [
     { id: "bitcoin", symbol: "BTC" },
     { id: "ethereum", symbol: "ETH" },
@@ -732,26 +1437,24 @@ async function loadCryptoTicker(){
       const changeText = (change >= 0 ? "+" : "") + change.toFixed(2) + "%";
       const changeClass = change >= 0 ? "up" : "down";
 
-      return `
-        <div class="ticker-item">
-          <span class="ticker-symbol">${c.symbol}</span>
-          <span class="ticker-price">${price}</span>
-          <span class="ticker-change ${changeClass}">${changeText}</span>
-        </div>
-      `;
-    }).filter(Boolean).join("");
+      return `<div class="ticker-item"><span class="ticker-symbol">${c.symbol}</span><span class="ticker-sep">&middot;</span><span class="ticker-price">${price}</span><span class="ticker-sep">&middot;</span><span class="${changeClass}">${changeText}</span></div>`;
+    }).filter(Boolean);
 
-    track.innerHTML = items + items;
-
+    track.innerHTML = items.join("") + items.join("");
   }catch(err){
-    track.innerHTML = `
-      <div class="ticker-item">
-        <span class="ticker-symbol">Kurse</span>
-        <span class="ticker-price">momentan nicht verfügbar</span>
-      </div>
-    `;
+    track.innerHTML = `<div class="ticker-item"><span class="ticker-symbol">Kurse</span><span>momentan nicht verfügbar</span></div>`;
   }
 }
+
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+      ro.unobserve(e.target);
+    }
+  });
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
 
 (function(){
   var container = document.getElementById("mgMessenger");
