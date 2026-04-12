@@ -1,124 +1,1467 @@
 <!doctype html>
 <html lang="de">
 <head>
-  <meta charset="utf-8">
-  <title>Rechtliches · 0xm19gi</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Rechtliche Hinweise und Haftungsausschluss zu Bildungsinhalten rund um DeFi.">
+<meta charset="utf-8">
+<title>Rechtliches · 0xNode</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Rechtliche Hinweise, Haftungsausschluss und Datenschutz zu Bildungsinhalten rund um Krypto und DeFi auf 0xNode.">
 
-  <style>
-    body{
-      margin:0;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
-      background:#06070c;
-      color:#e9eef6;
-    }
-    .wrap{max-width:900px;margin:auto;padding:28px 18px 64px}
-    a{color:#38f2ff;text-decoration:none}
-    h1{font-size:34px;margin:0 0 14px}
-    h2{font-size:20px;margin:32px 0 10px}
-    p{color:#aab4c8;line-height:1.65;font-size:15px}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 
-    .box{
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.14);
-      border-radius:20px;
-      padding:22px;
-      margin-bottom:22px;
-    }
+<style>
+:root{
+  --bg:#050608;
+  --surface:#0b0d14;
+  --surface2:#111420;
+  --surface3:#0d1220;
+  --border:rgba(255,255,255,.08);
+  --border-hi:rgba(255,255,255,.15);
+  --text:#dde4f0;
+  --muted:#7a879e;
+  --dim:#3d4659;
+  --cyan:#00e5ff;
+  --violet:#8b5cf6;
+  --emerald:#10d98a;
+  --amber:#f59e0b;
+  --red:#ff4466;
+  --gold:#f2c14b;
+  --gold2:#ffdf7a;
+  --font-display:'Syne',sans-serif;
+  --font-body:'DM Sans',sans-serif;
+  --font-mono:'DM Mono',monospace;
+  --shadow:0 18px 45px rgba(0,0,0,.45);
+  --shadow-lg:0 28px 80px rgba(0,0,0,.55);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-body);
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  cursor:none;
+}
+a{text-decoration:none;color:inherit}
 
-    footer{
-      margin-top:48px;
-      border-top:1px solid rgba(255,255,255,.12);
-      padding-top:16px;
-      font-size:12px;
-      color:#8892a8;
-      display:flex;
-      justify-content:space-between;
-      flex-wrap:wrap;
-      gap:10px;
-    }
-  </style>
+/* ===== CURSOR ===== */
+#cursor{
+  position:fixed;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:var(--cyan);
+  pointer-events:none;
+  z-index:99999;
+  transform:translate(-50%,-50%);
+  transition:width .25s,height .25s;
+  mix-blend-mode:difference;
+}
+#cursor-ring{
+  position:fixed;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  border:1px solid rgba(0,229,255,.4);
+  pointer-events:none;
+  z-index:99998;
+  transform:translate(-50%,-50%);
+  transition:width .3s,height .3s,border-color .3s;
+}
+
+/* ===== BG ===== */
+#bg-canvas{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+}
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ===== TICKER ===== */
+.ticker-bar{
+  position:sticky;
+  top:0;
+  z-index:200;
+  height:40px;
+  overflow:hidden;
+  border-bottom:1px solid var(--border);
+  background:rgba(5,6,8,.97);
+  backdrop-filter:blur(20px);
+}
+.ticker-track{
+  display:flex;
+  align-items:center;
+  gap:32px;
+  white-space:nowrap;
+  min-width:max-content;
+  height:100%;
+  padding-left:0;
+  animation:ticker 38s linear infinite;
+  font-family:var(--font-mono);
+  font-size:12px;
+  letter-spacing:.04em;
+}
+.ticker-bar:hover .ticker-track{animation-play-state:paused}
+.ticker-item{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  color:var(--muted);
+  flex:0 0 auto;
+}
+.ticker-symbol{color:var(--text)}
+.ticker-sep{color:var(--dim)}
+.up{color:var(--emerald)}
+.down{color:var(--red)}
+@keyframes ticker{
+  0%{transform:translateX(0)}
+  100%{transform:translateX(-50%)}
+}
+
+/* ===== NAV ===== */
+.site-header{
+  position:sticky;
+  top:40px;
+  z-index:150;
+  background:rgba(5,6,8,.85);
+  backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);
+}
+.nav-wrap{
+  max-width:1200px;
+  margin:auto;
+  padding:0 28px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  height:60px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  font-family:var(--font-display);
+  font-weight:800;
+  font-size:18px;
+  letter-spacing:-.02em;
+}
+.brand-hex{
+  width:34px;
+  height:34px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:11px;
+  font-weight:700;
+  color:#000;
+  background:linear-gradient(135deg,var(--cyan),var(--violet));
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  font-family:var(--font-mono);
+}
+.brand-tld{
+  color:var(--muted);
+  font-weight:400;
+  font-size:14px;
+}
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:2px;
+}
+.nav-links a{
+  font-size:13px;
+  color:var(--muted);
+  padding:8px 14px;
+  border-radius:8px;
+  font-weight:400;
+  letter-spacing:.01em;
+  transition:color .2s,background .2s;
+}
+.nav-links a:hover,
+.nav-links a.active{
+  color:var(--text);
+  background:rgba(255,255,255,.05);
+}
+.nav-cta{
+  border:1px solid var(--border-hi)!important;
+  color:var(--text)!important;
+  font-weight:500!important;
+  background:rgba(255,255,255,.04)!important;
+  transition:border-color .2s,background .2s!important;
+}
+.nav-cta:hover{
+  border-color:var(--cyan)!important;
+  background:rgba(0,229,255,.06)!important;
+}
+.burger{
+  display:none;
+  background:none;
+  border:1px solid var(--border);
+  color:var(--text);
+  font-size:18px;
+  padding:8px 12px;
+  border-radius:8px;
+  cursor:pointer;
+}
+.nav-mobile{
+  display:none;
+  flex-direction:column;
+  padding:16px 20px;
+  gap:8px;
+  background:rgba(5,6,8,.98);
+  border-top:1px solid var(--border);
+}
+.nav-mobile a{
+  padding:12px 16px;
+  border-radius:10px;
+  color:var(--muted);
+  font-size:15px;
+  background:rgba(255,255,255,.03);
+  transition:color .2s,background .2s;
+}
+.nav-mobile a:hover{
+  color:var(--text);
+  background:rgba(255,255,255,.06);
+}
+
+/* ===== LAYOUT ===== */
+.wrap{
+  max-width:1200px;
+  margin:auto;
+  padding:0 28px 100px;
+  position:relative;
+  z-index:10;
+}
+
+/* ===== TYPO ===== */
+section{margin-top:84px}
+.section-label{
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--dim);
+  margin-bottom:16px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.section-label::before{
+  content:"";
+  display:block;
+  width:24px;
+  height:1px;
+  background:var(--dim);
+}
+.section-title{
+  font-family:var(--font-display);
+  font-size:clamp(26px,3.5vw,40px);
+  font-weight:700;
+  letter-spacing:-.03em;
+  line-height:1.08;
+}
+.section-sub{
+  font-size:14px;
+  color:var(--muted);
+  line-height:1.75;
+  margin-top:10px;
+  max-width:72ch;
+  font-weight:300;
+}
+p{
+  color:var(--muted);
+  line-height:1.72;
+  font-size:15px;
+}
+
+/* ===== HERO ===== */
+.hero{
+  padding:90px 0 24px;
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  gap:56px;
+  align-items:center;
+}
+.hero-eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--gold2);
+  margin-bottom:28px;
+  opacity:0;
+  animation:fadeUp .8s .1s forwards;
+}
+.live-dot{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--gold);
+  box-shadow:0 0 8px var(--gold);
+  animation:livePulse 1.8s ease-in-out infinite;
+  flex-shrink:0;
+}
+@keyframes livePulse{
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:.5;transform:scale(.6)}
+}
+.hero h1{
+  font-family:var(--font-display);
+  font-size:clamp(40px,4.8vw,64px);
+  line-height:1.04;
+  font-weight:800;
+  letter-spacing:-.04em;
+  margin-bottom:22px;
+  opacity:0;
+  animation:fadeUp .8s .2s forwards;
+}
+.hero h1 span{
+  background:linear-gradient(100deg,var(--gold) 0%,var(--gold2) 50%,var(--cyan) 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  background-size:200% 200%;
+  animation:gradFlow 6s ease infinite;
+}
+@keyframes gradFlow{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+.hero-copy{
+  font-size:16px;
+  color:var(--muted);
+  line-height:1.8;
+  max-width:54ch;
+  font-weight:300;
+  opacity:0;
+  animation:fadeUp .8s .35s forwards;
+}
+.hero-copy p{margin:0 0 14px}
+.hero-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:26px;
+  opacity:0;
+  animation:fadeUp .8s .45s forwards;
+}
+.tag{
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:.06em;
+  padding:6px 12px;
+  border-radius:4px;
+  border:1px solid rgba(255,255,255,.1);
+  color:var(--muted);
+  transition:border-color .2s,color .2s,background .2s;
+}
+.tag:hover{
+  border-color:var(--gold);
+  color:var(--gold2);
+  background:rgba(242,193,75,.08);
+}
+.hero-disclaimer{
+  margin-top:24px;
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:var(--dim);
+  letter-spacing:.04em;
+  border-left:2px solid var(--dim);
+  padding-left:12px;
+  opacity:0;
+  animation:fadeUp .8s .6s forwards;
+}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:none}
+}
+
+/* ===== HERO VISUAL ===== */
+.hero-visual{
+  position:relative;
+  height:470px;
+  opacity:0;
+  animation:fadeUp .8s .3s forwards;
+}
+.blob-wrap{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.blob-wrap svg{
+  width:100%;
+  height:100%;
+  overflow:visible;
+}
+.panel-stack{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.glass-panel{
+  position:absolute;
+  background:rgba(11,13,20,.75);
+  border:1px solid var(--border-hi);
+  border-radius:16px;
+  backdrop-filter:blur(20px);
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
+  padding:18px 20px;
+}
+.gp-main{
+  width:280px;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-52%);
+}
+.gp-top-right{
+  width:172px;
+  top:4%;
+  right:2%;
+  animation:floatA 6s ease-in-out infinite;
+}
+.gp-bottom-left{
+  width:166px;
+  bottom:8%;
+  left:1%;
+  animation:floatB 7s ease-in-out infinite;
+}
+.gp-bottom-right{
+  width:160px;
+  bottom:10%;
+  right:4%;
+  animation:floatC 5.5s ease-in-out infinite;
+}
+@keyframes floatA{
+  0%,100%{transform:translateY(0) rotate(-1deg)}
+  50%{transform:translateY(-10px) rotate(.5deg)}
+}
+@keyframes floatB{
+  0%,100%{transform:translateY(0) rotate(.5deg)}
+  50%{transform:translateY(8px) rotate(-1deg)}
+}
+@keyframes floatC{
+  0%,100%{transform:translateY(0) rotate(-.5deg)}
+  50%{transform:translateY(-7px) rotate(1deg)}
+}
+.gp-label{
+  font-family:var(--font-mono);
+  font-size:10px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--dim);
+  margin-bottom:10px;
+}
+.gp-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:12px;
+  padding-top:10px;
+  border-top:1px solid var(--border);
+}
+.gp-badge{
+  font-family:var(--font-mono);
+  font-size:10px;
+  padding:3px 8px;
+  border-radius:4px;
+  background:rgba(242,193,75,.12);
+  color:var(--gold2);
+  letter-spacing:.04em;
+}
+.node-map{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.node-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.node-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  flex-shrink:0;
+  box-shadow:0 0 5px currentColor;
+}
+.node-line{
+  flex:1;
+  height:1px;
+  background:linear-gradient(90deg,currentColor,transparent);
+  opacity:.2;
+}
+.node-label{
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:var(--muted);
+}
+.legal-mark{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:var(--font-display);
+  font-size:56px;
+  font-weight:800;
+  letter-spacing:-.05em;
+  color:rgba(255,255,255,.12);
+  padding-top:6px;
+  text-transform:uppercase;
+}
+
+/* ===== PANELS ===== */
+.card{
+  background:linear-gradient(180deg,var(--surface),var(--surface2));
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:26px;
+  box-shadow:var(--shadow);
+  transition:border-color .25s,transform .25s,box-shadow .25s;
+}
+.card:hover{
+  border-color:var(--border-hi);
+  transform:translateY(-4px);
+  box-shadow:0 24px 48px rgba(0,0,0,.38);
+}
+.card h3{
+  font-family:var(--font-display);
+  font-size:24px;
+  letter-spacing:-.03em;
+  margin-bottom:10px;
+}
+.card p{
+  margin:0 0 12px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.7;
+}
+.card p:last-child{margin-bottom:0}
+
+.grid-2{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:18px;
+  margin-top:30px;
+}
+.grid-1{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:18px;
+  margin-top:30px;
+}
+
+.notice-bar{
+  margin-top:18px;
+  padding:14px 16px;
+  border-radius:14px;
+  border:1px solid rgba(242,193,75,.18);
+  background:rgba(242,193,75,.06);
+  color:#d9d4b0;
+  font-size:13px;
+  line-height:1.6;
+}
+
+/* ===== FOOTER ===== */
+.site-footer{
+  margin-top:80px;
+  padding-top:28px;
+  border-top:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:14px;
+}
+.footer-brand{
+  font-family:var(--font-mono);
+  font-size:12px;
+  color:var(--dim);
+}
+.footer-links{
+  display:flex;
+  gap:20px;
+  flex-wrap:wrap;
+}
+.footer-links a{
+  font-family:var(--font-mono);
+  font-size:12px;
+  color:var(--dim);
+  letter-spacing:.04em;
+  transition:color .2s;
+}
+.footer-links a:hover{color:var(--cyan)}
+
+/* ===== MESSENGER ===== */
+.mg-messenger{
+  position:fixed;
+  right:24px;
+  bottom:24px;
+  z-index:500;
+  font-family:var(--font-body);
+}
+.mg-btn{
+  width:auto;
+  min-width:52px;
+  height:52px;
+  padding:0 18px;
+  border-radius:999px;
+  background:var(--cyan);
+  color:#000;
+  border:none;
+  cursor:none;
+  font-size:15px;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 8px 32px rgba(0,229,255,.3);
+  transition:transform .2s,box-shadow .2s;
+  animation:floatBtn 4s ease-in-out infinite;
+}
+@keyframes floatBtn{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-5px)}
+}
+.mg-btn:hover{
+  transform:scale(1.05)!important;
+  box-shadow:0 12px 40px rgba(0,229,255,.45);
+}
+.mg-menu{
+  display:none;
+  flex-direction:column;
+  gap:8px;
+  margin-bottom:10px;
+}
+.mg-menu.open{display:flex}
+.mg-menu a{
+  background:var(--surface2);
+  color:var(--text);
+  border:1px solid var(--border-hi);
+  padding:11px 16px;
+  border-radius:12px;
+  font-size:14px;
+  box-shadow:0 8px 24px rgba(0,0,0,.4);
+  transition:transform .15s,border-color .15s;
+}
+.mg-menu a:hover{
+  transform:translateY(-1px);
+  border-color:var(--cyan);
+}
+.mg-hint{
+  position:absolute;
+  right:0;
+  bottom:68px;
+  width:min(320px,calc(100vw - 48px));
+  background:var(--surface2);
+  border:1px solid var(--border-hi);
+  border-radius:14px;
+  padding:14px;
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
+  opacity:0;
+  transform:translateY(10px);
+  pointer-events:none;
+  transition:opacity .3s,transform .3s;
+}
+.mg-hint.show{
+  opacity:1;
+  transform:none;
+  pointer-events:auto;
+}
+.mg-hint-inner{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding-right:28px;
+}
+.mg-hint-avatar{
+  width:48px;
+  height:48px;
+  border-radius:10px;
+  object-fit:cover;
+  flex:0 0 48px;
+  border:1px solid var(--border-hi);
+}
+.mg-hint-title{
+  font-weight:600;
+  font-size:14px;
+  color:var(--text);
+  margin-bottom:4px;
+}
+.mg-hint-text{
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.4;
+}
+.mg-hint-x{
+  position:absolute;
+  top:10px;
+  right:10px;
+  width:26px;
+  height:26px;
+  border-radius:6px;
+  border:1px solid var(--border);
+  background:none;
+  color:var(--muted);
+  cursor:none;
+  font-size:16px;
+  line-height:24px;
+  transition:color .2s;
+}
+.mg-hint-x:hover{color:var(--text)}
+
+/* ===== REVEAL ===== */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
+
+/* ===== MOBILE ===== */
+@media(max-width:980px){
+  .hero{
+    grid-template-columns:1fr;
+    padding:60px 0 18px;
+    gap:30px;
+  }
+  .hero-visual{height:360px}
+  .grid-2{
+    grid-template-columns:1fr;
+  }
+}
+@media(max-width:768px){
+  body{cursor:auto}
+  #cursor,#cursor-ring{display:none !important}
+
+  .ticker-bar{height:36px}
+  .ticker-track{
+    gap:18px;
+    font-size:11px;
+    padding-left:0;
+    animation-duration:28s;
+  }
+  .ticker-item{
+    gap:6px;
+    flex:0 0 auto;
+  }
+
+  .site-header{top:36px}
+  .nav-links{display:none}
+  .burger{display:block}
+  .nav-wrap{
+    padding:0 18px;
+    height:58px;
+  }
+
+  .wrap{padding:0 18px 80px}
+  .hero{
+    padding:42px 0 14px;
+    gap:24px;
+  }
+  .hero h1{
+    font-size:clamp(34px,10vw,46px);
+    margin-bottom:18px;
+  }
+  .hero-copy{
+    font-size:15px;
+    line-height:1.65;
+  }
+  .hero-visual{
+    height:auto;
+    min-height:330px;
+  }
+  .gp-main{width:220px}
+  .gp-top-right{width:148px;top:4%;right:2%}
+  .gp-bottom-left{width:142px;left:0;bottom:6%}
+  .gp-bottom-right{width:132px;right:2%;bottom:8%}
+
+  .mg-btn{cursor:pointer}
+  .mg-hint-x{cursor:pointer}
+}
+@media(max-width:520px){
+  .wrap{padding:0 14px 68px}
+  .hero{padding:34px 0 10px}
+  .hero-eyebrow{
+    margin-bottom:18px;
+    font-size:10px;
+    letter-spacing:.1em;
+  }
+  .hero h1{
+    font-size:32px;
+    line-height:1.06;
+  }
+  .hero-copy{font-size:14px}
+
+  .hero-visual{min-height:300px}
+  .glass-panel{
+    padding:14px 14px;
+    border-radius:14px;
+  }
+  .gp-main{width:200px}
+  .gp-top-right{width:136px;top:2%;right:0}
+  .gp-bottom-left{width:132px;left:0;bottom:4%}
+  .gp-bottom-right{width:124px;right:0;bottom:6%}
+
+  .card{
+    padding:20px;
+  }
+
+  .site-footer{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+  .footer-links{gap:14px}
+
+  .mg-messenger{
+    right:14px;
+    bottom:14px;
+  }
+  .mg-hint{
+    width:min(320px,calc(100vw - 28px));
+    bottom:64px;
+  }
+}
+</style>
 </head>
 
 <body>
-<div class="wrap">
 
-<header>
-  <h1>Rechtliche Hinweise</h1>
-  <p>
-    Transparenz und klare Abgrenzung sind mir wichtig.
-    Die folgenden Hinweise dienen dem Schutz aller Beteiligten
-    und der realistischen Einordnung der Inhalte auf dieser Website.
-  </p>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<canvas id="bg-canvas"></canvas>
+
+<div class="ticker-bar">
+  <div class="ticker-track" id="tickerTrack">
+    <div class="ticker-item">Lade Marktdaten<span class="ticker-sep"> · </span></div>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <div class="brand">
+      <div class="brand-hex">0x</div>
+      <span>0xNode</span><span class="brand-tld">.ch</span>
+    </div>
+
+    <nav class="nav-links">
+      <a href="index.html">Start</a>
+      <a href="defi.html">DeFi</a>
+      <a href="starter.html">Starter-Paket</a>
+      <a href="mentoring.html">Mentoring</a>
+      <a href="event.html">Event</a>
+      <a href="shop.html">Shop</a>
+      <a href="legal.html" class="active">Rechtliches</a>
+      <a href="kontakt.html" class="nav-cta">Kontakt</a>
+    </nav>
+
+    <button class="burger" onclick="toggleMobileMenu()">&#9776;</button>
+  </div>
+
+  <nav class="nav-mobile" id="mobileMenu">
+    <a href="index.html">Start</a>
+    <a href="defi.html">DeFi</a>
+    <a href="starter.html">Starter-Paket</a>
+    <a href="mentoring.html">Mentoring</a>
+    <a href="event.html">Event</a>
+    <a href="shop.html">Shop</a>
+    <a href="legal.html">Rechtliches</a>
+    <a href="kontakt.html">Kontakt</a>
+  </nav>
 </header>
 
-<div class="box">
-  <h2>Keine Anlageberatung</h2>
-  <p>
-    Die auf dieser Website bereitgestellten Inhalte dienen ausschließlich
-    der allgemeinen Information und Bildung im Bereich dezentraler Finanzsysteme (DeFi).
-  </p>
-  <p>
-    Es handelt sich ausdrücklich <strong>nicht</strong> um Anlageberatung,
-    Finanzberatung oder eine Empfehlung zum Kauf oder Verkauf von Finanzinstrumenten.
-  </p>
+<div class="wrap">
+
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow"><span class="live-dot"></span>Rechtliche Hinweise · 0xNode</div>
+      <h1>Klare <span>Abgrenzung</span> statt Unklarheit.</h1>
+
+      <div class="hero-copy">
+        <p>
+          Transparenz und eine realistische Einordnung der Inhalte sind zentral.
+          Diese Hinweise dienen dem Schutz aller Beteiligten und der sauberen Abgrenzung
+          der auf dieser Website angebotenen Informationen, Produkte und Bildungsleistungen.
+        </p>
+        <p>
+          0xNode steht für Verständnis, Struktur und Eigenverantwortung —
+          nicht für Versprechen, Signale oder verdeckte Beratungsleistungen.
+        </p>
+      </div>
+
+      <div class="hero-tags">
+        <span class="tag">// keine anlageberatung</span>
+        <span class="tag">// eigenverantwortung</span>
+        <span class="tag">// keine garantie</span>
+        <span class="tag">// bildung statt hype</span>
+      </div>
+
+      <div class="hero-disclaimer">// diese seite ersetzt keine individuelle rechts- oder steuerberatung</div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="blob-wrap">
+        <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="blobGrad" cx="40%" cy="40%">
+              <stop offset="0%" stop-color="#f2c14b" stop-opacity=".18"/>
+              <stop offset="50%" stop-color="#8b5cf6" stop-opacity=".10"/>
+              <stop offset="100%" stop-color="#00e5ff" stop-opacity=".06"/>
+            </radialGradient>
+            <filter id="blur"><feGaussianBlur stdDeviation="18"/></filter>
+          </defs>
+          <path id="morphBlob" fill="url(#blobGrad)" filter="url(#blur)"/>
+        </svg>
+      </div>
+
+      <div class="panel-stack">
+        <div class="glass-panel gp-main">
+          <div class="gp-label">// rechtliche basis</div>
+          <div class="node-map">
+            <div class="node-row"><div class="node-dot" style="color:var(--gold);background:var(--gold)"></div><div class="node-line" style="color:var(--gold)"></div><div class="node-label">Bildung</div></div>
+            <div class="node-row"><div class="node-dot" style="color:var(--cyan);background:var(--cyan)"></div><div class="node-line" style="color:var(--cyan)"></div><div class="node-label">Keine Beratung</div></div>
+            <div class="node-row"><div class="node-dot" style="color:var(--violet);background:var(--violet)"></div><div class="node-line" style="color:var(--violet)"></div><div class="node-label">Kein Versprechen</div></div>
+            <div class="node-row"><div class="node-dot" style="color:var(--emerald);background:var(--emerald)"></div><div class="node-line" style="color:var(--emerald)"></div><div class="node-label">Eigenverantwortung</div></div>
+            <div class="node-row"><div class="node-dot" style="color:var(--amber);background:var(--amber)"></div><div class="node-line" style="color:var(--amber)"></div><div class="node-label">Risikobewusstsein</div></div>
+          </div>
+          <div class="gp-row">
+            <span style="font-family:var(--font-mono);font-size:11px;color:var(--dim)">0xNode</span>
+            <span class="gp-badge">legal</span>
+          </div>
+        </div>
+
+        <div class="glass-panel gp-top-right">
+          <div class="gp-label">// fokus</div>
+          <div style="font-size:13px;color:var(--text);line-height:1.55">
+            Klar,<br>
+            sachlich,<br>
+            nachvollziehbar.
+          </div>
+        </div>
+
+        <div class="glass-panel gp-bottom-left">
+          <div class="gp-label">// gilt für</div>
+          <div style="display:flex;flex-direction:column;gap:7px;font-family:var(--font-mono);font-size:11px;color:var(--muted)">
+            <span>Website</span>
+            <span>Produkte</span>
+            <span>Mentoring</span>
+          </div>
+        </div>
+
+        <div class="glass-panel gp-bottom-right">
+          <div class="gp-label">// status</div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px">
+            <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:10px"><span style="color:var(--muted)">Transparenz</span><span style="color:var(--emerald)">Hoch</span></div>
+            <div style="height:3px;background:var(--border);border-radius:2px;overflow:hidden"><div style="height:100%;width:92%;background:var(--emerald);border-radius:2px;"></div></div>
+            <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:10px;margin-top:2px"><span style="color:var(--muted)">Missverständnis</span><span style="color:var(--red)">Tief</span></div>
+            <div style="height:3px;background:var(--border);border-radius:2px;overflow:hidden"><div style="height:100%;width:8%;background:var(--red);border-radius:2px;"></div></div>
+          </div>
+        </div>
+
+        <div class="legal-mark">LEGAL</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Wichtiger Hinweis</div>
+    <div class="section-title">Rechtliche Einordnung dieser Website.</div>
+    <p class="section-sub">
+      Die Inhalte dieser Website dienen der allgemeinen Information und Bildung im Bereich Krypto,
+      Blockchain, Self-Custody und DeFi. Sie sind bewusst sachlich gehalten und sollen Orientierung bieten,
+      ersetzen aber keine individuelle Prüfung eines Einzelfalls.
+    </p>
+
+    <div class="notice-bar">
+      Diese Hinweise sind als saubere Abgrenzung formuliert. Für eine verbindliche rechtliche Beurteilung im Einzelfall,
+      insbesondere unter Schweizer Recht, ist eine Prüfung durch eine qualifizierte Fachperson sinnvoll.
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Abgrenzung</div>
+    <div class="section-title">Klar definierte Grenzen.</div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>Keine Anlageberatung</h3>
+        <p>
+          Die auf dieser Website bereitgestellten Inhalte dienen ausschliesslich der allgemeinen Information und Bildung.
+          Es handelt sich ausdrücklich nicht um Anlageberatung, Finanzberatung oder eine Empfehlung
+          zum Kauf, Verkauf oder Halten von Vermögenswerten, Tokens oder Finanzinstrumenten.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Keine Erfolgs- oder Renditeversprechen</h3>
+        <p>
+          Es werden keinerlei Garantien, Zusicherungen oder Versprechen in Bezug auf Gewinne,
+          Erträge, Preisentwicklungen oder sonstige Ergebnisse gemacht. Vergangene Entwicklungen,
+          Beispielrechnungen oder Demonstrationen lassen keine verlässlichen Rückschlüsse auf zukünftige Resultate zu.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Eigenverantwortung & Risiko</h3>
+        <p>
+          Kryptowährungen, Wallets, Smart Contracts und DeFi-Protokolle sind mit erheblichen Risiken verbunden.
+          Dazu gehören insbesondere technische Fehler, Marktvolatilität, Liquiditätsrisiken,
+          Bedienfehler, Sicherheitsvorfälle und der vollständige Verlust eingesetzten Kapitals.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Keine Verwahrung / keine Ausführung</h3>
+        <p>
+          Über diese Website werden grundsätzlich keine Kundengelder verwahrt,
+          keine Vermögenswerte im Namen Dritter gehalten und keine Transaktionen
+          im Auftrag von Nutzerinnen oder Nutzern ausgeführt, sofern nicht ausdrücklich anders und separat vereinbart.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Inhalte & Nutzung</div>
+    <div class="section-title">Was Nutzerinnen und Nutzer wissen müssen.</div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>Keine Steuer- oder Rechtsberatung</h3>
+        <p>
+          Steuerliche, regulatorische oder rechtliche Fragen sind stets individuell zu beurteilen.
+          Inhalte auf dieser Website ersetzen keine Beratung durch Steuerberater, Anwälte
+          oder andere qualifizierte Fachpersonen.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Haftungsausschluss</h3>
+        <p>
+          Trotz sorgfältiger Erstellung der Inhalte wird keine Gewähr für Aktualität,
+          Vollständigkeit, Richtigkeit oder dauerhafte Verfügbarkeit übernommen.
+          Soweit gesetzlich zulässig, ist die Haftung für direkte oder indirekte Schäden ausgeschlossen,
+          die aus der Nutzung oder Nichtnutzung der Inhalte entstehen.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Externe Links und Drittinhalte</h3>
+        <p>
+          Diese Website kann Links zu externen Websites, Protokollen, Plattformen oder Diensten enthalten.
+          Für Inhalt, Sicherheit, Verfügbarkeit oder Datenverarbeitung durch Drittanbieter
+          wird keine Verantwortung übernommen. Der Zugriff erfolgt auf eigene Verantwortung.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Kontakt und Kommunikation</h3>
+        <p>
+          Die Kontaktaufnahme erfolgt freiwillig und eigeninitiativ.
+          Es besteht kein Anspruch auf Antwort, Beratung, Betreuung, Annahme einer Zusammenarbeit
+          oder Abschluss eines Vertragsverhältnisses allein durch eine Nachricht oder Anfrage.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Produkte & Inhalte</div>
+    <div class="section-title">Regeln für Inhalte, Schulungen und Produkte.</div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>Bildungsangebote</h3>
+        <p>
+          Schulungen, Mentoring, Unterlagen, PDFs, Journals oder sonstige Inhalte dienen
+          der Vermittlung von Wissen, Struktur und Entscheidungslogik.
+          Sie stellen keine Zusicherung eines bestimmten Erfolgs oder Resultats dar.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Digitale und physische Produkte</h3>
+        <p>
+          Soweit auf dieser Website physische oder digitale Produkte angeboten werden,
+          dienen diese der Dokumentation, Strukturierung oder Wissensvermittlung.
+          Auch daraus ergibt sich kein Anspruch auf finanziellen Erfolg oder praktische Eignung für jeden Einzelfall.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Urheberrecht</h3>
+        <p>
+          Sämtliche auf dieser Website veröffentlichten Texte, Strukturen, Designs,
+          Grafiken und sonstigen Inhalte sind urheberrechtlich geschützt, soweit dies rechtlich möglich ist.
+          Jede Nutzung, Vervielfältigung oder Weitergabe ausserhalb der gesetzlich zulässigen Grenzen
+          bedarf der vorherigen Zustimmung.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Änderungen</h3>
+        <p>
+          Inhalte, Angebote, Produkte, Preise, Texte und rechtliche Hinweise können jederzeit
+          angepasst, ergänzt oder entfernt werden, ohne dass daraus ein Anspruch auf unveränderte Fortführung entsteht.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Datenschutz</div>
+    <div class="section-title">Datenschutz und Kommunikation.</div>
+
+    <div class="grid-1">
+      <div class="card">
+        <h3>Datenschutz-Hinweis</h3>
+        <p>
+          Soweit im Rahmen der Website oder bei einer Kontaktaufnahme Personendaten bearbeitet werden,
+          erfolgt dies ausschliesslich im erforderlichen Umfang zur Kommunikation,
+          Terminvereinbarung, Bearbeitung von Anfragen oder Abwicklung von Bestellungen.
+        </p>
+        <p>
+          Es werden nur diejenigen Daten verarbeitet, die für den jeweiligen Zweck erforderlich sind
+          oder freiwillig übermittelt werden. Eine Weitergabe an Dritte erfolgt nur,
+          wenn dies zur technischen oder organisatorischen Abwicklung notwendig ist
+          oder eine rechtliche Verpflichtung besteht.
+        </p>
+        <p>
+          Bei der Nutzung externer Dienste, Plattformen oder Zahlungsanbieter
+          gelten zusätzlich deren eigene Datenschutz- und Nutzungsbedingungen.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Rechtsrahmen</div>
+    <div class="section-title">Anwendbares Recht.</div>
+
+    <div class="grid-1">
+      <div class="card">
+        <h3>Schweizer Recht / Gerichtsstand</h3>
+        <p>
+          Soweit rechtlich zulässig, unterliegen Nutzung dieser Website,
+          die Auslegung dieser Hinweise sowie daraus allenfalls entstehende Streitigkeiten
+          dem materiellen Recht der Schweiz.
+        </p>
+        <p>
+          Soweit ein Gerichtsstand wirksam vereinbart oder gesetzlich zulässig festgelegt werden kann,
+          ist der zuständige Gerichtsstand am Sitz der Anbieterin bzw. des Anbieters.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer reveal">
+    <div class="footer-brand">&copy; 0xNode.ch</div>
+    <div class="footer-links">
+      <a href="index.html">Start</a>
+      <a href="kontakt.html">Kontakt</a>
+    </div>
+  </footer>
+
 </div>
 
-<div class="box">
-  <h2>Eigenverantwortung & Risiko</h2>
-  <p>
-    Kryptowährungen und DeFi-Protokolle sind mit erheblichen Risiken verbunden
-    und können zu einem vollständigen Verlust des eingesetzten Kapitals führen.
-  </p>
-  <p>
-    Jede Handlung erfolgt auf eigene Verantwortung.
-    Nutzerinnen und Nutzer sind selbst dafür verantwortlich,
-    sich ausreichend zu informieren und Risiken einzuschätzen.
-  </p>
-</div>
-
-<div class="box">
-  <h2>Keine Erfolgs- oder Renditeversprechen</h2>
-  <p>
-    Es werden keinerlei Versprechen oder Garantien hinsichtlich
-    möglicher Gewinne, Erträge oder Ergebnisse gemacht.
-  </p>
-  <p>
-    Vergangene Entwicklungen oder Beispiele lassen
-    keine Rückschlüsse auf zukünftige Ergebnisse zu.
-  </p>
-</div>
-
-<div class="box">
-  <h2>Haftungsausschluss</h2>
-  <p>
-    Trotz sorgfältiger Erstellung der Inhalte wird keine Haftung
-    für die Aktualität, Vollständigkeit oder Richtigkeit übernommen.
-  </p>
-  <p>
-    Eine Haftung für direkte oder indirekte Schäden,
-    die aus der Nutzung der bereitgestellten Informationen entstehen,
-    ist ausgeschlossen, soweit gesetzlich zulässig.
-  </p>
-</div>
-
-<div class="box">
-  <h2>Kontakt & Kommunikation</h2>
-  <p>
-    Die Kontaktaufnahme erfolgt freiwillig und eigeninitiativ.
-    Es besteht kein Anspruch auf Beratung, Betreuung oder Antwort.
-  </p>
-</div>
-
-<footer>
-  <div>© 0xNode · mgaggia.ch</div>
-  <div>
-    <a href="index.html">Startseite</a> ·
-    <a href="kontakt.html">Kontakt</a>
+<div class="mg-messenger" id="mgMessenger">
+  <div class="mg-menu" id="mgMenu">
+    <a id="mgWa" target="_blank" rel="noopener">💬 WhatsApp</a>
+    <a href="https://threema.id/MAKD7CYA" target="_blank" rel="noopener">🔐 Threema</a>
+    <a href="https://getsession.org/add-session-id/055988bf51c70ee037d3731c0e9c7df2c98788f07bcbcc1e0622a66accfe5ebb55" target="_blank" rel="noopener">🟣 Session</a>
   </div>
-</footer>
 
+  <button class="mg-btn" id="mgBtn" type="button">💬 Nachricht</button>
+
+  <div class="mg-hint" id="mgHint" aria-live="polite">
+    <button class="mg-hint-x" id="mgHintX" type="button" aria-label="Hinweis schliessen">×</button>
+    <div class="mg-hint-inner">
+      <img class="mg-hint-avatar" src="miggi.png" alt="Miggi">
+      <div>
+        <div class="mg-hint-title">Fragen zu 0xNode?</div>
+        <div class="mg-hint-text">Schreib mir kurz – ich antworte persönlich.</div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<script>
+const isTouchDevice = window.matchMedia("(hover: none), (pointer: coarse)").matches;
+
+if(!isTouchDevice){
+  const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+  let mx=0,my=0,rx=0,ry=0;
+
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX;
+    my=e.clientY;
+    cur.style.left=mx+'px';
+    cur.style.top=my+'px';
+  });
+
+  (function ra(){
+    rx+=(mx-rx)*.12;
+    ry+=(my-ry)*.12;
+    ring.style.left=Math.round(rx)+'px';
+    ring.style.top=Math.round(ry)+'px';
+    requestAnimationFrame(ra);
+  })();
+
+  document.querySelectorAll('a,button,summary').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{
+      cur.style.width='16px';
+      cur.style.height='16px';
+      ring.style.width='52px';
+      ring.style.height='52px';
+      ring.style.borderColor='rgba(0,229,255,.7)';
+    });
+    el.addEventListener('mouseleave',()=>{
+      cur.style.width='10px';
+      cur.style.height='10px';
+      ring.style.width='36px';
+      ring.style.height='36px';
+      ring.style.borderColor='rgba(0,229,255,.4)';
+    });
+  });
+}
+
+(function(){
+  const c=document.getElementById('bg-canvas'),ctx=c.getContext('2d');
+  let W,H,hexes=[],mouse={x:-9999,y:-9999};
+
+  if(!isTouchDevice){
+    document.addEventListener('mousemove',e=>{
+      mouse.x=e.clientX;
+      mouse.y=e.clientY;
+    });
+  }
+
+  function resize(){
+    W=c.width=innerWidth;
+    H=c.height=innerHeight;
+    buildHexes();
+  }
+
+  function buildHexes(){
+    hexes=[];
+    const s=42,ww=s*2,hh=Math.sqrt(3)*s;
+    const cols=Math.ceil(W/ww)+2,rows=Math.ceil(H/hh)+2;
+    for(let r=0;r<rows;r++){
+      for(let col=0;col<cols;col++){
+        hexes.push({
+          x:col*ww*.75-s+(r%2)*ww*.375,
+          y:r*hh-hh,
+          s,a:0,ta:0
+        });
+      }
+    }
+  }
+
+  function hex(x,y,s){
+    ctx.beginPath();
+    for(let i=0;i<6;i++){
+      const a=Math.PI/3*i-Math.PI/6;
+      i===0
+        ? ctx.moveTo(x+s*Math.cos(a),y+s*Math.sin(a))
+        : ctx.lineTo(x+s*Math.cos(a),y+s*Math.sin(a));
+    }
+    ctx.closePath();
+  }
+
+  let t=0;
+  function loop(){
+    t+=.004;
+    ctx.clearRect(0,0,W,H);
+
+    hexes.forEach(h=>{
+      const dx=h.x-mouse.x,dy=h.y-mouse.y,d=Math.sqrt(dx*dx+dy*dy);
+      const mf=isTouchDevice ? 0 : Math.max(0,1-d/200);
+      const wf=(Math.sin(t+h.x*.012+h.y*.008)+1)*.5;
+
+      h.ta=wf*.04+mf*.2;
+      h.a+=(h.ta-h.a)*.06;
+
+      if(h.a>.003){
+        hex(h.x,h.y,h.s-1);
+        ctx.strokeStyle='rgba(0,229,255,'+h.a*.55+')';
+        ctx.lineWidth=.5;
+        ctx.stroke();
+
+        if(mf>.25){
+          hex(h.x,h.y,h.s-1);
+          ctx.fillStyle='rgba(0,229,255,'+(mf*.035)+')';
+          ctx.fill();
+        }
+      }
+    });
+
+    requestAnimationFrame(loop);
+  }
+
+  resize();
+  window.addEventListener('resize',resize);
+  loop();
+})();
+
+(function(){
+  const path=document.getElementById('morphBlob');
+  if(!path)return;
+  let t=0;
+
+  function pt(a,t){
+    const r=160+Math.sin(a*2+t)*28+Math.sin(a*3-t*.7)*18+Math.sin(a*5+t*1.3)*10;
+    return [200+r*Math.cos(a),200+r*Math.sin(a)];
+  }
+
+  function build(t){
+    const pts=[],n=64;
+    for(let i=0;i<n;i++) pts.push(pt(i/n*Math.PI*2,t));
+    let d='M'+pts[0][0]+','+pts[0][1];
+    for(let i=1;i<pts.length;i++){
+      const p=pts[i],v=pts[i-1];
+      d+='Q'+v[0]+','+v[1]+' '+((v[0]+p[0])/2)+','+((v[1]+p[1])/2);
+    }
+    return d+'Z';
+  }
+
+  (function loop(){
+    t+=.008;
+    path.setAttribute('d',build(t));
+    requestAnimationFrame(loop);
+  })();
+})();
+
+function toggleMobileMenu(){
+  const m = document.getElementById("mobileMenu");
+  m.style.display = m.style.display === "flex" ? "none" : "flex";
+}
+
+async function loadCryptoTicker(){
+  const track = document.getElementById("tickerTrack");
+  if(!track) return;
+
+  const api = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,ripple,binancecoin,usd-coin&vs_currencies=chf&include_24hr_change=true";
+  const coins = [
+    { id: "bitcoin", symbol: "BTC" },
+    { id: "ethereum", symbol: "ETH" },
+    { id: "solana", symbol: "SOL" },
+    { id: "ripple", symbol: "XRP" },
+    { id: "binancecoin", symbol: "BNB" },
+    { id: "usd-coin", symbol: "USDC" }
+  ];
+
+  try{
+    const res = await fetch(api, { cache: "no-store" });
+    if(!res.ok) throw new Error("API Fehler");
+    const data = await res.json();
+
+    const formatCHF = new Intl.NumberFormat("de-CH", {
+      style: "currency",
+      currency: "CHF",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+
+    const items = coins.map(c => {
+      const coin = data[c.id];
+      if(!coin || typeof coin.chf !== "number") return "";
+
+      const price = formatCHF.format(coin.chf);
+      const change = typeof coin.chf_24h_change === "number" ? coin.chf_24h_change : 0;
+      const changeText = (change >= 0 ? "+" : "") + change.toFixed(2) + "%";
+      const changeClass = change >= 0 ? "up" : "down";
+
+      return `<div class="ticker-item"><span class="ticker-symbol">${c.symbol}</span><span class="ticker-sep">&middot;</span><span class="ticker-price">${price}</span><span class="ticker-sep">&middot;</span><span class="${changeClass}">${changeText}</span></div>`;
+    }).filter(Boolean);
+
+    track.innerHTML = items.join("") + items.join("");
+  }catch(err){
+    track.innerHTML = `<div class="ticker-item"><span class="ticker-symbol">Kurse</span><span>momentan nicht verfügbar</span></div>`;
+  }
+}
+
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+      ro.unobserve(e.target);
+    }
+  });
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+(function(){
+  var container = document.getElementById("mgMessenger");
+  if(!container) return;
+
+  var btn = document.getElementById("mgBtn");
+  var menu = document.getElementById("mgMenu");
+  var hint = document.getElementById("mgHint");
+  var hintX = document.getElementById("mgHintX");
+  var wa = document.getElementById("mgWa");
+
+  var phone = "41" + "79" + "922" + "5678";
+  var msg = encodeURIComponent("Hallo Michele, ich habe eine Frage zu 0xNode.");
+  wa.href = "https://wa.me/" + phone + "?text=" + msg;
+
+  function openMenu(){
+    menu.classList.add("open");
+    hint.classList.remove("show");
+  }
+
+  function closeMenu(){
+    menu.classList.remove("open");
+  }
+
+  function toggleMessengerMenu(){
+    if(menu.classList.contains("open")) closeMenu();
+    else openMenu();
+  }
+
+  btn.addEventListener("click", function(e){
+    e.stopPropagation();
+    toggleMessengerMenu();
+  });
+
+  hintX.addEventListener("click", function(e){
+    e.stopPropagation();
+    hint.classList.remove("show");
+  });
+
+  document.addEventListener("click", function(e){
+    if(!container.contains(e.target)){
+      closeMenu();
+    }
+  });
+
+  window.addEventListener("load", function(){
+    setTimeout(function(){
+      if(!menu.classList.contains("open")){
+        hint.classList.add("show");
+        setTimeout(function(){
+          hint.classList.remove("show");
+        }, 10000);
+      }
+    }, 6000);
+  });
+})();
+
+loadCryptoTicker();
+setInterval(loadCryptoTicker, 60000);
+</script>
+
 </body>
 </html>
