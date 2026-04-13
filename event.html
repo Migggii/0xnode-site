@@ -560,19 +560,33 @@ p{
   font-size:11px;
   color:var(--muted);
 }
+
+/* ===== EVENT LOGO FIX ===== */
 .logo-card{
+  position:absolute;
+  right:18px;
+  bottom:18px;
+  width:190px;
+  min-height:auto;
+  padding:10px;
   display:flex;
   align-items:center;
   justify-content:center;
-  min-height:120px;
-  padding:6px 0 0;
+  border-radius:18px;
+  background:linear-gradient(180deg, rgba(11,13,20,.78), rgba(11,13,20,.58));
+  border:1px solid rgba(255,255,255,.10);
+  backdrop-filter:blur(14px);
+  box-shadow:0 20px 50px rgba(0,0,0,.45);
+  z-index:1;
+  pointer-events:none;
 }
 .logo-card img{
   width:100%;
-  max-width:250px;
+  max-width:150px;
   height:auto;
   display:block;
-  filter:drop-shadow(0 20px 40px rgba(0,0,0,.35));
+  opacity:.92;
+  filter:drop-shadow(0 14px 28px rgba(0,0,0,.28));
 }
 
 /* ===== PANELS ===== */
@@ -947,6 +961,17 @@ details p{
   .gp-bottom-left{width:145px;left:0;bottom:6%}
   .gp-bottom-right{width:132px;right:2%;bottom:8%}
 
+  .logo-card{
+    right:10px;
+    bottom:8px;
+    width:150px;
+    padding:8px;
+  }
+  .logo-card img{
+    max-width:118px;
+    opacity:.88;
+  }
+
   .mg-btn{cursor:pointer}
   .mg-hint-x{cursor:pointer}
 }
@@ -973,6 +998,17 @@ details p{
   .gp-top-right{width:138px;top:2%;right:0}
   .gp-bottom-left{width:136px;left:0;bottom:4%}
   .gp-bottom-right{width:126px;right:0;bottom:6%}
+
+  .logo-card{
+    right:6px;
+    bottom:2px;
+    width:128px;
+    padding:7px;
+    border-radius:14px;
+  }
+  .logo-card img{
+    max-width:98px;
+  }
 
   .card,
   .step{
@@ -1022,7 +1058,7 @@ details p{
       <a href="starter.html">Starter-Paket</a>
       <a href="mentoring.html">Mentoring</a>
       <a href="event.html" class="active">Event</a>
-	  <a href="shop.html">Shop</a>
+      <a href="shop.html">Shop</a>
       <a href="kontakt.html" class="nav-cta">Kontakt</a>
     </nav>
 
@@ -1035,7 +1071,7 @@ details p{
     <a href="starter.html">Starter-Paket</a>
     <a href="mentoring.html">Mentoring</a>
     <a href="event.html">Event</a>
-	<a href="shop.html">Shop</a>
+    <a href="shop.html">Shop</a>
     <a href="kontakt.html">Kontakt</a>
   </nav>
 </header>
@@ -1137,7 +1173,7 @@ details p{
           </div>
         </div>
 
-        <div class="logo-card">
+        <div class="logo-card" aria-hidden="true">
           <img src="logo2027.png" alt="Crypto Event Zürich 2027 Logo">
         </div>
       </div>
