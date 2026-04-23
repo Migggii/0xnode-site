@@ -1,0 +1,946 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>0xnode Vermögens-Tracker</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --bg2: #0b1830;
+      --card: rgba(12, 26, 47, 0.88);
+      --line: rgba(112, 184, 255, 0.16);
+      --text: #e8f2ff;
+      --muted: #90a9c9;
+      --accent: #29d0ff;
+      --accent2: #5b7cff;
+      --good: #2de39a;
+      --danger: #ff6b81;
+      --warn: #ffbf47;
+      --shadow: 0 14px 40px rgba(0,0,0,0.35);
+      --radius: 20px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(41,208,255,0.14), transparent 25%),
+        radial-gradient(circle at top left, rgba(91,124,255,0.14), transparent 20%),
+        linear-gradient(160deg, var(--bg), #050b16 60%, #08152b);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin: 28px auto 48px;
+    }
+
+    .auth-shell {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .auth-card {
+      width: min(520px, 100%);
+      padding: 28px;
+    }
+
+    .auth-card h1 {
+      margin-bottom: 12px;
+    }
+
+    .auth-copy {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    .auth-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .auth-note {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .login-error {
+      display: none;
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(255,107,129,0.10);
+      border: 1px solid rgba(255,107,129,0.18);
+      color: #ffd7df;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .app-hidden {
+      display: none;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-main {
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-main::after {
+      content: "";
+      position: absolute;
+      inset: auto -80px -80px auto;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(41,208,255,0.20), transparent 65%);
+      pointer-events: none;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(41,208,255,0.09);
+      border: 1px solid rgba(41,208,255,0.12);
+      margin-bottom: 14px;
+      font-weight: 700;
+    }
+
+    h1, h2, h3, p { margin: 0; }
+
+    h1 {
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.02;
+      margin-bottom: 10px;
+      letter-spacing: -0.03em;
+    }
+
+    .sub {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.55;
+      max-width: 760px;
+    }
+
+    .total-box {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .total-label {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .total-value {
+      font-size: clamp(34px, 4vw, 48px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: #ffffff;
+      word-break: break-word;
+    }
+
+    .badge {
+      display: inline-flex;
+      width: fit-content;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      background: rgba(45,227,154,0.12);
+      color: var(--good);
+      border: 1px solid rgba(45,227,154,0.18);
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field label {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 13px 14px;
+      outline: none;
+      transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      font: inherit;
+    }
+
+    textarea { min-height: 104px; resize: vertical; }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: rgba(41,208,255,0.6);
+      box-shadow: 0 0 0 4px rgba(41,208,255,0.09);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: flex-end;
+    }
+
+    button {
+      appearance: none;
+      border: none;
+      cursor: pointer;
+      color: #fff;
+      padding: 13px 16px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 14px;
+      transition: transform 0.16s ease, opacity 0.16s ease, box-shadow 0.16s ease;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.2);
+    }
+
+    button:hover { transform: translateY(-1px); }
+    button:active { transform: translateY(1px); }
+
+    .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); }
+    .btn-secondary { background: rgba(255,255,255,0.08); color: var(--text); border: 1px solid rgba(255,255,255,0.08); }
+    .btn-danger { background: linear-gradient(135deg, #ff617e, #ff8a65); }
+    .btn-good { background: linear-gradient(135deg, #10c98a, #00e1a8); }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .card {
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto auto 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), transparent 70%);
+      opacity: 0.9;
+    }
+
+    .section-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .section-tag {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent);
+      background: rgba(41,208,255,0.09);
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(41,208,255,0.12);
+      white-space: nowrap;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .value-pill {
+      margin-top: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 10px 12px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .value-pill strong {
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .overview {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .mini {
+      padding: 18px;
+    }
+
+    .mini .label { color: var(--muted); font-size: 13px; margin-bottom: 6px; }
+    .mini .val { font-size: 26px; font-weight: 800; letter-spacing: -0.03em; }
+
+    .history {
+      padding: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      overflow: hidden;
+      border-radius: 16px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 14px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-size: 14px;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--muted);
+      font-weight: 700;
+      background: rgba(255,255,255,0.03);
+    }
+
+    tr:hover td { background: rgba(255,255,255,0.025); }
+
+    .notes-box {
+      padding: 20px;
+      margin-top: 18px;
+    }
+
+    .footer-note {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .empty {
+      color: var(--muted);
+      padding: 16px 0 8px;
+    }
+
+    .right { text-align: right; }
+
+    .hidden-input { display: none; }
+
+    @media (max-width: 1080px) {
+      .hero, .grid-3, .overview, .toolbar {
+        grid-template-columns: 1fr;
+      }
+      .two-col { grid-template-columns: 1fr; }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        color: #111;
+      }
+      .panel, .card, .hero-main, .total-box, .mini, .history, .notes-box {
+        background: #fff !important;
+        color: #111 !important;
+        border: 1px solid #ddd !important;
+        box-shadow: none !important;
+      }
+      .actions, .footer-note, .section-tag, .badge, .kicker, .hidden-print {
+        display: none !important;
+      }
+      .sub, .label, .total-label, .field label, th {
+        color: #555 !important;
+      }
+      input, textarea {
+        border: 1px solid #ddd !important;
+        color: #111 !important;
+        background: #fff !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="loginScreen" class="auth-shell">
+    <section class="panel auth-card">
+      <div class="kicker">0xnode geschützter Zugang</div>
+      <h1>Portfolio Tracker Login</h1>
+      <p class="auth-copy">
+        Dieses Tool dient zur privaten Vermögensübersicht für Schüler, Kunden und auf Wunsch auch als strukturierte Vorbereitung für Gespräche mit dem <strong>Steuerberater</strong>. Die gespeicherten Werte bleiben weiterhin lokal im jeweiligen Browser des Nutzers.
+      </p>
+      <div class="field">
+        <label for="loginUsername">Benutzername</label>
+        <input id="loginUsername" type="text" placeholder="Benutzername eingeben" autocomplete="username" />
+      </div>
+      <div class="field">
+        <label for="loginPassword">Passwort</label>
+        <input id="loginPassword" type="password" placeholder="Passwort eingeben" autocomplete="current-password" />
+      </div>
+      <div class="auth-actions">
+        <button class="btn-primary" id="loginBtn">Tracker öffnen</button>
+      </div>
+      <div class="login-error" id="loginError">Zugangsdaten nicht korrekt. Bitte erneut versuchen.</div>
+      <div class="auth-note">
+        Hinweis: Dieser Login ist eine einfache Zugangsschranke für deine Community. Für einen echten Premium-Mitgliederbereich mit sicherer Benutzerverwaltung braucht es später ein Backend mit Auth-System.
+      </div>
+    </section>
+  </div>
+
+  <div class="container app-hidden" id="appWrap">
+    <section class="hero">
+      <div class="panel hero-main">
+        <div class="kicker">0xnode Portfolio Tracker</div>
+        <h1>Dein Vermögen auf einen Blick.</h1>
+        <p class="sub">
+          Separates Tracking für <strong>AERODROME</strong>, <strong>unCoded Bot</strong> und <strong>MetaMask</strong> – mit Datum, lokaler Speicherung, Historie, PDF-Export und Datensicherung direkt im Browser.
+        </p>
+      </div>
+      <div class="panel total-box">
+        <div>
+          <div class="total-label">Gesamtvermögen</div>
+          <div class="total-value" id="gesamtVermoegen">$ 0.00</div>
+        </div>
+        <div class="badge" id="snapshotBadge">Kein Snapshot gespeichert</div>
+      </div>
+    </section>
+
+    <section class="panel toolbar">
+      <div class="field">
+        <label for="snapshotDate">Datum</label>
+        <input id="snapshotDate" type="date" />
+      </div>
+      <div class="field">
+        <label for="baseAssets">Sonstiges Vermögen / Cash $</label>
+        <input id="baseAssets" type="number" step="0.01" placeholder="z. B. 1500" />
+      </div>
+      <div class="field" style="grid-column: span 2;">
+        <label for="snapshotTitle">Titel / Notiz zum Tag</label>
+        <input id="snapshotTitle" type="text" placeholder="z. B. Monatsupdate / neuer Pool gestartet" />
+      </div>
+      <div class="field" style="grid-column: span 2;">
+        <label>Aktionen</label>
+        <div class="actions">
+          <button class="btn-primary" id="saveSnapshotBtn">Snapshot speichern</button>
+          <button class="btn-good" id="downloadPdfBtn">PDF herunterladen</button>
+          <button class="btn-secondary" id="saveHtmlBtn">HTML sichern</button>
+          <button class="btn-secondary" id="exportJsonBtn">Daten exportieren</button>
+          <button class="btn-secondary" id="importJsonBtn">Daten importieren</button>
+          <button class="btn-danger" id="resetBtn">Reset</button>
+          <input class="hidden-input" id="importFile" type="file" accept="application/json" />
+        </div>
+      </div>
+    </section>
+
+    <section class="overview">
+      <div class="panel mini">
+        <div class="label">AERODROME gesamt</div>
+        <div class="val" id="overviewAerodrome">$ 0.00</div>
+      </div>
+      <div class="panel mini">
+        <div class="label">unCoded Bot gesamt</div>
+        <div class="val" id="overviewBot">$ 0.00</div>
+      </div>
+      <div class="panel mini">
+        <div class="label">MetaMask Gewinne gesamt</div>
+        <div class="val" id="overviewMetamask">$ 0.00</div>
+      </div>
+      <div class="panel mini">
+        <div class="label">Sonstiges Vermögen</div>
+        <div class="val" id="overviewBase">$ 0.00</div>
+      </div>
+    </section>
+
+    <section class="grid-3">
+      <div class="panel card">
+        <div class="section-top">
+          <div class="section-title">AERODROME</div>
+          <div class="section-tag">LP / AERO</div>
+        </div>
+        <div class="two-col">
+          <div class="field">
+            <label for="aeroLpValue">LP Pools aktuell ($)</label>
+            <input id="aeroLpValue" type="number" step="0.01" placeholder="z. B. 8253" />
+          </div>
+          <div class="field">
+            <label for="aeroTokenValue">AERO Bestand aktuell ($)</label>
+            <input id="aeroTokenValue" type="number" step="0.01" placeholder="z. B. 1200" />
+          </div>
+          <div class="field">
+            <label for="aeroProfit">Gewinn / Veränderung ($)</label>
+            <input id="aeroProfit" type="number" step="0.01" placeholder="z. B. 320" />
+          </div>
+          <div class="field">
+            <label for="aeroNotes">Notiz</label>
+            <input id="aeroNotes" type="text" placeholder="z. B. Pool out of range / neu gestartet" />
+          </div>
+        </div>
+        <div class="value-pill">AERODROME total: <strong id="aeroTotal">$ 0.00</strong></div>
+      </div>
+
+      <div class="panel card">
+        <div class="section-top">
+          <div class="section-title">unCoded Bot</div>
+          <div class="section-tag">Bot Tracking</div>
+        </div>
+        <div class="two-col">
+          <div class="field">
+            <label for="botCapital">Bot Kapital aktuell ($)</label>
+            <input id="botCapital" type="number" step="0.01" placeholder="z. B. 7000" />
+          </div>
+          <div class="field">
+            <label for="botProfit">Bot Gewinn ($)</label>
+            <input id="botProfit" type="number" step="0.01" placeholder="z. B. 428" />
+          </div>
+          <div class="field">
+            <label for="botFees">Fees / Reserve ($)</label>
+            <input id="botFees" type="number" step="0.01" placeholder="z. B. 80" />
+          </div>
+          <div class="field">
+            <label for="botNotes">Notiz</label>
+            <input id="botNotes" type="text" placeholder="z. B. Einstellungen angepasst" />
+          </div>
+        </div>
+        <div class="value-pill">Bot total: <strong id="botTotal">$ 0.00</strong></div>
+      </div>
+
+      <div class="panel card">
+        <div class="section-top">
+          <div class="section-title">MetaMask</div>
+          <div class="section-tag">Wallet / Gewinne</div>
+        </div>
+        <div class="two-col">
+          <div class="field">
+            <label for="metamaskProfit">MetaMask Gewinne ($)</label>
+            <input id="metamaskProfit" type="number" step="0.01" placeholder="z. B. 250" />
+          </div>
+          <div class="field">
+            <label for="metamaskOther">Weitere Werte($)</label>
+            <input id="metamaskOther" type="number" step="0.01" placeholder="z. B. 1350" />
+          </div>
+          <div class="field" style="grid-column: span 2;">
+            <label for="metamaskNotes">Notiz</label>
+            <input id="metamaskNotes" type="text" placeholder="z. B. neue Karte / realisierte Gewinne" />
+          </div>
+        </div>
+        <div class="value-pill">MetaMask total: <strong id="metamaskTotal">$ 0.00</strong></div>
+      </div>
+    </section>
+
+    <section class="panel notes-box">
+      <div class="section-top">
+        <div class="section-title">Portfolio Übersicht</div>
+        <div class="section-tag">Tagesnotiz</div>
+      </div>
+      <div class="field">
+        <label for="generalNotes">Kommentar / Überblick</label>
+        <textarea id="generalNotes" placeholder="Hier kannst du kurz festhalten, was sich verändert hat, warum du angepasst hast oder was auffällig ist."></textarea>
+      </div>
+      <div class="footer-note">
+        Alles wird lokal im Browser gespeichert. Kein Upload, kein Server, keine externe Datenbank. Das Tool eignet sich damit auch als einfache, strukturierte Übersicht für den eigenen Steuerberater oder für persönliche Vermögens-Updates.
+      </div>
+    </section>
+
+    <section class="panel history">
+      <div class="section-top">
+        <div class="section-title">Gespeicherte Historie</div>
+        <div class="section-tag">Local Storage</div>
+      </div>
+      <div id="historyWrap"></div>
+    </section>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'oxnodePortfolioTrackerV1';
+    const AUTH_KEY = 'oxnodeTrackerAccessGrantedV1';
+    const AUTH_USER = '0xnode_tracker';
+    const AUTH_PASS = 'N0de!Vault#2026$LP';
+
+    const ids = [
+      'snapshotDate', 'snapshotTitle', 'baseAssets',
+      'aeroLpValue', 'aeroTokenValue', 'aeroProfit', 'aeroNotes',
+      'botCapital', 'botProfit', 'botFees', 'botNotes',
+      'metamaskProfit', 'metamaskOther', 'metamaskNotes',
+      'generalNotes'
+    ];
+
+    const currency = new Intl.NumberFormat('de-CH', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+
+    function el(id) { return document.getElementById(id); }
+    function num(id) { return parseFloat(el(id).value) || 0; }
+    function text(id) { return (el(id).value || '').trim(); }
+    function todayISO() {
+      const d = new Date();
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+
+    function getState() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
+          form: {},
+          snapshots: []
+        };
+      } catch {
+        return { form: {}, snapshots: [] };
+      }
+    }
+
+    function setState(state) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function currentFormData() {
+      return {
+        date: text('snapshotDate') || todayISO(),
+        title: text('snapshotTitle'),
+        baseAssets: num('baseAssets'),
+        aerodrome: {
+          lpValue: num('aeroLpValue'),
+          tokenValue: num('aeroTokenValue'),
+          profit: num('aeroProfit'),
+          notes: text('aeroNotes')
+        },
+        bot: {
+          capital: num('botCapital'),
+          profit: num('botProfit'),
+          fees: num('botFees'),
+          notes: text('botNotes')
+        },
+        metamask: {
+          profit: num('metamaskProfit'),
+          other: num('metamaskOther'),
+          notes: text('metamaskNotes')
+        },
+        generalNotes: text('generalNotes')
+      };
+    }
+
+    function totalsFrom(data) {
+      const aerodromeTotal = (data.aerodrome?.lpValue || 0) + (data.aerodrome?.tokenValue || 0) + (data.aerodrome?.profit || 0);
+      const botTotal = (data.bot?.capital || 0) + (data.bot?.profit || 0) + (data.bot?.fees || 0);
+      const metamaskTotal = (data.metamask?.profit || 0) + (data.metamask?.other || 0);
+      const base = data.baseAssets || 0;
+      const total = aerodromeTotal + botTotal + metamaskTotal + base;
+      return { aerodromeTotal, botTotal, metamaskTotal, base, total };
+    }
+
+    function updateCalculatedFields() {
+      const data = currentFormData();
+      const t = totalsFrom(data);
+      el('aeroTotal').textContent = currency.format(t.aerodromeTotal);
+      el('botTotal').textContent = currency.format(t.botTotal);
+      el('metamaskTotal').textContent = currency.format(t.metamaskTotal);
+      el('overviewAerodrome').textContent = currency.format(t.aerodromeTotal);
+      el('overviewBot').textContent = currency.format(t.botTotal);
+      el('overviewMetamask').textContent = currency.format(t.metamaskTotal);
+      el('overviewBase').textContent = currency.format(t.base);
+      el('gesamtVermoegen').textContent = currency.format(t.total);
+      autoSaveForm();
+    }
+
+    function autoSaveForm() {
+      const state = getState();
+      state.form = currentFormData();
+      setState(state);
+      const lastDate = state.snapshots?.length ? state.snapshots[0].date : null;
+      el('snapshotBadge').textContent = lastDate ? `Letzter Snapshot: ${lastDate}` : 'Kein Snapshot gespeichert';
+    }
+
+    function populateForm(data) {
+      if (!data) return;
+      el('snapshotDate').value = data.date || todayISO();
+      el('snapshotTitle').value = data.title || '';
+      el('baseAssets').value = data.baseAssets ?? '';
+      el('aeroLpValue').value = data.aerodrome?.lpValue ?? '';
+      el('aeroTokenValue').value = data.aerodrome?.tokenValue ?? '';
+      el('aeroProfit').value = data.aerodrome?.profit ?? '';
+      el('aeroNotes').value = data.aerodrome?.notes || '';
+      el('botCapital').value = data.bot?.capital ?? '';
+      el('botProfit').value = data.bot?.profit ?? '';
+      el('botFees').value = data.bot?.fees ?? '';
+      el('botNotes').value = data.bot?.notes || '';
+      el('metamaskProfit').value = data.metamask?.profit ?? '';
+      el('metamaskOther').value = data.metamask?.other ?? '';
+      el('metamaskNotes').value = data.metamask?.notes || '';
+      el('generalNotes').value = data.generalNotes || '';
+      updateCalculatedFields();
+    }
+
+    function saveSnapshot() {
+      const state = getState();
+      const data = currentFormData();
+      const totals = totalsFrom(data);
+      const snapshot = {
+        ...data,
+        totals,
+        savedAt: new Date().toISOString()
+      };
+
+      const existingIndex = state.snapshots.findIndex(s => s.date === snapshot.date);
+      if (existingIndex >= 0) {
+        state.snapshots[existingIndex] = snapshot;
+      } else {
+        state.snapshots.push(snapshot);
+      }
+
+      state.snapshots.sort((a, b) => b.date.localeCompare(a.date));
+      state.form = data;
+      setState(state);
+      renderHistory();
+      el('snapshotBadge').textContent = `Letzter Snapshot: ${snapshot.date}`;
+      alert(`Snapshot für ${snapshot.date} gespeichert.`);
+    }
+
+    function renderHistory() {
+      const state = getState();
+      const wrap = el('historyWrap');
+      if (!state.snapshots?.length) {
+        wrap.innerHTML = '<div class="empty">Noch keine Snapshots gespeichert.</div>';
+        return;
+      }
+
+      const rows = state.snapshots.map((s, index) => `
+        <tr>
+          <td>${s.date}</td>
+          <td>${escapeHtml(s.title || '—')}</td>
+          <td>${currency.format(s.totals?.aerodromeTotal || 0)}</td>
+          <td>${currency.format(s.totals?.botTotal || 0)}</td>
+          <td>${currency.format(s.totals?.metamaskTotal || 0)}</td>
+          <td>${currency.format(s.totals?.base || 0)}</td>
+          <td><strong>${currency.format(s.totals?.total || 0)}</strong></td>
+          <td class="hidden-print">
+            <button class="btn-secondary" style="padding:8px 10px;font-size:12px;" onclick="loadSnapshot(${index})">Laden</button>
+          </td>
+        </tr>
+      `).join('');
+
+      wrap.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Datum</th>
+              <th>Titel</th>
+              <th>AERODROME</th>
+              <th>Bot</th>
+              <th>MetaMask</th>
+              <th>Sonstiges</th>
+              <th>Gesamt</th>
+              <th class="hidden-print">Aktion</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      `;
+    }
+
+    window.loadSnapshot = function(index) {
+      const state = getState();
+      const snapshot = state.snapshots[index];
+      if (!snapshot) return;
+      populateForm(snapshot);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    function resetAll() {
+      const ok = confirm('Wirklich alles zurücksetzen? Local Storage und Historie werden gelöscht.');
+      if (!ok) return;
+      localStorage.removeItem(STORAGE_KEY);
+      populateForm({ date: todayISO() });
+      renderHistory();
+      el('snapshotBadge').textContent = 'Kein Snapshot gespeichert';
+    }
+
+    function downloadPdf() {
+      window.print();
+    }
+
+    function saveHtmlBackup() {
+      const state = getState();
+      const html = document.documentElement.outerHTML.replace(
+        /const STORAGE_KEY = 'oxnodePortfolioTrackerV1';/,
+        `const STORAGE_KEY = 'oxnodePortfolioTrackerV1';\nwindow.__OXNODE_PRELOADED_STATE__ = ${JSON.stringify(state).replace(/</g, '\\u003c')};`
+      );
+      const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+      downloadBlob(blob, `0xnode-portfolio-tracker-${text('snapshotDate') || todayISO()}.html`);
+    }
+
+    function exportJson() {
+      const state = getState();
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json;charset=utf-8' });
+      downloadBlob(blob, `0xnode-portfolio-daten-${text('snapshotDate') || todayISO()}.json`);
+    }
+
+    function importJson(file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (!parsed || typeof parsed !== 'object') throw new Error('Ungültige Datei');
+          setState(parsed);
+          populateForm(parsed.form || { date: todayISO() });
+          renderHistory();
+          alert('Daten erfolgreich importiert.');
+        } catch {
+          alert('Import fehlgeschlagen. Bitte eine gültige JSON-Datei wählen.');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function downloadBlob(blob, filename) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function unlockApp() {
+      el('loginScreen').style.display = 'none';
+      el('appWrap').classList.remove('app-hidden');
+    }
+
+    function checkSavedAccess() {
+      try {
+        return localStorage.getItem(AUTH_KEY) === 'true';
+      } catch {
+        return false;
+      }
+    }
+
+    function saveAccess() {
+      try {
+        localStorage.setItem(AUTH_KEY, 'true');
+      } catch {}
+    }
+
+    function handleLogin() {
+      const username = (el('loginUsername').value || '').trim();
+      const password = el('loginPassword').value || '';
+      if (username === AUTH_USER && password === AUTH_PASS) {
+        saveAccess();
+        unlockApp();
+        el('loginError').style.display = 'none';
+        return;
+      }
+      el('loginError').style.display = 'block';
+    }
+
+    function init() {
+      if (window.__OXNODE_PRELOADED_STATE__) {
+        setState(window.__OXNODE_PRELOADED_STATE__);
+      }
+      const state = getState();
+      populateForm(state.form && Object.keys(state.form).length ? state.form : { date: todayISO() });
+      renderHistory();
+      ids.forEach(id => el(id).addEventListener('input', updateCalculatedFields));
+      el('saveSnapshotBtn').addEventListener('click', saveSnapshot);
+      el('resetBtn').addEventListener('click', resetAll);
+      el('downloadPdfBtn').addEventListener('click', downloadPdf);
+      el('saveHtmlBtn').addEventListener('click', saveHtmlBackup);
+      el('exportJsonBtn').addEventListener('click', exportJson);
+      el('importJsonBtn').addEventListener('click', () => el('importFile').click());
+      el('importFile').addEventListener('change', (e) => {
+        const file = e.target.files?.[0];
+        if (file) importJson(file);
+        e.target.value = '';
+      });
+      el('loginBtn').addEventListener('click', handleLogin);
+      el('loginPassword').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') handleLogin();
+      });
+      if (checkSavedAccess()) {
+        unlockApp();
+      }
+      updateCalculatedFields();
+    }
+
+    init();
+  </script>
+</body>
+</html>
