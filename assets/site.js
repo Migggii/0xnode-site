@@ -13,6 +13,14 @@
       a.href = "mailto:" + addr;
       if (a.getAttribute("data-show") === "1") a.textContent = addr;
     });
+    document.querySelectorAll("[data-mail-subject]").forEach(function (el) {
+      el.addEventListener("click", function (e) {
+        e.preventDefault();
+        var subject = el.getAttribute("data-mail-subject") || "Kontakt";
+        var body = el.getAttribute("data-mail-body") || "";
+        window.location.href = "mailto:" + user + "@" + domain + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+      });
+    });
   }
 
   if (document.readyState === "loading") {
