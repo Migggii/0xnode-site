@@ -316,6 +316,33 @@ footer.site-footer{
   border:1px solid rgba(255,255,255,.12);
 }
 .about p{color:#aab4c8;line-height:1.7;margin:0 0 12px}
+.quotes{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:14px;
+  margin-top:18px;
+}
+.quotes blockquote{
+  margin:0;
+  padding:18px 16px;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:16px;
+  background:rgba(255,255,255,.03);
+}
+.quotes blockquote p{
+  margin:0 0 14px;
+  color:#e9eef6;
+  line-height:1.6;
+  font-size:15px;
+}
+.quotes cite{
+  display:block;
+  font-style:normal;
+  color:#7a879e;
+  font-size:12px;
+  letter-spacing:.04em;
+  font-family:"DM Mono",ui-monospace,monospace;
+}
 .band{
   margin-top:28px;
   padding:28px 26px;
