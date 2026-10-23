@@ -1,15 +1,11 @@
 <!doctype html>
-<html lang="de">
+<html lang="de-CH">
 <head>
 <meta charset="utf-8">
 <title>DeFi erklärt · 0xNode</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="canonical" href="https://www.0xnode.ch/defi.html">
 <meta name="description" content="Was ist DeFi? Dezentrale Finanzsysteme verständlich erklärt – Struktur, Risiken und Entscheidungslogik statt Hype.">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
-
 <style>
 :root{
   --bg:#050608;
@@ -116,7 +112,7 @@ body::after{
   min-width:max-content;
   height:100%;
   padding-left:0;
-  animation:ticker 38s linear infinite;
+  
   font-family:var(--font-mono);
   font-size:12px;
   letter-spacing:.04em;
@@ -133,10 +129,7 @@ body::after{
 .ticker-sep{color:var(--dim)}
 .up{color:var(--emerald)}
 .down{color:var(--red)}
-@keyframes ticker{
-  0%{transform:translateX(0)}
-  100%{transform:translateX(-50%)}
-}
+
 
 /* ===== NAV ===== */
 .site-header{
@@ -314,7 +307,7 @@ p{
   color:var(--cyan);
   margin-bottom:28px;
   opacity:0;
-  animation:fadeUp .8s .1s forwards;
+  
 }
 .live-dot{
   width:6px;
@@ -322,13 +315,10 @@ p{
   border-radius:50%;
   background:var(--emerald);
   box-shadow:0 0 8px var(--emerald);
-  animation:livePulse 1.8s ease-in-out infinite;
+  
   flex-shrink:0;
 }
-@keyframes livePulse{
-  0%,100%{opacity:1;transform:scale(1)}
-  50%{opacity:.5;transform:scale(.6)}
-}
+
 .hero h1{
   font-family:var(--font-display);
   font-size:clamp(40px,4.8vw,64px);
@@ -337,7 +327,7 @@ p{
   letter-spacing:-.04em;
   margin-bottom:22px;
   opacity:0;
-  animation:fadeUp .8s .2s forwards;
+  
 }
 .hero h1 span{
   background:linear-gradient(100deg,var(--cyan) 0%,var(--violet) 50%,var(--emerald) 100%);
@@ -345,13 +335,9 @@ p{
   background-clip:text;
   color:transparent;
   background-size:200% 200%;
-  animation:gradFlow 6s ease infinite;
+  
 }
-@keyframes gradFlow{
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
-}
+
 .hero-sub{
   font-size:16px;
   color:var(--muted);
@@ -359,7 +345,7 @@ p{
   max-width:46ch;
   font-weight:300;
   opacity:0;
-  animation:fadeUp .8s .35s forwards;
+  
 }
 .hero-copy p{
   margin:0 0 14px;
@@ -370,7 +356,7 @@ p{
   gap:8px;
   margin-top:26px;
   opacity:0;
-  animation:fadeUp .8s .45s forwards;
+  
 }
 .pill{
   font-family:var(--font-mono);
@@ -396,19 +382,16 @@ p{
   border-left:2px solid var(--dim);
   padding-left:12px;
   opacity:0;
-  animation:fadeUp .8s .6s forwards;
+  
 }
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(20px)}
-  to{opacity:1;transform:none}
-}
+
 
 /* ===== HERO VISUAL ===== */
 .hero-visual{
   position:relative;
   height:460px;
   opacity:0;
-  animation:fadeUp .8s .3s forwards;
+  
 }
 .blob-wrap{
   position:absolute;
@@ -448,32 +431,23 @@ p{
   width:170px;
   top:4%;
   right:2%;
-  animation:floatA 6s ease-in-out infinite;
+  
 }
 .gp-bottom-left{
   width:165px;
   bottom:8%;
   left:1%;
-  animation:floatB 7s ease-in-out infinite;
+  
 }
 .gp-bottom-right{
   width:150px;
   bottom:10%;
   right:4%;
-  animation:floatC 5.5s ease-in-out infinite;
+  
 }
-@keyframes floatA{
-  0%,100%{transform:translateY(0) rotate(-1deg)}
-  50%{transform:translateY(-10px) rotate(.5deg)}
-}
-@keyframes floatB{
-  0%,100%{transform:translateY(0) rotate(.5deg)}
-  50%{transform:translateY(8px) rotate(-1deg)}
-}
-@keyframes floatC{
-  0%,100%{transform:translateY(0) rotate(-.5deg)}
-  50%{transform:translateY(-7px) rotate(1deg)}
-}
+
+
+
 .gp-label{
   font-family:var(--font-mono);
   font-size:10px;
@@ -691,13 +665,10 @@ p{
     radial-gradient(circle at 20% 30%, rgba(47,128,255,.08), transparent 22%),
     radial-gradient(circle at 70% 20%, rgba(104,166,255,.05), transparent 18%),
     radial-gradient(circle at 80% 80%, rgba(56,242,255,.04), transparent 18%);
-  animation:simBgFloat 18s linear infinite alternate;
+  
   pointer-events:none;
 }
-@keyframes simBgFloat{
-  from{transform:translate3d(0,0,0) scale(1)}
-  to{transform:translate3d(0,-18px,0) scale(1.03)}
-}
+
 .sim-header{
   position:relative;
   padding:24px 24px 10px;
@@ -818,13 +789,9 @@ p{
   border-radius:50%;
   background:var(--sim-green);
   box-shadow:0 0 0 0 rgba(65,216,139,.7);
-  animation:simPulse 1.6s infinite;
+  
 }
-@keyframes simPulse{
-  0%{box-shadow:0 0 0 0 rgba(65,216,139,.7)}
-  70%{box-shadow:0 0 0 10px rgba(65,216,139,0)}
-  100%{box-shadow:0 0 0 0 rgba(65,216,139,0)}
-}
+
 .sim-main-value-box{
   background:linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.015));
   border:1px solid rgba(255,255,255,.06);
@@ -995,12 +962,9 @@ p{
   background:var(--sim-accent2);
   box-shadow:0 0 16px rgba(104,166,255,.45);
   transform:scale(1.15);
-  animation:simActiveGlow 1.8s infinite ease-in-out;
+  
 }
-@keyframes simActiveGlow{
-  0%,100%{box-shadow:0 0 10px rgba(104,166,255,.35)}
-  50%{box-shadow:0 0 20px rgba(104,166,255,.75)}
-}
+
 .sim-point strong{
   display:block;
   font-size:12px;
@@ -1124,12 +1088,9 @@ p{
   justify-content:center;
   box-shadow:0 8px 32px rgba(0,229,255,.3);
   transition:transform .2s,box-shadow .2s;
-  animation:floatBtn 4s ease-in-out infinite;
+  
 }
-@keyframes floatBtn{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-5px)}
-}
+
 .mg-btn:hover{
   transform:scale(1.05)!important;
   box-shadow:0 12px 40px rgba(0,229,255,.45);
@@ -1403,9 +1364,11 @@ p{
   .footer-links{gap:14px}
 }
 </style>
+<link rel="stylesheet" href="assets/site.css">
 </head>
 
-<body>
+<body class="no-motion">
+<script src="assets/site.js"></script>
 
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
@@ -1427,6 +1390,9 @@ p{
     <nav class="nav-links">
       <a href="index.html">Start</a>
       <a href="defi.html" class="active">DeFi</a>
+      <a href="defi-schulung-zuerich.html">Schulung</a>
+      <a href="event.html">Event</a>
+      <a href="https://www.xn--cryptozrich-zhb.ch/events.html">Community &amp; Events</a>
       <a href="starter.html">Starter-Paket</a>
       <a href="mentoring.html">Mentoring</a>
       <a href="bot.html">Bot</a>
@@ -1439,15 +1405,18 @@ p{
   </div>
 
   <nav class="nav-mobile" id="mobileMenu">
-    <a href="index.html">Start</a>
-    <a href="defi.html">DeFi</a>
-    <a href="starter.html">Starter-Paket</a>
-    <a href="mentoring.html">Mentoring</a>
-    <a href="bot.html">Bot</a>
-    <a href="shop.html">Shop</a>
-    <a href="hardware.html">Hardware</a>
-    <a href="kontakt.html">Kontakt</a>
-  </nav>
+      <a href="index.html">Start</a>
+      <a href="defi.html" class="active">DeFi</a>
+      <a href="defi-schulung-zuerich.html">Schulung</a>
+      <a href="event.html">Event</a>
+      <a href="https://www.xn--cryptozrich-zhb.ch/events.html">Community &amp; Events</a>
+      <a href="starter.html">Starter-Paket</a>
+      <a href="mentoring.html">Mentoring</a>
+      <a href="bot.html">Bot</a>
+      <a href="shop.html">Shop</a>
+      <a href="hardware.html">Hardware</a>
+      <a href="kontakt.html">Kontakt</a>
+    </nav>
 </header>
 
 <div class="wrap">
@@ -1470,6 +1439,9 @@ p{
       </div>
 
       <div class="hero-disclaimer">// lernen statt hoffen &middot; struktur statt hype &middot; keine anlageberatung</div>
+      <div class="hero-actions" style="opacity:1;animation:none">
+        <a class="btn-primary" href="https://cal.meetergo.com/migggii/30-min-strategiegesprach-defi-and-crypto-einstieg" target="_blank" rel="noopener">Kostenloses Erstgespräch</a>
+      </div>
     </div>
 
     <div class="hero-visual">
@@ -1540,10 +1512,15 @@ p{
     <div class="section-label">Grundlagen</div>
     <div class="section-title">Die Grundlagen von DeFi.</div>
     <p class="section-sub">Bankensystem vs. Blockchain - entdecke den Unterschied. Drei Bilder zeigen dir auf einen Blick, wie unser traditionelles Finanzsystem funktioniert und was die Blockchain verändert: weniger Zwischenstellen, mehr Transparenz und mehr Eigenverantwortung.</p>
+<div class="glance">
+<p><strong>DeFi</strong> Regeln stehen im Code, nicht bei einer Bank.</p>
+<p><strong>CeFi und DeFi</strong> Vertrauen in Menschen oder in prüfbaren Code.</p>
+<p><strong>Lernen</strong> Zuerst Struktur und Risiko. Keine Renditegarantie.</p>
+</div>
 
     <div class="grid">
       <div class="card">
-        <img src="assets/defi-01-was-ist-defi.png" alt="DeFi als System">
+        <img src="assets/defi-01-was-ist-defi.webp" alt="DeFi als System" width="870" height="1305" loading="lazy">
         <div class="text">
           <h3>DeFi als System</h3>
           <p>Regeln sind im Code definiert – nicht durch Institutionen.</p>
@@ -1551,7 +1528,7 @@ p{
       </div>
 
       <div class="card">
-        <img src="assets/defi-02-cefi-vs-defi.png" alt="CeFi vs. DeFi">
+        <img src="assets/defi-02-cefi-vs-defi.webp" alt="CeFi vs. DeFi" width="1024" height="1536" loading="lazy">
         <div class="text">
           <h3>CeFi vs. DeFi</h3>
           <p>Vertrauen in Menschen vs. Vertrauen in überprüfbaren Code.</p>
@@ -1559,7 +1536,7 @@ p{
       </div>
 
       <div class="card">
-        <img src="assets/defi-03-mentoring.png" alt="Lernen statt hoffen">
+        <img src="assets/defi-03-mentoring.webp" alt="Lernen statt hoffen" width="870" height="1305" loading="lazy">
         <div class="text">
           <h3>Lernen statt hoffen</h3>
           <p>Struktur schlägt Emotionen, Wissen schlägt Hype.</p>
@@ -1601,7 +1578,9 @@ p{
     <div class="section-title">DeFi-Simulation im Zeitraffer.</div>
     <p class="section-sub">Wer nicht nur rechnen, sondern die mögliche Entwicklung eines Portfolios visuell sehen möchte, findet hier deine bestehende Simulation – gestalterisch eingebettet in den neuen Stil.</p>
 
-    <div class="sim-wrap">
+    <details class="fold"><summary>Simulation im Detail</summary><div class="fold-body">
+<p>Die laufende Animation ist auf dieser Seite ausgeschaltet. Dieselbe Modellrechnung gibt es interaktiv unter <a href="simulation.html">simulation.html</a>. Die Darstellung bleibt eine Einordnung, kein Versprechen.</p>
+<div class="sim-wrap">
       <div class="sim-header">
         <div class="sim-kicker">Visualisierte Modellrechnung · Auto-Loop · Premium Dashboard</div>
         <h2>Ein Portfolio im Wachstum</h2>
@@ -1777,6 +1756,7 @@ p{
         Das passt besser zu einem nüchternen DeFi-Verständnis: Struktur, Verständnis und klare Risiko-Einordnung statt Hype.
       </div>
     </div>
+  </div></details>
   </section>
 
   <section class="reveal">
@@ -1789,18 +1769,27 @@ p{
     </p>
 
     <div class="cta-buttons">
-      <a class="cta-btn" href="starter.html">Starter-Paket</a>
+      <a class="cta-btn" href="https://cal.meetergo.com/migggii/30-min-strategiegesprach-defi-and-crypto-einstieg" target="_blank" rel="noopener">Kostenloses Erstgespräch</a>
+      <a class="cta-btn secondary" href="starter.html">Starter-Paket</a>
       <a class="cta-btn secondary" href="mentoring.html">DeFi-Mentoring</a>
     </div>
   </section>
 
-  <footer class="site-footer reveal">
-    <div class="footer-brand">&copy; 0xm19gi &middot; 0xNode.ch</div>
-    <div class="footer-links">
-      <a href="defi-schulung-zuerich.html">DeFi Schulung Zürich</a>
-      <a href="legal.html">Rechtliches</a>
-    </div>
-  </footer>
+  <section class="page-cta" id="erstgespraech">
+  <p class="kicker">Nächster Schritt</p>
+  <h2>Kostenloses Erstgespräch</h2>
+  <p>30 Minuten, unverbindlich. Für Fragen zu Krypto, DeFi und dem sicheren Einstieg, ohne Signale und ohne Versprechen.</p>
+  <a class="cta-main" href="https://cal.meetergo.com/migggii/30-min-strategiegesprach-defi-and-crypto-einstieg" target="_blank" rel="noopener">Kostenloses Erstgespräch</a>
+</section>
+<footer class="site-footer">
+  <div class="footer-brand">&copy; M. Gaggia &middot; 0xNode.ch</div>
+  <div class="footer-links">
+    <a href="legal.html#impressum">Impressum</a>
+    <a href="legal.html#datenschutz">Datenschutz</a>
+    <a href="kontakt.html">Kontakt</a>
+    <a href="https://cal.meetergo.com/migggii/30-min-strategiegesprach-defi-and-crypto-einstieg" target="_blank" rel="noopener">Kostenloses Erstgespräch</a>
+  </div>
+</footer>
 </div>
 
 <div class="mg-messenger" id="mgMessenger">
@@ -1815,7 +1804,7 @@ p{
   <div class="mg-hint" id="mgHint">
     <button class="mg-hint-x" id="mgHintX" type="button">&times;</button>
     <div class="mg-hint-inner">
-      <img class="mg-hint-avatar" src="miggi.png" alt="Miggi">
+      <img class="mg-hint-avatar" src="miggi.webp" alt="Miggi" width="608" height="828" loading="lazy">
       <div class="mg-hint-copy">
         <div class="mg-hint-title">Fragen zur Krypto-Schulung?</div>
         <div class="mg-hint-text">Schreib mir kurz &ndash; ich antworte persönlich.</div>
