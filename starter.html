@@ -5,7 +5,7 @@
 <title>Crypto Starter Paket · 0xNode</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="canonical" href="https://www.0xnode.ch/starter.html">
-<meta name="description" content="Crypto Starter Paket: Blockchain & Krypto Grundlagen, Kauf/Verkauf, Wallets & Sicherheit. Eine Hardware-Wallet richten wir gemeinsam ein, das Gerät kaufst du selbst. Ruhig, strukturiert, ohne Hype.">
+<meta name="description" content="Crypto Starter Paket für absolute Einsteiger ohne Vorkenntnisse. CHF 450 für 4 Stunden, aufgeteilt in 2 Termine à 2 Stunden, plus Nachbetreuung per Nachricht während 2 Wochen. Blockchain, Sicherheit, Smart Contracts, Plattformen und Risiken. Ein Ledger ist von Vorteil, du kaufst ihn selbst.">
 
 <!-- PayPal SDK -->
 <script src="https://www.paypal.com/sdk/js?client-id=BAANUVSWpI_Y4nvh30MJg4cgPc1RimLrmikWbODAhh4siuLIuux2VLusAB5ARNHpZftxrgahyBgKTCs2i8&components=hosted-buttons&disable-funding=venmo&currency=CHF"></script>
@@ -557,6 +557,34 @@ p{
   line-height:1.65;
   color:var(--muted);
 }
+.learn{
+  margin-top:28px;
+  border:1px solid var(--border);
+  border-radius:16px;
+  overflow:hidden;
+  background:var(--surface);
+}
+.learn-row{
+  display:grid;
+  grid-template-columns:minmax(220px,280px) 1fr;
+  gap:18px;
+  align-items:baseline;
+  padding:18px 22px;
+  border-top:1px solid var(--border);
+}
+.learn-row:first-child{border-top:0}
+.learn-row h3{
+  margin:0;
+  font-family:var(--font-display);
+  font-size:17px;
+  font-weight:700;
+  letter-spacing:-.02em;
+}
+.learn-row p{
+  margin:0;
+  font-size:14px;
+  line-height:1.55;
+}
 
 /* ===== SPLIT ===== */
 .split{
@@ -865,6 +893,7 @@ p{
   .hero-visual{height:360px}
   .grid{grid-template-columns:1fr}
   .split{grid-template-columns:1fr}
+  .learn-row{grid-template-columns:1fr;gap:6px}
 }
 @media(max-width:768px){
   body{cursor:auto}
@@ -1038,7 +1067,7 @@ p{
 
       <div class="hero-copy">
         <p>
-          Ein ruhiges, klar strukturiertes Starter-Paket für Einsteiger:
+          Ein ruhiges, klar strukturiertes Starter-Paket für absolute Einsteiger, ohne Vorkenntnisse:
           Du verstehst die Grundlagen, richtest deine Wallet sicher ein und lernst,
           wie Kauf/Verkauf in der Praxis funktionieren – ohne Signale, ohne Versprechen, ohne Druck.
         </p>
@@ -1048,7 +1077,7 @@ p{
         <span class="tag">// self-custody</span>
         <span class="tag">// sicherheit zuerst</span>
         <span class="tag">// kein hype</span>
-        <span class="tag">// hardware-wallet selbst</span>
+        <span class="tag">// ledger von vorteil</span>
       </div>
 
       <div class="hero-disclaimer">// verständnis vor aktivität · struktur statt überforderung · keine anlageberatung</div>
@@ -1119,13 +1148,41 @@ p{
     </div>
   </section>
 
+  <section class="reveal" id="was-du-lernst">
+    <div class="section-label">Umfang · CHF 450</div>
+    <div class="section-title">Was du lernst.</div>
+    <p class="section-sub">Für absolute Einsteiger, ohne Vorkenntnisse. CHF 450: 4 Stunden, aufgeteilt in 2 Termine à 2 Stunden, plus Nachbetreuung per Nachricht während 2 Wochen danach. Keine Signale und keine Renditeversprechen. Eine Hardware-Wallet wie ein Ledger ist von Vorteil. Du kaufst sie selbst. Wenn du eine mitbringst, richten wir sie gemeinsam ein.</p>
+    <div class="learn">
+      <div class="learn-row">
+        <h3>Blockchain &amp; Krypto Grundlagen</h3>
+        <p>Coins, Tokens, Transaktionen und Gebühren, in ruhiger Sprache.</p>
+      </div>
+      <div class="learn-row">
+        <h3>Sicherheit &amp; Self-Custody</h3>
+        <p>Seed-Phrase und Backup. Ein Ledger ist von Vorteil. Du kaufst das Gerät selbst. Wenn du eines mitbringst, richten wir es ein.</p>
+      </div>
+      <div class="learn-row">
+        <h3>Smart Contracts verstehen</h3>
+        <p>Was ein Smart Contract ausführt und welche Abhängigkeit das erzeugt.</p>
+      </div>
+      <div class="learn-row">
+        <h3>Plattformen &amp; ihre Unterschiede</h3>
+        <p>Börsen, Wallets und DeFi: wofür sie da sind und worin sie sich unterscheiden.</p>
+      </div>
+      <div class="learn-row">
+        <h3>Risiken erkennen</h3>
+        <p>Scams, Phishing sowie Smart-Contract-, Markt- und Plattformrisiken. Erkennen heisst nicht ausschliessen.</p>
+      </div>
+    </div>
+  </section>
+
   <section class="reveal">
     <div class="section-label">Ergebnis</div>
     <div class="section-title">Was du nach dem Starter-Paket kannst.</div>
     <p class="section-sub">Der Fokus liegt nicht auf Tempo, sondern auf einem sauberen Fundament.</p>
 <div class="glance">
 <p><strong>Grundlagen</strong> Blockchain, Kauf und Verkauf, ohne Hype.</p>
-<p><strong>Verwahrung</strong> Wallet und Self-Custody. Die Hardware-Wallet kaufst du selbst, wir helfen beim Einrichten.</p>
+<p><strong>Verwahrung</strong> Wallet und Self-Custody. Ein Ledger ist von Vorteil. Du kaufst ihn selbst. Wenn du einen mitbringst, richten wir ihn ein.</p>
 <p><strong>Tempo</strong> Zuerst verstehen, dann handeln.</p>
 </div>
 
@@ -1154,14 +1211,15 @@ p{
       <div class="box">
         <div class="soft-kicker">paketinhalt</div>
         <h2 style="font-family:var(--font-display);font-size:28px;letter-spacing:-.03em;">Inhalt des Starter-Pakets</h2>
-        <div class="badge">Dauer: 5-6 Sitzungen · 60-90 Minuten</div>
+        <div class="badge">Dauer: 4 Stunden · 2 Termine à 2 Stunden · plus 2 Wochen Nachbetreuung per Nachricht</div>
 
         <ul class="list">
-          <li>🧩 Grundlagen: Was ist Blockchain, was sind Coins/Tokens, warum gibt es Fees?</li>
-          <li>🛡️ Sicherheit: Seed Phrase, Backup-Strategie, Phishing/Scams erkennen.</li>
-          <li>👛 Wallets: Hot vs. Cold Wallet, wofür eine Hardware-Wallet sinnvoll ist.</li>
-          <li>🔧 Setup: Hardware-Wallet einrichten, erste Schritte &amp; Sicherheits-Check. Das Gerät kaufst du selbst.</li>
-          <li>💱 Praxis: Kaufen/Verkaufen im Überblick (kein Trading, keine Signale).</li>
+          <li>🧩 Grundlagen: Blockchain, Coins und Tokens, Transaktionen und Gebühren.</li>
+          <li>🛡️ Sicherheit und Self-Custody: Seed-Phrase, Backup. Ein Ledger ist von Vorteil. Du kaufst ihn selbst. Wenn du einen mitbringst, richten wir ihn ein.</li>
+          <li>📜 Smart Contracts: was sie ausführen und welche Abhängigkeit das erzeugt.</li>
+          <li>🧭 Plattformen: Börsen, Wallets und DeFi, und worin sie sich unterscheiden.</li>
+          <li>⚠️ Risiken: Scams, Phishing, Smart-Contract-, Markt- und Plattformrisiken.</li>
+          <li>💱 Praxis: Kaufen und Verkaufen im Überblick (kein Trading, keine Signale).</li>
           <li>✅ Checklisten: Was du vor jeder Transaktion prüfen solltest.</li>
         </ul>
 
@@ -1176,7 +1234,7 @@ p{
         <h2 style="font-family:var(--font-display);font-size:28px;letter-spacing:-.03em;">Für wen es passt</h2>
 
         <ul class="list">
-          <li>✅ Einsteiger, die sauber starten wollen (ohne Hype).</li>
+          <li>✅ Absolute Einsteiger ohne Vorkenntnisse, die sauber starten wollen (ohne Hype).</li>
           <li>✅ Menschen, die Self-Custody ernst nehmen.</li>
           <li>✅ Wer klare Abläufe, Checklisten und Ruhe schätzt.</li>
           <li>🚫 Nicht geeignet für Signal-Gruppen, „schnell reich“ und Daytrading.</li>
@@ -1189,7 +1247,7 @@ p{
           <li>💻 Computer oder Laptop</li>
           <li>📝 Notizen</li>
           <li>📱 Smartphone (für 2FA/Apps)</li>
-          <li>🔐 Hardware-Wallet, falls vorhanden. Sonst kaufst du sie selbst (<a href="hardware.html">Hardware</a>).</li>
+          <li>🔐 Eine Hardware-Wallet wie ein Ledger ist von Vorteil. Du kaufst sie selbst. Wenn du eine mitbringst, richten wir sie gemeinsam ein (<a href="hardware.html">Hardware</a>).</li>
         </ul>
       </div>
     </div>
@@ -1198,11 +1256,11 @@ p{
   <section class="reveal cta-wrap">
     <div class="section-label">Buchung</div>
     <div class="section-title">Krypto Starter Paket buchen.</div>
-    <p class="section-sub">Wir helfen beim Einrichten einer <a href="hardware.html">Hardware-Wallet</a>. Das Gerät ist nicht im Preis enthalten.</p>
+    <p class="section-sub">Eine Hardware-Wallet wie ein <a href="hardware.html">Ledger</a> ist von Vorteil und nicht im Preis enthalten. Du kaufst sie selbst. Wenn du eine mitbringst, richten wir sie gemeinsam ein.</p>
 
     <div class="cta-card">
       <h2>Sauber starten statt improvisieren.</h2>
-      <p class="price">Paketpreis <strong>CHF 450</strong></p>
+      <p class="price">Paketpreis <strong>CHF 450</strong><br>4 Stunden, aufgeteilt in 2 Termine à 2 Stunden, plus Nachbetreuung per Nachricht während 2 Wochen danach.</p>
 
       <div class="paypal-wrap">
         <div class="paypal-box">
@@ -1219,7 +1277,7 @@ p{
           <summary>Wie läuft es nach der Buchung ab?</summary>
           <p>
             Nach dem Kauf melde ich mich persönlich bei dir, um Termin &amp; Ablauf zu klären.
-            Eine Hardware-Wallet ist nicht im Paket enthalten. Wenn du eine hast oder selbst kaufst, richten wir sie gemeinsam ein.
+            Eine Hardware-Wallet ist nicht im Paket enthalten. Ein Ledger ist von Vorteil. Du kaufst ihn selbst. Wenn du einen mitbringst, richten wir ihn gemeinsam ein.
           </p>
         </details>
 
