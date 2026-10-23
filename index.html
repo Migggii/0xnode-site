@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>0xNode · Private DeFi Education</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="canonical" href="https://www.0xnode.ch/">
 <meta name="description" content="Private DeFi Education. Struktur, Prozesse und Risikobewusstsein statt Hype. Keine Signale, keine Versprechen.">
 <style>
@@ -79,54 +79,10 @@ body::after{
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* ===== TICKER ===== */
-.ticker-bar{
-  position:sticky;
-  top:0;
-  z-index:200;
-  height:40px;
-  overflow:hidden;
-  border-bottom:1px solid var(--border);
-  background:rgba(5,6,8,.97);
-  backdrop-filter:blur(20px);
-}
-.ticker-track{
-  display:flex;
-  align-items:center;
-  gap:32px;
-  white-space:nowrap;
-  min-width:max-content;
-  height:100%;
-  padding-left:0;
-  animation:ticker 38s linear infinite;
-  font-family:var(--font-mono);
-  font-size:12px;
-  letter-spacing:.04em;
-}
-.ticker-bar:hover .ticker-track{
-  animation-play-state:paused;
-}
-.ticker-item{
-  display:inline-flex;
-  align-items:center;
-  gap:10px;
-  color:var(--muted);
-  flex:0 0 auto;
-}
-.ticker-symbol{color:var(--text)}
-.ticker-sep{color:var(--dim)}
-.up{color:var(--emerald)}
-.down{color:var(--red)}
-
-@keyframes ticker{
-  0%{transform:translateX(0)}
-  100%{transform:translateX(-50%)}
-}
-
 /* ===== NAV ===== */
 .site-header{
   position:sticky;
-  top:40px;
+  top:0;
   z-index:150;
   background:rgba(5,6,8,.85);
   backdrop-filter:blur(24px);
@@ -440,12 +396,6 @@ body::after{
   left:50%;
   transform:translate(-50%,-52%);
 }
-.gp-top-right{
-  width:164px;
-  top:5%;
-  right:3%;
-  animation:floatA 6s ease-in-out infinite;
-}
 .gp-bottom-left{
   width:155px;
   bottom:7%;
@@ -457,10 +407,6 @@ body::after{
   bottom:10%;
   right:4%;
   animation:floatC 5.5s ease-in-out infinite;
-}
-@keyframes floatA{
-  0%,100%{transform:translateY(0) rotate(-1deg)}
-  50%{transform:translateY(-10px) rotate(.5deg)}
 }
 @keyframes floatB{
   0%,100%{transform:translateY(0) rotate(.5deg)}
@@ -685,83 +631,6 @@ section{margin-top:84px}
   color:var(--cyan);
   letter-spacing:.04em;
   transition:gap .2s;
-}
-
-/* ===== DASHBOARD ===== */
-.dashboard{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:16px;
-  overflow:hidden;
-  margin-top:32px;
-}
-.dash-header{
-  padding:20px 24px;
-  border-bottom:1px solid var(--border);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-}
-.dash-title{
-  font-family:var(--font-display);
-  font-size:16px;
-  font-weight:700;
-}
-.dash-status{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  font-family:var(--font-mono);
-  font-size:11px;
-  color:var(--emerald);
-  letter-spacing:.06em;
-}
-.dash-grid{
-  display:grid;
-  grid-template-columns:repeat(6,1fr);
-  border-bottom:1px solid var(--border);
-}
-.dash-cell{
-  padding:20px;
-  border-right:1px solid var(--border);
-}
-.dash-cell:last-child{border-right:none}
-.dash-coin{
-  font-family:var(--font-mono);
-  font-size:11px;
-  color:var(--dim);
-  margin-bottom:6px;
-  letter-spacing:.06em;
-}
-.dash-price{
-  font-family:var(--font-mono);
-  font-size:14px;
-  color:var(--text);
-}
-.dash-change{
-  font-family:var(--font-mono);
-  font-size:11px;
-  margin-top:4px;
-}
-.dash-bar{
-  height:2px;
-  margin-top:10px;
-  border-radius:999px;
-  background:var(--border);
-  overflow:hidden;
-}
-.dash-bar-fill{
-  height:100%;
-  border-radius:999px;
-  transition:width 1.5s ease;
-}
-.dash-note{
-  padding:14px 24px;
-  font-family:var(--font-mono);
-  font-size:11px;
-  color:var(--dim);
-  letter-spacing:.04em;
 }
 
 /* ===== PARTNERS ===== */
@@ -1007,9 +876,6 @@ section{margin-top:84px}
   .paths{
     grid-template-columns:1fr;
   }
-  .dash-grid{
-    grid-template-columns:repeat(3,1fr);
-  }
 }
 
 /* ===== MOBILE ===== */
@@ -1021,26 +887,6 @@ section{margin-top:84px}
   #cursor,
   #cursor-ring{
     display:none !important;
-  }
-
-  .ticker-bar{
-    height:36px;
-  }
-
-  .ticker-track{
-    gap:18px;
-    font-size:11px;
-    padding-left:0;
-    animation-duration:28s;
-  }
-
-  .ticker-item{
-    gap:6px;
-    flex:0 0 auto;
-  }
-
-  .site-header{
-    top:36px;
   }
 
   .nav-links{
@@ -1103,12 +949,7 @@ section{margin-top:84px}
     width:220px;
   }
 
-  .gp-top-right{
-    width:150px;
-    top:4%;
-    right:2%;
-  }
-
+  
   .gp-bottom-left{
     width:145px;
     left:0;
@@ -1121,14 +962,6 @@ section{margin-top:84px}
     bottom:8%;
   }
 
-  .dash-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .dash-header{
-    flex-direction:column;
-    align-items:flex-start;
-  }
 
   .partner-item{
     width:158px;
@@ -1191,12 +1024,7 @@ section{margin-top:84px}
     width:200px;
   }
 
-  .gp-top-right{
-    width:138px;
-    top:2%;
-    right:0;
-  }
-
+  
   .gp-bottom-left{
     width:136px;
     left:0;
@@ -1207,10 +1035,6 @@ section{margin-top:84px}
     width:126px;
     right:0;
     bottom:6%;
-  }
-
-  .dash-grid{
-    grid-template-columns:1fr;
   }
 
   .partner-item{
@@ -1271,12 +1095,6 @@ section{margin-top:84px}
 <div id="cursor-ring"></div>
 <canvas id="bg-canvas"></canvas>
 
-<div class="ticker-bar">
-  <div class="ticker-track" id="tickerTrack">
-    <div class="ticker-item">Lade Marktdaten<span class="ticker-sep"> · </span></div>
-  </div>
-</div>
-
 <header class="site-header">
   <div class="nav-wrap">
     <div class="brand">
@@ -1287,13 +1105,20 @@ section{margin-top:84px}
     <nav class="nav-links">
       <a href="index.html" class="active">Start</a>
       <a href="defi.html">DeFi</a>
-      <a href="defi-schulung-zuerich.html">Schulung</a>
-      <a href="angebote.html">Angebote</a>
-      <a href="workshops.html">Workshops</a>
-      <a href="starter.html">Starter-Paket</a>
-      <a href="mentoring.html">Mentoring</a>
-      <a href="bot.html">Bot</a>
-      <a href="shop.html">Shop</a>
+      <div class="nav-drop">
+        <div class="nav-drop-head">
+          <a href="angebote.html" class="nav-drop-link">Angebote</a>
+          <button type="button" class="nav-drop-btn" aria-expanded="false" aria-haspopup="true" aria-controls="navSubDesktop" aria-label="Angebote öffnen">&#9662;</button>
+        </div>
+        <div class="nav-sub" id="navSubDesktop">
+          <a href="defi-schulung-zuerich.html">Schulung</a>
+          <a href="starter.html">Starter-Paket</a>
+          <a href="mentoring.html">Mentoring</a>
+          <a href="workshops.html">Workshops</a>
+          <a href="bot.html">Bot</a>
+          <a href="shop.html">Shop</a>
+        </div>
+      </div>
       <a href="hardware.html">Hardware</a>
       <a href="https://www.xn--cryptozrich-zhb.ch/events.html">Community &amp; Events</a>
       <a href="kontakt.html" class="nav-cta">Kontakt</a>
@@ -1305,13 +1130,20 @@ section{margin-top:84px}
   <nav class="nav-mobile" id="mobileMenu">
       <a href="index.html" class="active">Start</a>
       <a href="defi.html">DeFi</a>
-      <a href="defi-schulung-zuerich.html">Schulung</a>
-      <a href="angebote.html">Angebote</a>
-      <a href="workshops.html">Workshops</a>
-      <a href="starter.html">Starter-Paket</a>
-      <a href="mentoring.html">Mentoring</a>
-      <a href="bot.html">Bot</a>
-      <a href="shop.html">Shop</a>
+      <div class="nav-drop">
+        <div class="nav-drop-head">
+          <a href="angebote.html" class="nav-drop-link">Angebote</a>
+          <button type="button" class="nav-drop-btn" aria-expanded="false" aria-haspopup="true" aria-controls="navSubMobile" aria-label="Angebote öffnen">&#9662;</button>
+        </div>
+        <div class="nav-sub" id="navSubMobile">
+          <a href="defi-schulung-zuerich.html">Schulung</a>
+          <a href="starter.html">Starter-Paket</a>
+          <a href="mentoring.html">Mentoring</a>
+          <a href="workshops.html">Workshops</a>
+          <a href="bot.html">Bot</a>
+          <a href="shop.html">Shop</a>
+        </div>
+      </div>
       <a href="hardware.html">Hardware</a>
       <a href="https://www.xn--cryptozrich-zhb.ch/events.html">Community &amp; Events</a>
       <a href="kontakt.html">Kontakt</a>
@@ -1333,7 +1165,7 @@ section{margin-top:84px}
       </div>
 
       <div class="hero-actions">
-        <a class="btn-primary" href="https://cal.meetergo.com/migggii/30-min-strategiegesprach-defi-and-crypto-einstieg" target="_blank" rel="noopener">Kostenloses Erstgespräch</a>
+        <a class="btn-primary" href="https://calendar.proton.me/bookings#0RvACTyZblEVVsbR-Ws95yqG9cV8c5OaF9DqD8r7_Cc=" target="_blank" rel="noopener">Kostenloses Erstgespräch</a>
         <a class="btn-ghost" href="angebote.html">Angebote ansehen</a>
         <a class="btn-ghost" href="workshops.html">Workshop anfragen</a>
       </div>
@@ -1372,15 +1204,6 @@ section{margin-top:84px}
           </div>
         </div>
 
-        <div class="glass-panel gp-top-right">
-          <div class="gp-label">// btc 24h</div>
-          <canvas id="miniChartA" width="136" height="38"></canvas>
-          <div class="gp-row">
-            <span style="font-family:var(--font-mono);font-size:10px;color:var(--dim)">Bitcoin</span>
-            <span class="gp-badge" id="hrChange">...</span>
-          </div>
-        </div>
-
         <div class="glass-panel gp-bottom-left">
           <div class="gp-label">// risiko-profil</div>
           <div style="display:flex;flex-direction:column;gap:6px;margin-top:4px">
@@ -1405,11 +1228,11 @@ section{margin-top:84px}
 
   <section class="reveal" id="ueber-mich">
     <div class="section-label">Über mich</div>
-    <div class="section-title">Miggi, 0xNode.</div>
+    <div class="section-title">Miggi aus Zürich.</div>
     <div class="about">
-      <img src="miggi.webp" alt="Miggi" width="608" height="828" loading="lazy">
+      <img src="miggi.webp" alt="Miggi aus Zürich" width="608" height="828" loading="lazy">
       <div>
-        <p>Ich bin Miggi (M. Gaggia). 0xNode ist mein Bildungsangebot zu Krypto, Blockchain, Self-Custody und DeFi, von Niederhasli aus, mit persönlicher Begleitung in Zürich oder virtuell.</p>
+        <p>Ich bin Miggi aus Zürich und seit 2017 im Crypto-Space dabei. 0xNode ist mein Bildungsangebot zu Krypto, Blockchain, Self-Custody und DeFi, von Niederhasli aus, mit persönlicher Begleitung in Zürich oder virtuell.</p>
         <p>Der Fokus liegt auf Struktur, Sicherheit und nachvollziehbarer Bildung. Bewusst ohne Hype, ohne Signale und ohne Renditeversprechen. Das ist keine Anlageberatung.</p>
         <p>Gearbeitet wird 1:1 oder in kleiner Runde. Für den Einstieg ohne Vorwissen gibt es das Starter-Paket. Wer schon Wallets und Selbstverwahrung kennt, findet das Mentoring.</p>
       </div>
@@ -1425,20 +1248,6 @@ section{margin-top:84px}
         <a class="cta-main" href="workshops.html">Workshop anfragen</a>
         <a class="btn-ghost" href="angebote.html">Alle Angebote</a>
       </div>
-    </div>
-  </section>
-
-  <section class="reveal">
-    <div class="section-label">Marktübersicht</div>
-    <div class="section-title">Live Kurse in CHF.</div>
-    <p class="section-sub">Echtzeitdaten via CoinGecko &ndash; zur Orientierung, nicht als Handelssignal.</p>
-    <div class="dashboard">
-      <div class="dash-header">
-        <div class="dash-title">Crypto Market</div>
-        <div class="dash-status"><span class="live-dot"></span>LIVE &middot; aktualisiert jede Minute</div>
-      </div>
-      <div class="dash-grid" id="dashGrid"></div>
-      <div class="dash-note">// kurse in CHF &middot; quelle: coingecko.com &middot; keine anlageberatung</div>
     </div>
   </section>
 
@@ -1511,7 +1320,7 @@ section{margin-top:84px}
     <div class="section-title">Kurz für Einsteiger.</div>
     <div class="faq-list">
       <details class="fold"><summary>Welches Vorwissen brauche ich?</summary><div class="fold-body"><p>Für das Starter-Paket brauchst du kein Vorwissen. Das Mentoring setzt erste Erfahrung mit Wallets, Transaktionen und Selbstverwahrung voraus.</p></div></details>
-      <details class="fold"><summary>Was passiert im Erstgespräch?</summary><div class="fold-body"><p>30 Minuten, kostenlos und unverbindlich. Fragen zu Krypto, DeFi und dem sicheren Einstieg. Keine Signale und keine Versprechen.</p></div></details>
+      <details class="fold"><summary>Was passiert im Erstgespräch?</summary><div class="fold-body"><p>60 Minuten, kostenlos und unverbindlich. Fragen zu Krypto, DeFi und dem sicheren Einstieg. Keine Signale und keine Versprechen. Die Buchung läuft über Proton.</p></div></details>
       <details class="fold"><summary>Gibt es Workshops für Firmen?</summary><div class="fold-body"><p>Ja. Grundlagen, Sicherheit und DeFi, Preis auf Anfrage. <a href="workshops.html">Workshop anfragen</a>.</p></div></details>
     </div>
     <p class="crosslink"><a href="faq.html">Alle Fragen</a></p>
@@ -1600,8 +1409,8 @@ section{margin-top:84px}
 <section class="page-cta" id="erstgespraech">
   <p class="kicker">Nächster Schritt</p>
   <h2>Kostenloses Erstgespräch</h2>
-  <p>30 Minuten, unverbindlich. Für Fragen zu Krypto, DeFi und dem sicheren Einstieg, ohne Signale und ohne Versprechen.</p>
-  <a class="cta-main" href="https://cal.meetergo.com/migggii/30-min-strategiegesprach-defi-and-crypto-einstieg" target="_blank" rel="noopener">Kostenloses Erstgespräch</a>
+  <p>60 Minuten, unverbindlich. Für Fragen zu Krypto, DeFi und dem sicheren Einstieg, ohne Signale und ohne Versprechen.</p>
+  <a class="cta-main" href="https://calendar.proton.me/bookings#0RvACTyZblEVVsbR-Ws95yqG9cV8c5OaF9DqD8r7_Cc=" target="_blank" rel="noopener">Kostenloses Erstgespräch</a>
 </section>
 <footer class="site-footer">
   <div class="footer-brand">&copy; 0xNode.ch</div>
@@ -1612,7 +1421,7 @@ section{margin-top:84px}
     <a href="videokurs.html">Videokurs</a>
     <a href="angebote.html">Angebote</a>
     <a href="kontakt.html">Kontakt</a>
-    <a href="https://cal.meetergo.com/migggii/30-min-strategiegesprach-defi-and-crypto-einstieg" target="_blank" rel="noopener">Kostenloses Erstgespräch</a>
+    <a href="https://calendar.proton.me/bookings#0RvACTyZblEVVsbR-Ws95yqG9cV8c5OaF9DqD8r7_Cc=" target="_blank" rel="noopener">Kostenloses Erstgespräch</a>
   </div>
 </footer>
 </div>
@@ -1784,119 +1593,11 @@ if(!isTouchDevice){
   })();
 })();
 
-function drawSparkline(canvas,data,color){
-  const ctx=canvas.getContext('2d'),w=canvas.width,h=canvas.height;
-  ctx.clearRect(0,0,w,h);
-  if(!data||data.length<2)return;
-
-  const mn=Math.min(...data),mx=Math.max(...data),rng=mx-mn||1;
-  const g=ctx.createLinearGradient(0,0,0,h);
-  g.addColorStop(0,color.replace('rgb(','rgba(').replace(')',',0.25)'));
-  g.addColorStop(1,color.replace('rgb(','rgba(').replace(')',',0)'));
-
-  ctx.beginPath();
-  data.forEach((v,i)=>{
-    const x=i/(data.length-1)*w;
-    const y=h-(v-mn)/rng*(h*.8)-h*.1;
-    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
-  });
-  ctx.strokeStyle=color;
-  ctx.lineWidth=1.5;
-  ctx.stroke();
-
-  const lx=w,ly=h-(data[data.length-1]-mn)/rng*(h*.8)-h*.1;
-  ctx.lineTo(lx,h);
-  ctx.lineTo(0,h);
-  ctx.closePath();
-  ctx.fillStyle=g;
-  ctx.fill();
-}
-
-const fakeData=Array.from({length:24},(_,i)=>42000+Math.sin(i*.4)*1200+Math.random()*400);
-const mcA=document.getElementById('miniChartA');
-if(mcA)drawSparkline(mcA,fakeData,'rgb(0,229,255)');
-
-const coinConfig=[
-  {id:'bitcoin',symbol:'BTC'},
-  {id:'ethereum',symbol:'ETH'},
-  {id:'solana',symbol:'SOL'},
-  {id:'ripple',symbol:'XRP'},
-  {id:'binancecoin',symbol:'BNB'},
-  {id:'usd-coin',symbol:'USDC'}
-];
-
-async function loadData(){
-  const fmt=new Intl.NumberFormat('de-CH',{
-    style:'currency',
-    currency:'CHF',
-    minimumFractionDigits:2,
-    maximumFractionDigits:2
-  });
-
-  try{
-    const ids=coinConfig.map(c=>c.id).join(',');
-    const res=await fetch('https://api.coingecko.com/api/v3/simple/price?ids='+ids+'&vs_currencies=chf&include_24hr_change=true',{cache:'no-store'});
-    if(!res.ok)throw new Error();
-
-    const data=await res.json();
-
-    const track=document.getElementById('tickerTrack');
-    if(track){
-      const items=coinConfig.map(c=>{
-        const d=data[c.id];
-        if(!d)return'';
-        const p=fmt.format(d.chf),
-              ch=d.chf_24h_change||0,
-              cls=ch>=0?'up':'down',
-              sign=ch>=0?'+':'';
-        return '<div class="ticker-item"><span class="ticker-symbol">'+c.symbol+'</span><span class="ticker-sep"> &middot; </span><span>'+p+'</span><span class="ticker-sep"> &middot; </span><span class="'+cls+'">'+sign+ch.toFixed(2)+'%</span></div>';
-      }).filter(Boolean);
-
-      track.innerHTML=items.join('') + items.join('');
-    }
-
-    const grid=document.getElementById('dashGrid');
-    if(grid){
-      grid.innerHTML=coinConfig.map(c=>{
-        const d=data[c.id];
-        if(!d)return'';
-        const price=c.id==='usd-coin'
-          ? new Intl.NumberFormat('de-CH',{style:'currency',currency:'CHF',minimumFractionDigits:4,maximumFractionDigits:4}).format(d.chf)
-          : fmt.format(d.chf);
-
-        const ch=d.chf_24h_change||0,
-              cls=ch>=0?'up':'down',
-              sign=ch>=0?'+':'';
-        const barPct=Math.min(Math.abs(ch)/10*100,100),
-              barColor=ch>=0?'var(--emerald)':'var(--red)';
-
-        return '<div class="dash-cell"><div class="dash-coin">'+c.symbol+'</div><div class="dash-price">'+price+'</div><div class="dash-change '+cls+'">'+sign+ch.toFixed(2)+'%</div><div class="dash-bar"><div class="dash-bar-fill" style="width:'+barPct+'%;background:'+barColor+'"></div></div></div>';
-      }).join('');
-    }
-
-    const btc=data['bitcoin'];
-    if(btc&&btc.chf_24h_change!=null){
-      const el=document.getElementById('hrChange'),ch=btc.chf_24h_change;
-      if(el){
-        el.textContent=(ch>=0?'+':'')+ch.toFixed(2)+'%';
-        el.className='gp-badge'+(ch<0?' warn':'');
-      }
-      const spark=Array.from({length:24},(_,i)=>btc.chf*(1-(ch/100)*(1-i/24))+Math.sin(i*.8)*btc.chf*.003);
-      if(mcA)drawSparkline(mcA,spark,'rgb(0,229,255)');
-    }
-  }catch(e){
-    const track=document.getElementById('tickerTrack');
-    if(track)track.innerHTML='<div class="ticker-item"><span>Kurse momentan nicht verfügbar</span></div>';
-  }
-
-  setTimeout(()=>{
-    const b1=document.getElementById('bar1'),b2=document.getElementById('bar2');
-    if(b1)b1.style.width='88%';
-    if(b2)b2.style.width='4%';
-  },400);
-}
-loadData();
-setInterval(loadData,60000);
+setTimeout(()=>{
+  const b1=document.getElementById('bar1'),b2=document.getElementById('bar2');
+  if(b1)b1.style.width='88%';
+  if(b2)b2.style.width='4%';
+},400);
 
 const ro=new IntersectionObserver(entries=>{
   entries.forEach(e=>{
