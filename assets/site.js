@@ -5,20 +5,28 @@
     window.requestAnimationFrame = function () { return 0; };
   }
 
+  function mailAddr(el) {
+    var user = el.getAttribute("data-u");
+    var domain = el.getAttribute("data-d");
+    if (!user || !domain) return "";
+    return user + "@" + domain;
+  }
+
   function bindMail() {
-    var user = "admin";
-    var domain = "0xnode.ch";
-    var addr = user + "@" + domain;
     document.querySelectorAll("a.js-mail").forEach(function (a) {
+      var addr = mailAddr(a);
+      if (!addr) return;
       a.href = "mailto:" + addr;
       if (a.getAttribute("data-show") === "1") a.textContent = addr;
     });
     document.querySelectorAll("[data-mail-subject]").forEach(function (el) {
       el.addEventListener("click", function (e) {
+        var addr = mailAddr(el);
+        if (!addr) return;
         e.preventDefault();
         var subject = el.getAttribute("data-mail-subject") || "Kontakt";
         var body = el.getAttribute("data-mail-body") || "";
-        window.location.href = "mailto:" + user + "@" + domain + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+        window.location.href = "mailto:" + addr + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
       });
     });
   }
