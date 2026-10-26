@@ -1319,7 +1319,8 @@ p{
         Für klare Anfragen ist der direkte Messenger-Kontakt meist effizienter.
         Wenn du lieber per Mail startest, kannst du hier den Entwurf automatisch öffnen.
       </p>
-      <a class="btn" href="#" onclick="openMail()">E-Mail vorbereiten</a>
+      <a class="btn" href="legal.html#impressum" data-u="mg" data-d="0xnode.ch" onclick="openMail(this); return false;">E-Mail vorbereiten</a>
+      <noscript>mg [at] 0xnode [punkt] ch</noscript>
     </div>
   </section>
 
@@ -1536,9 +1537,10 @@ function toggleMobileMenu(){
   m.style.display = m.style.display === "flex" ? "none" : "flex";
 }
 
-function openMail(){
-  const u = "admin";
-  const d = "0xnode.ch";
+function openMail(el){
+  const u = el.getAttribute("data-u");
+  const d = el.getAttribute("data-d");
+  if (!u || !d) return;
   const mail = u + "@" + d;
   const subject = encodeURIComponent("Kontaktanfrage DeFi");
   const body = encodeURIComponent(
