@@ -910,7 +910,7 @@ p{
     padding:60px 0 20px;
     gap:30px;
   }
-  .hero-visual{height:360px}
+  .hero-visual{height:auto;min-height:520px}
   .product-section,
   .grid-3{
     grid-template-columns:1fr;
@@ -955,7 +955,7 @@ p{
   }
   .hero-visual{
     height:auto;
-    min-height:330px;
+    min-height:520px;
   }
   .gp-main{width:220px}
   .gp-top-right{width:150px;top:4%;right:2%}
@@ -979,7 +979,7 @@ p{
   }
   .hero-copy{font-size:14px}
 
-  .hero-visual{min-height:300px}
+  .hero-visual{min-height:520px}
   .glass-panel{
     padding:14px 14px;
     border-radius:14px;
@@ -1006,6 +1006,70 @@ p{
   .mg-hint{
     width:min(320px,calc(100vw - 28px));
     bottom:64px;
+  }
+}
+
+.hero-actions{
+  display:flex;
+  gap:12px;
+  margin-top:36px;
+  flex-wrap:wrap;
+  position:relative;
+  z-index:2;
+}
+.btn-primary{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:14px 28px;
+  border-radius:10px;
+  font-weight:600;
+  background:var(--cyan);
+  color:#000;
+  font-size:14px;
+  font-family:var(--font-body);
+  position:relative;
+  overflow:hidden;
+  transition:transform .2s,box-shadow .2s;
+  box-shadow:0 0 0 0 rgba(0,229,255,0);
+}
+.btn-primary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 32px rgba(0,229,255,.28);
+}
+.btn-primary::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.25) 50%,transparent 100%);
+  transform:translateX(-100%);
+  transition:transform .6s;
+}
+.btn-primary:hover::after{
+  transform:translateX(100%);
+}
+.btn-ghost{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:13px 24px;
+  border-radius:10px;
+  font-weight:500;
+  border:1px solid var(--border-hi);
+  color:var(--text);
+  font-size:14px;
+  transition:border-color .2s,background .2s,transform .2s;
+}
+.btn-ghost:hover{
+  border-color:var(--violet);
+  background:rgba(139,92,246,.08);
+  transform:translateY(-2px);
+}
+@media(max-width:768px){
+  .btn-primary,
+  .btn-ghost{
+    width:100%;
+    justify-content:center;
   }
 }
 </style>
