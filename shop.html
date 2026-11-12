@@ -641,9 +641,63 @@ p{
 }
 
 .buy-wrap{
-  display:flex;
-  justify-content:flex-start;
-  margin-top:10px;
+  display:block;
+  margin:16px 0 6px;
+}
+.lulu-cta{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  width:100%;
+  padding:18px 26px;
+  border:0;
+  border-radius:14px;
+  font-family:var(--font-body);
+  font-size:18px;
+  font-weight:800;
+  letter-spacing:-.02em;
+  line-height:1.2;
+  text-align:center;
+  color:#041016;
+  background:linear-gradient(180deg,#7af7ff 0%,#00e5ff 48%,#00c8dc 100%);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.22),
+    0 10px 28px rgba(0,229,255,.38),
+    0 0 48px rgba(0,229,255,.2);
+  transition:transform .2s ease, box-shadow .2s ease, filter .2s ease;
+}
+.lulu-cta:hover{
+  transform:translateY(-2px);
+  filter:brightness(1.06);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.3),
+    0 16px 36px rgba(0,229,255,.5),
+    0 0 64px rgba(0,229,255,.28);
+}
+.lulu-cta:active{
+  transform:translateY(0);
+  filter:brightness(.98);
+}
+.lulu-cta:focus-visible{
+  outline:2px solid #fff;
+  outline-offset:3px;
+}
+.lulu-cta-icon{
+  width:22px;
+  height:22px;
+  flex-shrink:0;
+}
+.notice-card .buy-wrap{
+  margin-top:22px;
+  margin-bottom:0;
+}
+@media(max-width:768px){
+  .lulu-cta{
+    width:100%;
+    padding:18px 16px;
+    font-size:17px;
+  }
 }
 .mini-note{
   margin-top:16px;
@@ -1149,16 +1203,23 @@ p{
           <div class="shipping">zzgl. Versand über Lulu</div>
         </div>
 
+        <div class="buy-wrap">
+          <a class="lulu-cta" href="https://www.lulu.com/de/shop/michele-gaggia/defi-liquidity-journal/paperback/product-e7n72re.html" target="_blank" rel="noopener">
+            <svg class="lulu-cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M6 8h12l-1 12H7L6 8z"/>
+              <path d="M9 8V6a3 3 0 0 1 6 0v2"/>
+              <path d="M10 13h4"/>
+            </svg>
+            Jetzt bei Lulu kaufen
+          </a>
+        </div>
+
         <ul class="points">
           <li>✅ Physisches Journal für deinen DeFi-Alltag</li>
           <li>✅ Ideal für Liquidity Pools, Rewards und Entscheidungslogik</li>
           <li>✅ Sauberer Überblick über Entwicklung und Fehlerquellen</li>
           <li>✅ Bestellung und Versand über Lulu</li>
         </ul>
-
-        <div class="buy-wrap">
-          <a class="btn-primary" href="https://www.lulu.com/de/shop/michele-gaggia/defi-liquidity-journal/paperback/product-e7n72re.html" target="_blank" rel="noopener">Jetzt bei Lulu kaufen</a>
-        </div>
 
         <div class="mini-note">
           EUR 12.99 bei Lulu (zzgl. Versand). Versand und Lieferzeit laufen über Lulu. Der Kauf wird dort abgeschlossen.
@@ -1224,6 +1285,16 @@ p{
       <div class="note-line">
         Verkauf über Lulu · Keine Anlageberatung · Direkter Bestellprozess
       </div>
+        <div class="buy-wrap">
+          <a class="lulu-cta" href="https://www.lulu.com/de/shop/michele-gaggia/defi-liquidity-journal/paperback/product-e7n72re.html" target="_blank" rel="noopener">
+            <svg class="lulu-cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M6 8h12l-1 12H7L6 8z"/>
+              <path d="M9 8V6a3 3 0 0 1 6 0v2"/>
+              <path d="M10 13h4"/>
+            </svg>
+            Jetzt bei Lulu kaufen
+          </a>
+        </div>
     </div>
   </section>
 
