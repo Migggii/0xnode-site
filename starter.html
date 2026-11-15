@@ -6,19 +6,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="canonical" href="https://www.0xnode.ch/starter.html">
 <meta property="og:title" content="Crypto Starter Paket · 0xNode">
-<meta property="og:description" content="Crypto Starter Paket für absolute Einsteiger ohne Vorkenntnisse. CHF 450 für 4 Stunden, aufgeteilt in 2 Termine à 2 Stunden, plus Nachbetreuung per Nachricht während 2 Wochen. Blockchain, Sicherheit, Smart Contracts, Plattformen und Risiken. Ein Ledger ist von Vorteil, du kaufst ihn selbst.">
+<meta property="og:description" content="Crypto Starter Paket für absolute Einsteiger ohne Vorkenntnisse. CHF 450 für 4 Stunden, aufgeteilt in 2 Termine à 2 Stunden, plus Nachbetreuung per Nachricht während 2 Wochen. Blockchain, Sicherheit, Smart Contracts, Plattformen und Risiken. Eine Hardware-Wallet wie eine OneKey ist von Vorteil, du kaufst sie selbst.">
 <meta property="og:url" content="https://www.0xnode.ch/starter.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="0xNode">
-<meta property="og:image" content="https://www.0xnode.ch/og-image.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="0xNode, Private DeFi Education · Zürich">
+<meta property="og:image" content="https://www.0xnode.ch/assets/starter-hero.webp">
+<meta property="og:image:width" content="1600">
+<meta property="og:image:height" content="1000">
+<meta property="og:image:alt" content="OneKey Hardware-Wallet mit Notizbuch, Metall-Seed-Platte und Checkliste · Crypto Starter-Paket, 0xNode Zürich">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://www.0xnode.ch/og-image.png">
+<meta name="twitter:image" content="https://www.0xnode.ch/assets/starter-hero.webp">
 <link rel="icon" href="https://www.0xnode.ch/favicon.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="https://www.0xnode.ch/apple-touch-icon.png" sizes="180x180">
-<meta name="description" content="Crypto Starter Paket für absolute Einsteiger ohne Vorkenntnisse. CHF 450 für 4 Stunden, aufgeteilt in 2 Termine à 2 Stunden, plus Nachbetreuung per Nachricht während 2 Wochen. Blockchain, Sicherheit, Smart Contracts, Plattformen und Risiken. Ein Ledger ist von Vorteil, du kaufst ihn selbst.">
+<meta name="description" content="Crypto Starter Paket für absolute Einsteiger ohne Vorkenntnisse. CHF 450 für 4 Stunden, aufgeteilt in 2 Termine à 2 Stunden, plus Nachbetreuung per Nachricht während 2 Wochen. Blockchain, Sicherheit, Smart Contracts, Plattformen und Risiken. Eine Hardware-Wallet wie eine OneKey ist von Vorteil, du kaufst sie selbst.">
 
 <!-- PayPal SDK -->
 <script src="https://www.paypal.com/sdk/js?client-id=BAANUVSWpI_Y4nvh30MJg4cgPc1RimLrmikWbODAhh4siuLIuux2VLusAB5ARNHpZftxrgahyBgKTCs2i8&components=hosted-buttons&disable-funding=venmo&currency=CHF"></script>
@@ -403,7 +403,7 @@ p{
 /* ===== HERO VISUAL ===== */
 .hero-visual{
   position:relative;
-  height:470px;
+  height:auto;
   opacity:0;
   animation:fadeUp .8s .3s forwards;
 }
@@ -903,7 +903,7 @@ p{
     padding:60px 0 34px;
     gap:30px;
   }
-  .hero-visual{height:360px}
+  .hero-visual{height:auto}
   .grid{grid-template-columns:1fr}
   .split{grid-template-columns:1fr}
   .learn-row{grid-template-columns:1fr;gap:6px}
@@ -947,7 +947,6 @@ p{
   }
   .hero-visual{
     height:auto;
-    min-height:330px;
   }
   .gp-main{width:220px}
   .gp-top-right{width:150px;top:4%;right:2%}
@@ -971,7 +970,7 @@ p{
   }
   .hero-copy{font-size:14px}
 
-  .hero-visual{min-height:300px}
+  .hero-visual{height:auto}
   .glass-panel{
     padding:14px 14px;
     border-radius:14px;
@@ -1005,6 +1004,57 @@ p{
   gap:12px;
   margin-top:36px;
   flex-wrap:wrap;
+  position:relative;
+  z-index:2;
+}
+.hero-shot{
+  width:100%;
+  height:auto;
+  display:block;
+  border-radius:22px;
+  border:1px solid var(--border);
+  box-shadow:var(--shadow-lg),0 0 48px rgba(0,229,255,.08);
+  background:var(--surface);
+}
+.scope-split{
+  display:grid;
+  grid-template-columns:minmax(200px,280px) 1fr;
+  gap:28px;
+  align-items:start;
+  margin-top:32px;
+}
+.scope-tile{margin:0}
+.scope-tile img{
+  width:100%;
+  height:auto;
+  display:block;
+  border-radius:18px;
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+  background:var(--surface);
+}
+.partner-note{
+  margin-top:16px;
+  padding:16px 18px;
+  border-radius:14px;
+  border:1px solid rgba(0,229,255,.22);
+  background:rgba(0,229,255,.05);
+  font-size:14px;
+  color:var(--text);
+  line-height:1.65;
+}
+.partner-note a{color:var(--cyan)}
+.partner-note .partner-code{
+  display:block;
+  margin-top:6px;
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:.06em;
+  color:var(--dim);
+}
+@media(max-width:980px){
+  .scope-split{grid-template-columns:1fr}
+  .scope-tile{max-width:300px;margin:0 auto}
 }
 .btn-primary{
   display:inline-flex;
@@ -1144,13 +1194,14 @@ p{
           Du verstehst die Grundlagen, richtest deine Wallet sicher ein und lernst,
           wie Kauf/Verkauf in der Praxis funktionieren – ohne Signale, ohne Versprechen, ohne Druck.
         </p>
+        <p>CHF 450 für 4 Stunden, aufgeteilt in 2 Termine à 2 Stunden, plus Nachbetreuung per Nachricht während 2 Wochen.</p>
       </div>
 
       <div class="hero-tags">
         <span class="tag">// self-custody</span>
         <span class="tag">// sicherheit zuerst</span>
         <span class="tag">// kein hype</span>
-        <span class="tag">// ledger von vorteil</span>
+        <span class="tag">// onekey von vorteil</span>
       </div>
 
       <div class="hero-disclaimer">// verständnis vor aktivität · struktur statt überforderung · keine anlageberatung</div>
@@ -1160,71 +1211,17 @@ p{
     </div>
 
     <div class="hero-visual">
-      <div class="blob-wrap">
-        <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <radialGradient id="blobGrad" cx="40%" cy="40%">
-              <stop offset="0%" stop-color="#00e5ff" stop-opacity=".18"/>
-              <stop offset="50%" stop-color="#8b5cf6" stop-opacity=".12"/>
-              <stop offset="100%" stop-color="#10d98a" stop-opacity=".05"/>
-            </radialGradient>
-            <filter id="blur"><feGaussianBlur stdDeviation="18"/></filter>
-          </defs>
-          <path id="morphBlob" fill="url(#blobGrad)" filter="url(#blur)"/>
-        </svg>
-      </div>
-
-      <div class="panel-stack">
-        <div class="glass-panel gp-main">
-          <div class="gp-label">// starter paket</div>
-          <div class="node-map">
-            <div class="node-row"><div class="node-dot" style="color:var(--cyan);background:var(--cyan)"></div><div class="node-line" style="color:var(--cyan)"></div><div class="node-label">Blockchain Basics</div></div>
-            <div class="node-row"><div class="node-dot" style="color:var(--violet);background:var(--violet)"></div><div class="node-line" style="color:var(--violet)"></div><div class="node-label">Wallet Setup</div></div>
-            <div class="node-row"><div class="node-dot" style="color:var(--emerald);background:var(--emerald)"></div><div class="node-line" style="color:var(--emerald)"></div><div class="node-label">Seed Phrase</div></div>
-            <div class="node-row"><div class="node-dot" style="color:var(--amber);background:var(--amber)"></div><div class="node-line" style="color:var(--amber)"></div><div class="node-label">Kauf / Verkauf</div></div>
-            <div class="node-row"><div class="node-dot" style="color:var(--cyan);background:var(--cyan)"></div><div class="node-line" style="color:var(--cyan)"></div><div class="node-label">Checklisten</div></div>
-          </div>
-          <div class="gp-row">
-            <span style="font-family:var(--font-mono);font-size:11px;color:var(--dim)">für einsteiger</span>
-            <span class="gp-badge">klar</span>
-          </div>
-        </div>
-
-        <div class="glass-panel gp-top-right">
-          <div class="gp-label">// fokus</div>
-          <div style="font-size:13px;color:var(--text);line-height:1.55">
-            Kein Trading-Kurs.<br>
-            Erst Grundlagen,<br>
-            dann Struktur.
-          </div>
-        </div>
-
-        <div class="glass-panel gp-bottom-left">
-          <div class="gp-label">// paket</div>
-          <div style="display:flex;flex-direction:column;gap:7px;font-family:var(--font-mono);font-size:11px;color:var(--muted)">
-            <span>Wallet</span>
-            <span>Sicherheit</span>
-            <span>Hardware-Wallet</span>
-          </div>
-        </div>
-
-        <div class="glass-panel gp-bottom-right">
-          <div class="gp-label">// ziel</div>
-          <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px">
-            <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:10px"><span style="color:var(--muted)">Verständnis</span><span style="color:var(--emerald)">Hoch</span></div>
-            <div style="height:3px;background:var(--border);border-radius:2px;overflow:hidden"><div style="height:100%;width:90%;background:var(--emerald);border-radius:2px;"></div></div>
-            <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:10px;margin-top:2px"><span style="color:var(--muted)">Überforderung</span><span style="color:var(--red)">Tief</span></div>
-            <div style="height:3px;background:var(--border);border-radius:2px;overflow:hidden"><div style="height:100%;width:12%;background:var(--red);border-radius:2px;"></div></div>
-          </div>
-        </div>
-      </div>
+      <picture>
+        <source type="image/webp" srcset="assets/starter-hero-800.webp 800w, assets/starter-hero.webp 1600w" sizes="(max-width:980px) calc(100vw - 36px), min(560px, 48vw)">
+        <img class="hero-shot" src="assets/starter-hero.webp" alt="OneKey Hardware-Wallet mit Notizbuch, Metall-Seed-Platte und Checkliste auf dunklem Hintergrund" width="1600" height="1000">
+      </picture>
     </div>
   </section>
 
   <section class="reveal" id="was-du-lernst">
-    <div class="section-label">Umfang · CHF 450</div>
+    <div class="section-label">Themen</div>
     <div class="section-title">Was du lernst.</div>
-    <p class="section-sub">Für absolute Einsteiger, ohne Vorkenntnisse. CHF 450: 4 Stunden, aufgeteilt in 2 Termine à 2 Stunden, plus Nachbetreuung per Nachricht während 2 Wochen danach. Keine Signale und keine Renditeversprechen. Eine Hardware-Wallet wie ein Ledger ist von Vorteil. Du kaufst sie selbst. Wenn du eine mitbringst, richten wir sie gemeinsam ein.</p>
+    <p class="section-sub">Für absolute Einsteiger, ohne Vorkenntnisse. Keine Signale, keine Renditeversprechen und keine Anlageberatung.</p>
     <div class="learn">
       <div class="learn-row">
         <h3>Blockchain &amp; Krypto Grundlagen</h3>
@@ -1232,7 +1229,7 @@ p{
       </div>
       <div class="learn-row">
         <h3>Sicherheit &amp; Self-Custody</h3>
-        <p>Seed-Phrase und Backup. Ein Ledger ist von Vorteil. Du kaufst das Gerät selbst. Wenn du eines mitbringst, richten wir es ein.</p>
+        <p>Wallet-Typen, Seed-Phrase, Backup, typische Angriffe und Schutzmechanismen.</p>
       </div>
       <div class="learn-row">
         <h3>Smart Contracts verstehen</h3>
@@ -1246,18 +1243,22 @@ p{
         <h3>Risiken erkennen</h3>
         <p>Scams, Phishing sowie Smart-Contract-, Markt- und Plattformrisiken. Erkennen heisst nicht ausschliessen.</p>
       </div>
+      <div class="learn-row">
+        <h3>Praxis und Checklisten</h3>
+        <p>Kaufen und Verkaufen im Überblick (kein Trading, keine Signale). Was du vor jeder Transaktion prüfen solltest.</p>
+      </div>
     </div>
   </section>
 
   <section class="reveal">
     <div class="section-label">Ergebnis</div>
-    <div class="section-title">Was du nach dem Starter-Paket kannst.</div>
-    <p class="section-sub">Der Fokus liegt nicht auf Tempo, sondern auf einem sauberen Fundament.</p>
-<div class="glance">
-<p><strong>Grundlagen</strong> Blockchain, Kauf und Verkauf, ohne Hype.</p>
-<p><strong>Verwahrung</strong> Wallet und Self-Custody. Ein Ledger ist von Vorteil. Du kaufst ihn selbst. Wenn du einen mitbringst, richten wir ihn ein.</p>
-<p><strong>Tempo</strong> Zuerst verstehen, dann handeln.</p>
-</div>
+    <div class="section-title">Was du danach kannst.</div>
+    <p class="section-sub">Der Fokus liegt nicht auf Tempo, sondern auf einem sauberen Fundament: zuerst verstehen, dann handeln.</p>
+    <div class="glance">
+      <p><strong>Grundlagen</strong> Blockchain, Kauf und Verkauf, ohne Hype.</p>
+      <p><strong>Verwahrung</strong> Wallet und Self-Custody sicher einrichten und nutzen.</p>
+      <p><strong>Tempo</strong> Zuerst verstehen, dann handeln.</p>
+    </div>
 
     <div class="grid">
       <div class="card">
@@ -1266,45 +1267,28 @@ p{
       </div>
       <div class="card">
         <h3>Sicher verwahren</h3>
-        <p>Wallet-Typen, Seed-Phrase, Backup, typische Angriffe &amp; Schutzmechanismen.</p>
+        <p>Wallet-Typen, Seed-Phrase, Backup, typische Angriffe und Schutzmechanismen.</p>
       </div>
       <div class="card">
         <h3>Erste Schritte praktisch</h3>
-        <p>Kaufen/Verkaufen im Basisrahmen, saubere Abläufe und Checklisten.</p>
+        <p>Kaufen und Verkaufen im Basisrahmen, saubere Abläufe und Checklisten.</p>
       </div>
     </div>
   </section>
 
-  <section class="reveal">
-    <div class="section-label">Inhalt</div>
-    <div class="section-title">Kompakt, praxisnah und ruhig aufgebaut.</div>
-    <p class="section-sub">Genau passend für Menschen, die sauber starten wollen und zuerst Sicherheit möchten.</p>
+  <section class="reveal" id="umfang-preis">
+    <div class="section-label">Umfang · CHF 450</div>
+    <div class="section-title">Umfang und Preis.</div>
+    <p class="section-sub">CHF 450 für 4 Stunden, aufgeteilt in 2 Termine à 2 Stunden, plus Nachbetreuung per Nachricht während 2 Wochen danach.</p>
 
-    <div class="split">
+    <div class="scope-split">
+      <figure class="scope-tile">
+        <img src="assets/starter-tile.webp" alt="OneKey Hardware-Wallet mit Notizbuch, Checkliste und Metall-Seed-Platte" width="870" height="1305" loading="lazy">
+      </figure>
       <div class="box">
-        <div class="soft-kicker">paketinhalt</div>
-        <h2 style="font-family:var(--font-display);font-size:28px;letter-spacing:-.03em;">Inhalt des Starter-Pakets</h2>
-        <div class="badge">Dauer: 4 Stunden · 2 Termine à 2 Stunden · plus 2 Wochen Nachbetreuung per Nachricht</div>
-
-        <ul class="list">
-          <li>🧩 Grundlagen: Blockchain, Coins und Tokens, Transaktionen und Gebühren.</li>
-          <li>🛡️ Sicherheit und Self-Custody: Seed-Phrase, Backup. Ein Ledger ist von Vorteil. Du kaufst ihn selbst. Wenn du einen mitbringst, richten wir ihn ein.</li>
-          <li>📜 Smart Contracts: was sie ausführen und welche Abhängigkeit das erzeugt.</li>
-          <li>🧭 Plattformen: Börsen, Wallets und DeFi, und worin sie sich unterscheiden.</li>
-          <li>⚠️ Risiken: Scams, Phishing, Smart-Contract-, Markt- und Plattformrisiken.</li>
-          <li>💱 Praxis: Kaufen und Verkaufen im Überblick (kein Trading, keine Signale).</li>
-          <li>✅ Checklisten: Was du vor jeder Transaktion prüfen solltest.</li>
-        </ul>
-
-        <div class="note">
-          Fokus auf Sicherheit, Struktur und Verständnis.
-          Keine Anlageberatung, keine Renditeversprechen.
-        </div>
-      </div>
-
-      <div class="box">
-        <div class="soft-kicker">geeignet für</div>
+        <div class="soft-kicker">paket</div>
         <h2 style="font-family:var(--font-display);font-size:28px;letter-spacing:-.03em;">Für wen es passt</h2>
+        <div class="badge">Dauer: 4 Stunden · 2 Termine à 2 Stunden · plus 2 Wochen Nachbetreuung per Nachricht</div>
 
         <ul class="list">
           <li>✅ Absolute Einsteiger ohne Vorkenntnisse, die sauber starten wollen (ohne Hype).</li>
@@ -1320,8 +1304,17 @@ p{
           <li>💻 Computer oder Laptop</li>
           <li>📝 Notizen</li>
           <li>📱 Smartphone (für 2FA/Apps)</li>
-          <li>🔐 Eine Hardware-Wallet wie ein Ledger ist von Vorteil. Du kaufst sie selbst. Wenn du eine mitbringst, richten wir sie gemeinsam ein (<a href="hardware.html">Hardware</a>).</li>
         </ul>
+
+        <div class="partner-note">
+          Eine Hardware-Wallet wie eine OneKey ist von Vorteil und nicht im Preis enthalten. Du kaufst sie selbst. Wenn du eine mitbringst, richten wir sie gemeinsam ein. Modelle und Einrichtung: <a href="hardware.html">Hardware</a>. <a href="https://onekey.so/r/0xNODE" target="_blank" rel="noopener sponsored">OneKey im offiziellen Shop</a>
+          <span class="partner-code">Partnerlink, Code 0xNODE</span>
+        </div>
+
+        <div class="note">
+          Fokus auf Sicherheit, Struktur und Verständnis.
+          Keine Anlageberatung, keine Renditeversprechen, keine Signale.
+        </div>
       </div>
     </div>
   </section>
@@ -1329,11 +1322,15 @@ p{
   <section class="reveal cta-wrap">
     <div class="section-label">Buchung</div>
     <div class="section-title">Krypto Starter Paket buchen.</div>
-    <p class="section-sub">Eine Hardware-Wallet wie ein <a href="hardware.html">Ledger</a> ist von Vorteil und nicht im Preis enthalten. Du kaufst sie selbst. Wenn du eine mitbringst, richten wir sie gemeinsam ein.</p>
+    <p class="section-sub">Wissensvermittlung statt Hype: zuerst verstehen, dann handeln.</p>
 
     <div class="cta-card">
       <h2>Sauber starten statt improvisieren.</h2>
       <p class="price">Paketpreis <strong>CHF 450</strong><br>4 Stunden, aufgeteilt in 2 Termine à 2 Stunden, plus Nachbetreuung per Nachricht während 2 Wochen danach.</p>
+
+      <div class="hero-actions" style="opacity:1;animation:none;justify-content:center;margin-top:22px">
+        <a class="btn-primary" href="https://calendar.proton.me/bookings#0RvACTyZblEVVsbR-Ws95yqG9cV8c5OaF9DqD8r7_Cc=" target="_blank" rel="noopener">Kostenloses Erstgespräch</a>
+      </div>
 
       <div class="paypal-wrap">
         <div class="paypal-box">
@@ -1349,8 +1346,8 @@ p{
         <details>
           <summary>Wie läuft es nach der Buchung ab?</summary>
           <p>
-            Nach dem Kauf melde ich mich persönlich bei dir, um Termin &amp; Ablauf zu klären.
-            Eine Hardware-Wallet ist nicht im Paket enthalten. Ein Ledger ist von Vorteil. Du kaufst ihn selbst. Wenn du einen mitbringst, richten wir ihn gemeinsam ein.
+            Nach dem Kauf melde ich mich persönlich bei dir, um Termin und Ablauf zu klären.
+            Eine Hardware-Wallet ist nicht im Paket enthalten.
           </p>
         </details>
 
